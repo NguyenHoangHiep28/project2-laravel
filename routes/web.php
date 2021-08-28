@@ -40,3 +40,7 @@ Route::prefix('/cart')->group(function (){
     Route::get('/delete/{userId}/{productId}', [Front\CartController::class, 'delete'])->middleware('auth');
     Route::get('/destroy/{userId}/{restaurantId}', [Front\CartController::class, 'destroy'])->middleware('auth');
 });
+// Order routes
+Route::prefix('/order')->group(function (){
+    Route::get('/place-order/{userId}/{restaurantId}', [Front\OrderController::class, 'show'])->middleware('auth');
+});

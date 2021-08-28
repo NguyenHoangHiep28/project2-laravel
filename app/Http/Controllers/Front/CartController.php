@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Front;
 
 use App\Http\Controllers\Controller;
+use App\Models\Order;
 use App\Models\Product;
 use App\Models\UserCart;
 use Illuminate\Http\Request;
@@ -33,7 +34,6 @@ class CartController extends Controller
         $productInCarts = DB::table('user_carts')->where('user_id', '=', Auth::id())->get();
         //check products restaurant
         $data = $this->group_by("restaurant_id", $productInCarts);
-
         return View::make('front.dashboard.cart', ['data' =>$data]);
     }
 
@@ -45,14 +45,19 @@ class CartController extends Controller
             $newProductInCart->user_id = $userId;
             $newProductInCart->product_id = $productId;
             $newProductInCart->qty = 1;
+            $newProductInCart->order_id = 0;
             $newProductInCart->restaurant_id = $product->restaurant->id;
+            $newProductInCart->total = $product->price;
             $newProductInCart->save();
         } else {
-            $productInCart = DB::table('user_carts')->where('user_id','=',$userId)
+            DB::table('user_carts')->where('user_id','=',$userId)
                 ->where('product_id','=', $productId)
                 ->increment('qty', 1);
+            DB::table('user_carts')->where('user_id','=',$userId)
+                ->where('product_id','=', $productId)
+                ->increment('total', $product->price);
         }
-        return back()->with(['cartActive ' => 'active']);
+        return redirect()->back();
     }
     public function delete($userId, $productId){
         $productInCart = UserCart::where('user_id', $userId)->where('product_id', $productId)->count();

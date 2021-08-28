@@ -19,8 +19,7 @@ class HomeController
         $populars = Product::where('featured', true)->orderByDesc('created_at')->limit(4)->get();
         $restaurants = Restaurant::orderByDesc('id')->limit(5)->get();
         $visibleClass = '';
-        $cartActive = '';
-        return view('front.index', compact('products', 'populars', 'restaurants', 'visibleClass', 'cartActive'));
+        return view('front.index', compact('products', 'populars', 'restaurants', 'visibleClass'));
     }
     function login(Request $request){
         $validator = Validator::make($request->all(), [
@@ -61,7 +60,8 @@ class HomeController
         $password = $request->input('password');
         if ($validator->fails()) {
             $errors = $validator->errors();
-            return view('front.auth.register', compact('password', 'name', 'email'))->withErrors($errors);
+            $login = '';
+            return view('front.auth.register', compact('password', 'name', 'email', 'login'))->withErrors($errors);
         }
         else {
             $newUser = User::create([

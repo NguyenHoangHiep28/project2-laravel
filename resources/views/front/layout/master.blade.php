@@ -152,7 +152,7 @@
                                 <div class="profile-sidebar-header brd-rd5 wow fadeIn" data-wow-delay="0.2s">
                                     <div class="profile-sidebar-inner brd-rd5">
                                         <ul class="nav nav-tabs">
-                                            <li id="cart-menu" class="{{session('cartActive')}}"><a href="/dashboard/cart"><i
+                                            <li id="cart-menu" class="{{$active ?? ''}}"><a href="/dashboard/cart"><i
                                                         class="fa fa-shopping-basket"></i> MY CART</a></li>
                                             <li><a href="/dashboard/orders"><i class="fa fa-file-text"></i>MY ORDERS</a></li>
                                             <li><a href="/dashboard/setting"><i class="fa fa-cog"></i> ACCOUNT SETTINGS</a>
@@ -441,6 +441,22 @@
 <script src="js/plugins.js"></script>
 <script src="js/main.js"></script>
 <script src="js/address-autoComplete.js"></script>
+{{--<script type="text/javascript">--}}
+{{--    $(document).ready(function () {--}}
+{{--        $("a.add-to-cart").click(function (event) {--}}
+{{--            event.preventDefault();--}}
+{{--            alert('yeah');--}}
+{{--            $(".profile-sidebar-inner ul").html('<li class="active"><a href="/dashboard/cart"><i\n' +--}}
+{{--                'class="fa fa-shopping-basket"></i> MY CART</a></li>\n' +--}}
+{{--                '<li><a href="/dashboard/orders"><i class="fa fa-file-text"></i>MY ORDERS</a></li>\n' +--}}
+{{--                '<li><a href="/dashboard/setting"><i class="fa fa-cog"></i> ACCOUNT SETTINGS</a>\n' +--}}
+{{--                '</li>\n' +--}}
+{{--                '<li><a class="brd-rd3 sign-out-btn yellow-bg" href="#" title=""\n' +--}}
+{{--                'itemprop="url" data-toggle="modal" data-target="#signout"><i class="fa fa-sign-out"></i> SIGN OUT</a></li>');--}}
+{{--            $--}}
+{{--        });--}}
+{{--    });--}}
+{{--</script>--}}
 </body>
 
 </html>

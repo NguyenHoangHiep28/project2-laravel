@@ -72,12 +72,12 @@
 
                                                                                     <span class="price">${{\App\Models\Product::find($product[$i]['product_id'])->discount ?? \App\Models\Product::find($product[$i]['product_id'])->price}}.00</span>
                                                                                     <div class="qty-wrap dashboard-pro-qty">
-                                                                                        <input class="qty" type="text" value="1">
+                                                                                        <input class="qty" type="text" value="{{\App\Models\UserCart::find($product[$i]['id'])->qty}}">
                                                                                     </div>
 
                                                                                     <a class="brd-rd2" href="cart/delete/{{\Illuminate\Support\Facades\Auth::id()}}/{{\App\Models\Product::find($product[$i]['product_id'])->id}}" title=""
                                                                                        itemprop="url"><i class="fa fa-lg fa-close"></i></a>
-                                                                                    <p class="total">Total :<span class="product-total"> $85.00</span>
+                                                                                    <p class="total">Total :<span class="product-total"> ${{\App\Models\UserCart::find($product[$i]['id'])->total}}.00</span>
                                                                                     </p>
                                                                                 </div>
                                                                             </div>
@@ -91,7 +91,7 @@
 
                                                                             </tr>
                                                                         </table>
-                                                                        <a href="place-order.html"
+                                                                        <a href="/order/place-order/{{\Illuminate\Support\Facades\Auth::id()}}/{{\App\Models\Restaurant::find($product[0]['restaurant_id'])->id}}"
                                                                            class="red-bg brd-rd4 place-order">Place Order</a>
                                                                         <a href="cart/destroy/{{\Illuminate\Support\Facades\Auth::id()}}/{{\App\Models\Restaurant::find($product[0]['restaurant_id'])->id}}" class="brd-rd4 remove-all">Remove All</a>
                                                                     </div>
@@ -124,12 +124,12 @@
 
                                                                                 <span class="price">${{\App\Models\Product::find($product[0]['product_id'])->discount ?? \App\Models\Product::find($product[0]['product_id'])->price}}.00</span>
                                                                                 <div class="qty-wrap dashboard-pro-qty">
-                                                                                    <input class="qty" type="text" value="1">
+                                                                                    <input class="qty" type="text" value="{{\App\Models\UserCart::find($product[0]['id'])->qty}}">
                                                                                 </div>
 
                                                                                 <a class="brd-rd2" href="cart/delete/{{\Illuminate\Support\Facades\Auth::id()}}/{{\App\Models\Product::find($product[0]['product_id'])->id}}" title=""
                                                                                    itemprop="url"><i class="fa fa-lg fa-close"></i></a>
-                                                                                <p class="total">Total :<span class="product-total"> $85.00</span>
+                                                                                <p class="total">Total :<span class="product-total"> ${{\App\Models\UserCart::find($product[0]['id'])->total}}.00</span>
                                                                                 </p>
                                                                             </div>
                                                                         </div>
@@ -139,10 +139,9 @@
                                                                             <tr>
                                                                                 <th>Total :</th>
                                                                                 <td>$30.00</td>
-
                                                                             </tr>
                                                                         </table>
-                                                                        <a href="place-order.html"
+                                                                        <a href="/order/place-order/{{\Illuminate\Support\Facades\Auth::id()}}/{{\App\Models\Restaurant::find($product[0]['restaurant_id'])->id}}"
                                                                            class="red-bg brd-rd4 place-order">Place Order</a>
                                                                         <a href="cart/destroy/{{\Illuminate\Support\Facades\Auth::id()}}/{{\App\Models\Restaurant::find($product[0]['restaurant_id'])->id}}" class="brd-rd4 remove-all">Remove All</a>
                                                                     </div>
