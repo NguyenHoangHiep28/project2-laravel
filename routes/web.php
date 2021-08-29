@@ -15,6 +15,11 @@ use App\Http\Controllers\Front;
 
 //    index route
 Route::get('/', [Front\HomeController::class, 'index']);
+Route::get('/how-it-work', [Front\HowItWorkController::class, 'howItWork']);
+
+// restaurant routes
+Route::get('/restaurant-detail', [Front\RestaurantDetailController::class, 'restaurantDetail']);
+Route::get('/register-reservation', [Front\RegisterReservationController::class, 'registerReservation']);
 
 //  login & register routes
 Route::get('/login', function (){
