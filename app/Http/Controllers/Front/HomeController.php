@@ -77,4 +77,10 @@ class HomeController
         Auth::logout();
         return redirect('/');
     }
+    public function search(){
+        return view('front.shop.searchFound');
+    }
+    public function searchNotFound(){
+        return view('front.shop.searchNotFound');
+    }
 }
