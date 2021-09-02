@@ -16,10 +16,13 @@ use App\Http\Controllers\Front;
 //    index route
 Route::get('/', [Front\HomeController::class, 'index']);
 Route::get('/how-it-work', [Front\HowItWorkController::class, 'howItWork']);
+Route::get('/search-found', [Front\HomeController::class, 'search']);
+Route::get('/search-not-found', [Front\HomeController::class, 'searchNotFound']);
 
 // restaurant routes
 Route::get('/restaurant-detail', [Front\RestaurantDetailController::class, 'restaurantDetail']);
 Route::get('/register-reservation', [Front\RegisterReservationController::class, 'registerReservation']);
+Route::get('/restaurant-found', [Front\RestaurantController::class, 'showResult']);
 
 //  login & register routes
 Route::get('/login', function (){
