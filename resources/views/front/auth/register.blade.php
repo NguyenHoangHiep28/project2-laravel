@@ -41,6 +41,10 @@
                                                             <span class="text-danger" style="float: left">{{$errors->first('password')}}</span>
                                                         </div>
                                                         <div class="col-md-12 col-sm-12 col-lg-12 col-xs-12">
+                                                            <input class="brd-rd3" name="password_confirmation" value="" type="password"
+                                                                   placeholder="Confirm password">
+                                                        </div>
+                                                        <div class="col-md-12 col-sm-12 col-lg-12 col-xs-12">
                                                             <button class="red-bg brd-rd3" type="submit">REGISTER NOW
                                                             </button>
                                                         </div>

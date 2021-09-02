@@ -37,15 +37,18 @@ Route::get('/logout', [Front\HomeController::class, 'logout']);
 Route::prefix('/dashboard')->group(function (){
     Route::get('/setting', function (){ return view('front.dashboard.setting');})->middleware('auth');
     Route::get('/cart',[Front\CartController::class, 'show']);
-    Route::get('/orders', function (){ return view('front.dashboard.orders');});
+    Route::get('/orders',[Front\OrderController::class, 'showOrderList']);
 });
 // cart
 Route::prefix('/cart')->group(function (){
     Route::get('/add/{userId}/{productId}', [Front\CartController::class, 'add'])->middleware('auth');
     Route::get('/delete/{userId}/{productId}', [Front\CartController::class, 'delete'])->middleware('auth');
     Route::get('/destroy/{userId}/{restaurantId}', [Front\CartController::class, 'destroy'])->middleware('auth');
+    Route::get('/update', [Front\CartController::class, 'update'])->middleware('auth');
 });
 // Order routes
 Route::prefix('/order')->group(function (){
     Route::get('/place-order/{userId}/{restaurantId}', [Front\OrderController::class, 'show'])->middleware('auth');
+    Route::post('/place-order', [Front\OrderController::class, 'placeOrder'])->middleware('auth');
+    Route::get('/order-detail/{orderId}', [Front\OrderController::class, 'orderDetail'])->middleware('auth');
 });

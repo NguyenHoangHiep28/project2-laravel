@@ -51,6 +51,7 @@
                                                         </div>
                                                     </div>
                                                     <div class="booking-table">
+                                                        @if(count($data) > 0)
                                                         <table class="table-bordered">
                                                             <thead>
                                                             <tr>
@@ -64,78 +65,87 @@
                                                             </tr>
                                                             </thead>
                                                             <tbody>
-                                                            <tr>
-                                                                <td rowspan="2">#01234</td>
-                                                                <td class="order-dish-name">
-                                                                    <h5 itemprop="headline"><a href="#" title=""
-                                                                                               itemprop="url">Lorem
-                                                                            ipsum dolor sit amet consectetu
-                                                                        </a></h5>
-                                                                </td>
-                                                                <td>2</td>
-                                                                <td rowspan="2">20:40 - Aug 17,2017</td>
-                                                                <td rowspan="2">Restaurant Name</td>
-                                                                <td rowspan="2"><span
-                                                                        class="brd-rd3 processing">pending</span>
-                                                                    <a class="detail-link brd-rd50"
-                                                                       href="cancel-order.html"
-                                                                       title="Order Detail" itemprop="url"><i
-                                                                            class="fa fa-chain"></i></a></td>
-                                                            </tr>
-                                                            <tr>
-                                                                <td>
-                                                                    <h5 itemprop="headline"><a href="#" title=""
-                                                                                               itemprop="url"
-                                                                                               class="text-truncate">This
-                                                                            is dish name ...
-                                                                        </a></h5>
-                                                                </td>
-                                                                <td>2</td>
+                                                            @foreach($data as $orderDetail)
+                                                                @if(count($orderDetail) > 1)
+                                                                    @for($i = 0; $i < count($orderDetail); $i++)
+                                                                        @if($i == 0)
+                                                                        <tr>
+                                                                            <td rowspan="{{count($orderDetail)}}">#{{\App\Models\Order::find($orderDetail[0]['order_id'])->id}}</td>
+                                                                            <td class="order-dish-name">
+                                                                                <h5 itemprop="headline"><a href="#" title=""
+                                                                                                           itemprop="url">{{\App\Models\Product::find($orderDetail[0]['product_id'])->name}}
+                                                                                    </a></h5>
+                                                                            </td>
+                                                                            <td>{{$orderDetail[0]['qty']}}</td>
+                                                                            <td rowspan="{{count($orderDetail)}}">{{date('H:i, M-d-Y', strtotime(\App\Models\Order::find($orderDetail[0]['order_id'])->created_at))}}</td>
+                                                                            <td rowspan="{{count($orderDetail)}}">{{\App\Models\Product::find($orderDetail[0]['product_id'])->restaurant->restaurant_name}}</td>
+                                                                            <td rowspan="{{count($orderDetail)}}"><span
+                                                                                    class="brd-rd3 {{\App\Models\Order::find($orderDetail[0]['order_id'])->status}}">
+                                                                                    @if(\App\Models\Order::find($orderDetail[0]['order_id'])->status == 'processing')
+                                                                                        pending
+                                                                                    @elseif(\App\Models\Order::find($orderDetail[0]['order_id'])->status == 'on-delivery')
+                                                                                        on delivery
+                                                                                    @elseif(\App\Models\Order::find($orderDetail[0]['order_id'])->status == 'rejected')
+                                                                                        rejected
+                                                                                    @else
+                                                                                        delivered
+                                                                                    @endif
+                                                                                </span>
+                                                                                <a class="detail-link brd-rd50"
+                                                                                   href="/order/order-detail/{{$orderDetail[0]['order_id']}}"
+                                                                                   title="Order Detail" itemprop="url"><i
+                                                                                        class="fa fa-chain"></i></a></td>
+                                                                        </tr>
+                                                                        @else
+                                                                            <tr>
+                                                                                <td>
+                                                                                    <h5 itemprop="headline"><a href="#" title=""
+                                                                                                               itemprop="url"
+                                                                                                               class="text-truncate">{{\App\Models\Product::find($orderDetail[$i]['product_id'])->name}}
+                                                                                        </a></h5>
+                                                                                </td>
+                                                                                <td>{{$orderDetail[$i]['qty']}}</td>
 
-                                                            </tr>
-                                                            <tr>
-                                                                <td>#01234</td>
-                                                                <td>
-                                                                    <h5 itemprop="headline"><a href="#" title=""
-                                                                                               itemprop="url"
-                                                                                               class="text-truncate">This
-                                                                            is dish name ...
-                                                                        </a></h5>
-                                                                </td>
-                                                                <td>2</td>
-                                                                <td>Aug 17,2017</td>
-                                                                <td>Restaurant Name</td>
-                                                                <td>
-                                                                    <span class="brd-rd3 on-delivery">on delivery</span>
-                                                                    <a class="detail-link brd-rd50"
-                                                                       href="cancel-order.html"
-                                                                       title="Order Detail" itemprop="url"><i
-                                                                            class="fa fa-chain"></i></a>
-                                                                </td>
-                                                            </tr>
-
-                                                            <tr>
-                                                                <td>#01234</td>
-                                                                <td>
-                                                                    <h5 itemprop="headline"><a href="#" title=""
-                                                                                               itemprop="url"
-                                                                                               class="text-truncate">This
-                                                                            is dish name ...
-                                                                        </a></h5>
-                                                                </td>
-                                                                <td>2</td>
-                                                                <td>Aug 17,2017</td>
-                                                                <td>Restaurant Name</td>
-                                                                <td><span
-                                                                        class="brd-rd3 rejected red-bg">REJECTED</span>
-                                                                    <a class="detail-link brd-rd50"
-                                                                       href="cancel-order.html"
-                                                                       title="Order Detail" itemprop="url"><i
-                                                                            class="fa fa-chain"></i></a>
-                                                                </td>
-                                                            </tr>
+                                                                            </tr>
+                                                                        @endif
+                                                                    @endfor
+                                                                @else
+                                                                    <tr>
+                                                                        <td>#{{\App\Models\Order::find($orderDetail[0]['order_id'])->id}}</td>
+                                                                        <td>
+                                                                            <h5 itemprop="headline"><a href="#" title=""
+                                                                                                       itemprop="url"
+                                                                                                       class="text-truncate">{{\App\Models\Product::find($orderDetail[0]['product_id'])->name}}
+                                                                                </a></h5>
+                                                                        </td>
+                                                                        <td>{{$orderDetail[0]['qty']}}</td>
+                                                                        <td>{{date('H:i, M-d-Y', strtotime(\App\Models\Order::find($orderDetail[0]['order_id'])->created_at))}}</td>
+                                                                        <td>{{\App\Models\Product::find($orderDetail[0]['product_id'])->restaurant->restaurant_name}}</td>
+                                                                        <td>
+                                                                            <span class="brd-rd3 {{\App\Models\Order::find($orderDetail[0]['order_id'])->status}}">
+                                                                                @if(\App\Models\Order::find($orderDetail[0]['order_id'])->status == 'processing')
+                                                                                    pending
+                                                                                @elseif(\App\Models\Order::find($orderDetail[0]['order_id'])->status == 'on-delivery')
+                                                                                    on delivery
+                                                                                @elseif(\App\Models\Order::find($orderDetail[0]['order_id'])->status == 'rejected')
+                                                                                    rejected
+                                                                                @else
+                                                                                    delivered
+                                                                                @endif
+                                                                            </span>
+                                                                            <a class="detail-link brd-rd50"
+                                                                               href="/order/order-detail/{{$orderDetail[0]['order_id']}}"
+                                                                               title="Order Detail" itemprop="url"><i
+                                                                                    class="fa fa-chain"></i></a>
+                                                                        </td>
+                                                                    </tr>
+                                                                @endif
+                                                            @endforeach
                                                             </tbody>
                                                         </table>
+                                                        @else
+                                                        <h4>Your order is now empty :( <br/><br/>Let's discover some tasty food and place an order now !</h4>
+                                                        @endif
                                                     </div>
                                                 </div>
                                             </div>

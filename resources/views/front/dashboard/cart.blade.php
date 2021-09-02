@@ -72,6 +72,7 @@
 
                                                                                     <span class="price">${{\App\Models\Product::find($product[$i]['product_id'])->discount ?? \App\Models\Product::find($product[$i]['product_id'])->price}}.00</span>
                                                                                     <div class="qty-wrap dashboard-pro-qty">
+                                                                                        <input type="hidden" value="{{$product[$i]['id']}}">
                                                                                         <input class="qty" type="text" value="{{\App\Models\UserCart::find($product[$i]['id'])->qty}}">
                                                                                     </div>
 
@@ -87,7 +88,7 @@
                                                                         <table>
                                                                             <tr>
                                                                                 <th>Total :</th>
-                                                                                <td>$30.00</td>
+                                                                                <td>${{$orderTotals[$loop->index]->total}}.00</td>
 
                                                                             </tr>
                                                                         </table>
@@ -124,6 +125,7 @@
 
                                                                                 <span class="price">${{\App\Models\Product::find($product[0]['product_id'])->discount ?? \App\Models\Product::find($product[0]['product_id'])->price}}.00</span>
                                                                                 <div class="qty-wrap dashboard-pro-qty">
+                                                                                    <input type="hidden" value="{{$product[0]['id']}}">
                                                                                     <input class="qty" type="text" value="{{\App\Models\UserCart::find($product[0]['id'])->qty}}">
                                                                                 </div>
 
@@ -138,7 +140,7 @@
                                                                         <table>
                                                                             <tr>
                                                                                 <th>Total :</th>
-                                                                                <td>$30.00</td>
+                                                                                <td>${{$orderTotals[$loop->index]->total}}.00</td>
                                                                             </tr>
                                                                         </table>
                                                                         <a href="/order/place-order/{{\Illuminate\Support\Facades\Auth::id()}}/{{\App\Models\Restaurant::find($product[0]['restaurant_id'])->id}}"

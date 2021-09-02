@@ -19,7 +19,8 @@
                         <div class="sec-box">
                             <div class="dashboard-tabs-wrapper">
                                 <div class="row">
-                                    <form action="">
+                                    <form action="/order/place-order" method="post">
+                                        @csrf
                                         <div class="col-md-6 col-sm-12 col-lg-6">
                                             <div class="tab-content">
                                                 <div class="tab-pane fade in active" id="my-orders">
@@ -37,18 +38,18 @@
                                                                 </tr>
                                                                 </thead>
                                                                 <tbody>
-                                                                @if(count($productInCart) > 1)
-                                                                    @for($i = 0; $i < count($productInCart); $i++)
+                                                                @if(count($products) > 1)
+                                                                    @for($i = 0; $i < count($products); $i++)
                                                                         @if($i === 0)
                                                                             <tr>
                                                                                 <td class="order-dish-name">
                                                                                     <h5 itemprop="headline"><a href="#"
                                                                                                                title=""
-                                                                                                               itemprop="url">{{\App\Models\Product::find($productInCart[0]->product_id)->name}}
+                                                                                                               itemprop="url">{{\App\Models\Product::find($products[0]->product_id)->name}}
                                                                                         </a></h5>
                                                                                 </td>
-                                                                                <td>{{$productInCart[0]->qty}}</td>
-                                                                                <td rowspan="{{count($productInCart)}}">{{\App\Models\Restaurant::find($productInCart[0]->restaurant_id)->restaurant_name}}</td>
+                                                                                <td>{{$products[0]->qty}}</td>
+                                                                                <td rowspan="{{count($products)}}">{{\App\Models\Restaurant::find($products[0]->restaurant_id)->restaurant_name}}</td>
                                                                             </tr>
                                                                         @else
                                                                         <tr>
@@ -56,10 +57,10 @@
                                                                                 <h5 itemprop="headline"><a href="#"
                                                                                                            title=""
                                                                                                            itemprop="url"
-                                                                                                           class="text-truncate">{{\App\Models\Product::find($productInCart[$i]->product_id)->name}}
+                                                                                                           class="text-truncate">{{\App\Models\Product::find($products[$i]->product_id)->name}}
                                                                                     </a></h5>
                                                                             </td>
-                                                                            <td>{{$productInCart[$i]->qty}}</td>
+                                                                            <td>{{$products[$i]->qty}}</td>
                                                                         </tr>
                                                                         @endif
                                                                     @endfor
@@ -68,11 +69,11 @@
                                                                         <td class="order-dish-name">
                                                                             <h5 itemprop="headline"><a href="#"
                                                                                                        title=""
-                                                                                                       itemprop="url">{{\App\Models\Product::find($productInCart[0]->product_id)->name}}
+                                                                                                       itemprop="url">{{\App\Models\Product::find($products[0]->product_id)->name}}
                                                                                 </a></h5>
                                                                         </td>
-                                                                        <td>{{$productInCart[0]->qty}}</td>
-                                                                        <td>{{\App\Models\Restaurant::find($productInCart[0]->restaurant_id)->restaurant_name}}</td>
+                                                                        <td>{{$products[0]->qty}}</td>
+                                                                        <td>{{\App\Models\Restaurant::find($products[0]->restaurant_id)->restaurant_name}}</td>
                                                                     </tr>
                                                                 @endif
                                                                 </tbody>
@@ -81,12 +82,12 @@
                                                                 <table class="checkout-price-table">
                                                                     <tr>
                                                                         <th>Subtotal :</th>
-                                                                        <td>${{$total}}.00</td>
+                                                                        <td>${{$order[0]->total}}.00</td>
 
                                                                     </tr>
                                                                     <tr>
                                                                         <th>Total :</th>
-                                                                        <td>${{$total}}.00</td>
+                                                                        <td>${{$order[0]->total}}.00</td>
 
                                                                     </tr>
                                                                 </table>
@@ -99,13 +100,13 @@
                                                             <tr>
                                                                 <td>
                                                                     <input type="radio" id="checkout-later"
-                                                                           name="checkout-method">
+                                                                           name="checkout-method" value="later" required>
                                                                     <label for="checkout-later">Check out on
                                                                         delivery</label>
                                                                 </td>
                                                                 <td>
                                                                     <input type="radio" id="online-checkout"
-                                                                           name="checkout-method">
+                                                                           name="checkout-method" value="online">
                                                                     <label for="online-checkout">Online check
                                                                         out</label>
                                                                 </td>
@@ -143,27 +144,27 @@
                                                                     <label>Complete Name
                                                                         <sup>*</sup></label>
                                                                     <input class="brd-rd3" type="text"
-                                                                           placeholder="Enter Your Name">
+                                                                           placeholder="Enter Your Name" name="full-name" required>
                                                                 </div>
                                                                 <div
                                                                     class="col-md-12 col-sm-12 col-lg-12">
                                                                     <label>Email Address
                                                                         <sup>*</sup></label>
-                                                                    <input class="brd-rd3" type="email"
-                                                                           placeholder="Enter Your Email Address">
+                                                                    <input class="brd-rd3" type="email" name="email"
+                                                                           placeholder="Enter Your Email Address" required>
                                                                 </div>
                                                                 <div
                                                                     class="col-md-12 col-sm-12 col-lg-12">
                                                                     <label>Phone No <sup>*</sup></label>
-                                                                    <input class="brd-rd3" type="text"
-                                                                           placeholder="Enter Your Phone No">
+                                                                    <input class="brd-rd3" type="text" name="phone"
+                                                                           placeholder="Enter Your Phone No" required>
                                                                 </div>
                                                                 <div class="col-md-12 col-sm-12 col-lg-12">
                                                                     <label>Address <sup>*</sup></label>
-                                                                    <textarea name="" id="" cols="30"
-                                                                              rows="10"></textarea>
+                                                                    <textarea name="address" id="" cols="30"
+                                                                              rows="10" required></textarea>
                                                                 </div>
-
+                                                                <input type="hidden" name="order-id" value="{{$order[0]->id}}">
                                                             </div>
                                                         </div>
                                                     </div>

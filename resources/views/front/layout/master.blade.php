@@ -143,7 +143,7 @@
                                 <div class="notification"><i class="fa fa-circle red-clr"></i></div>
                                 <img class="brd-rd50" src="images/user/{{\Illuminate\Support\Facades\Auth::user()->avatar ?? 'default-user-avt.png'}}" alt="user-avatar"
                                      itemprop="image">
-                                <div class="user-info-inner">
+                                <div class="user-info-inner" id="master-user-info">
                                     <h5 itemprop="headline"><a href="/dashboard/setting" title="" itemprop="url">{{\Illuminate\Support\Facades\Auth::user()->name}}</a>
                                     </h5>
                                 </div>
@@ -441,22 +441,6 @@
 <script src="js/plugins.js"></script>
 <script src="js/main.js"></script>
 <script src="js/address-autoComplete.js"></script>
-{{--<script type="text/javascript">--}}
-{{--    $(document).ready(function () {--}}
-{{--        $("a.add-to-cart").click(function (event) {--}}
-{{--            event.preventDefault();--}}
-{{--            alert('yeah');--}}
-{{--            $(".profile-sidebar-inner ul").html('<li class="active"><a href="/dashboard/cart"><i\n' +--}}
-{{--                'class="fa fa-shopping-basket"></i> MY CART</a></li>\n' +--}}
-{{--                '<li><a href="/dashboard/orders"><i class="fa fa-file-text"></i>MY ORDERS</a></li>\n' +--}}
-{{--                '<li><a href="/dashboard/setting"><i class="fa fa-cog"></i> ACCOUNT SETTINGS</a>\n' +--}}
-{{--                '</li>\n' +--}}
-{{--                '<li><a class="brd-rd3 sign-out-btn yellow-bg" href="#" title=""\n' +--}}
-{{--                'itemprop="url" data-toggle="modal" data-target="#signout"><i class="fa fa-sign-out"></i> SIGN OUT</a></li>');--}}
-{{--            $--}}
-{{--        });--}}
-{{--    });--}}
-{{--</script>--}}
 </body>
 
 </html>

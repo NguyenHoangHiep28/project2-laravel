@@ -6169,6 +6169,9 @@ span.on-delivery{
   background-color: #FFBE00;
   color: #000;
 }
+span.rejected{
+    background-color: #ea1b25;
+}
 span.processing {background-color: #93E2BE; color: black;}
 span.completed {background-color: #1b1b1b;}
 .booking-table > table tbody td a.detail-link {

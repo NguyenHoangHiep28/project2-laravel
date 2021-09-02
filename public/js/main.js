@@ -461,7 +461,48 @@ $(document).ready(function () {
         });
         return false;
     });
+    jQuery('#master-user-info').mouseenter(function () {
+        var dashboard = jQuery('.user-dashboard');
+        dashboard.css("display", "block");
+    });
+    jQuery('.user-dashboard').mouseleave(function () {
+        var dashboard = jQuery('.user-dashboard');
+        dashboard.css("display", "none");
+    });
 
+    //Add to cart notification
+    $('.add-to-cart').on('click', function () {
+        const notification = $('.notification');
+        const menuActive = $('#cart-menu');
+        if (notification.css('display') === 'none') {
+            notification.css('display', 'block')
+        }
+        if (!menuActive.hasClass("active")) {
+            menuActive.addClass("active")
+        }
+    });
+
+    $('.bootstrap-touchspin button').on('click', function () {
+        const button = $(this);
+        const qtyValue = button.parent().siblings('input[type=text]').val();
+        const dataId = button.parent().closest('div').siblings('input[type=hidden]').val();
+        updateCart(dataId, qtyValue);
+    });
+    function updateCart(itemId, qty){
+        $.ajax({
+            type : "GET",
+            url : "cart/update",
+            data : {itemId : itemId, qty:qty},
+            success : function (response){
+                console.log(response);
+                location.reload();
+            },
+            error: function (error){
+                alert('Update failed');
+                console.log(error);
+            },
+        });
+    }
 });//===== Document Ready Ends =====//
 
 jQuery(window).on('load', function ($) {
@@ -493,27 +534,9 @@ jQuery(window).on('load', function ($) {
             }
         });
     }
-    jQuery('.user-info-inner').mouseenter(function () {
-        var dashboard = jQuery('.user-dashboard');
-        dashboard.css("display", "block");
-    });
-    jQuery('.user-dashboard').mouseleave(function () {
-        var dashboard = jQuery('.user-dashboard');
-        dashboard.css("display", "none");
-    });
 
-    //Add to cart notification
-    $('.add-to-cart').on('click', function () {
-        const notification = $('.notification');
-        const menuActive = $('#cart-menu');
-        if (notification.css('display') === 'none') {
-            notification.css('display', 'block')
-        }
-        if (!menuActive.hasClass("active")) {
-            menuActive.addClass("active")
-        }
-    });
 });
+
 
 
 

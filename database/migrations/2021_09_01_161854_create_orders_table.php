@@ -20,8 +20,11 @@ class CreateOrdersTable extends Migration
             $table->string('email');
             $table->string('phone');
             $table->string('address');
-            $table->integer('status')->unsigned();
-            $table->integer('user_id')->unsigned();
+            $table->string('status');
+            $table->integer('user_id');
+            $table->integer('restaurant_id');
+            $table->integer('delivery_amount')->nullable();
+            $table->dateTime('delivered_time')->nullable();
             $table->double('total');
 
             $table->timestamps();
