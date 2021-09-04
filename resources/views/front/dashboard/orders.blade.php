@@ -77,7 +77,7 @@
                                                                                     </a></h5>
                                                                             </td>
                                                                             <td>{{$orderDetail[0]['qty']}}</td>
-                                                                            <td rowspan="{{count($orderDetail)}}">{{date('H:i, M-d-Y', strtotime(\App\Models\Order::find($orderDetail[0]['order_id'])->created_at))}}</td>
+                                                                            <td rowspan="{{count($orderDetail)}}">{{date('H:i - M d, Y', strtotime(\App\Models\Order::find($orderDetail[0]['order_id'])->created_at))}}</td>
                                                                             <td rowspan="{{count($orderDetail)}}">{{\App\Models\Product::find($orderDetail[0]['product_id'])->restaurant->restaurant_name}}</td>
                                                                             <td rowspan="{{count($orderDetail)}}"><span
                                                                                     class="brd-rd3 {{\App\Models\Order::find($orderDetail[0]['order_id'])->status}}">
@@ -119,7 +119,7 @@
                                                                                 </a></h5>
                                                                         </td>
                                                                         <td>{{$orderDetail[0]['qty']}}</td>
-                                                                        <td>{{date('H:i, M-d-Y', strtotime(\App\Models\Order::find($orderDetail[0]['order_id'])->created_at))}}</td>
+                                                                        <td>{{date('H:i - M d, Y', strtotime(\App\Models\Order::find($orderDetail[0]['order_id'])->created_at))}}</td>
                                                                         <td>{{\App\Models\Product::find($orderDetail[0]['product_id'])->restaurant->restaurant_name}}</td>
                                                                         <td>
                                                                             <span class="brd-rd3 {{\App\Models\Order::find($orderDetail[0]['order_id'])->status}}">

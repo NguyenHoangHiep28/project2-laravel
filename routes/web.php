@@ -38,7 +38,8 @@ Route::get('/logout', [Front\HomeController::class, 'logout']);
 
 // user dashboard routes
 Route::prefix('/dashboard')->group(function (){
-    Route::get('/setting', function (){ return view('front.dashboard.setting');})->middleware('auth');
+    Route::get('/setting',[Front\HomeController::class, 'showAccountSetting'])->middleware('auth');
+    Route::post('/setting/update-profile', [Front\HomeController::class, 'updateProfile'])->middleware('auth');
     Route::get('/cart',[Front\CartController::class, 'show']);
     Route::get('/orders',[Front\OrderController::class, 'showOrderList']);
 });

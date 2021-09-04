@@ -7,6 +7,7 @@ namespace App\Http\Controllers\Front;
 use App\Models\Product;
 use App\Models\Restaurant;
 use App\Models\User;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
@@ -82,5 +83,44 @@ class HomeController
     }
     public function searchNotFound(){
         return view('front.shop.searchNotFound');
+    }
+
+    public function showAccountSetting(){
+        return view('front.dashboard.setting');
+    }
+
+    public function updateProfile(Request $request){
+        $user = Auth::user();
+        if ($request->input('full-name') !== null){
+            $user->name =$request->input('full-name');
+        }
+        if ($request->input('phone-number') !== null){
+            $user->telephone =$request->input('phone-number');
+        }
+        if ($request->input('address') !== null){
+            $user->address =$request->input('address');
+        }
+        if ($request->hasFile('avatar')){
+            $validator = Validator::make(['avatar' => $request->avatar], [
+                'avatar' => 'mimes:jpg,png,jpeg,gif|max:10000'
+            ]);
+            if ($validator->fails()){
+                $error = $validator->errors();
+                return back()->withErrors($error);
+            }else{
+                $file = $request->file('avatar');
+                $imageName = time().'.'.$file->getClientOriginalName();
+                // remove old avatar image if exist
+                if ($user->avatar != null){
+                    unlink('images/user/'.$user->avatar);
+                }
+                // store new avatar image
+                $file->move(public_path('images/user'), $imageName);
+                // store path in database
+                $user->avatar = $imageName;
+            }
+        }
+        $user->save();
+        return back();
     }
 }

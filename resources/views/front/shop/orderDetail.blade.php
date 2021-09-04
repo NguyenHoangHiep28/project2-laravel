@@ -107,7 +107,7 @@
                                                                 <table id="order-time-table" class="table-bordered">
                                                                     <tr>
                                                                         <th>Order time: </th>
-                                                                        <td>{{date('H:i, M-d-Y', strtotime(\App\Models\Order::find($orderDetails[0]->order_id)->created_at))}}</td>
+                                                                        <td>{{date('H:i - M d, Y', strtotime(\App\Models\Order::find($orderDetails[0]->order_id)->created_at))}}</td>
                                                                     </tr>
                                                                     <tr>
                                                                         <th>Estimated delivery amount: </th>

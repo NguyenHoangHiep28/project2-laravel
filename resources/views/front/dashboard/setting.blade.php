@@ -40,86 +40,69 @@
                                                     <h4 itemprop="headline">ACCOUNT SETTINGS</h4>
                                                     <div class="account-settings-inner">
                                                         <div class="row">
-                                                            <div class="col-md-4 col-sm-4 col-lg-4">
-                                                                <div class="profile-info text-center">
-                                                                    <div class="profile-thumb brd-rd50">
-                                                                        <img id="profile-display"
-                                                                             src="images/resource/profile-img1.jpg"
-                                                                             alt="profile-img1.jpg" itemprop="image">
-                                                                    </div>
-                                                                    <a class="red-clr change-password" href="#"
-                                                                       title="" itemprop="url">Change Password</a>
-                                                                    <div class="profile-img-upload-btn">
-                                                                        <label
-                                                                            class="fileContainer brd-rd5 yellow-bg">
-                                                                            UPLOAD PICTURE
-                                                                            <input id="profile-upload"
-                                                                                   type="file"/>
-                                                                        </label>
-                                                                    </div>
-                                                                    <p itemprop="description">Upload a profile
-                                                                        picture or choose one of the following</p>
-                                                                    <div class="default-img-lst">
-                                                                        <img class="brd-rd50"
-                                                                             src="images/resource/profile-thumb1.jpg"
-                                                                             alt="profile-thumb1.jpg"
-                                                                             itemprop="image">
-                                                                        <img class="brd-rd50"
-                                                                             src="images/resource/profile-thumb2.jpg"
-                                                                             alt="profile-thumb2.jpg"
-                                                                             itemprop="image">
-                                                                        <img class="brd-rd50"
-                                                                             src="images/resource/profile-thumb3.jpg"
-                                                                             alt="profile-thumb3.jpg"
-                                                                             itemprop="image">
-                                                                        <img class="brd-rd50"
-                                                                             src="images/resource/profile-thumb4.jpg"
-                                                                             alt="profile-thumb4.jpg"
-                                                                             itemprop="image">
-                                                                        <img class="brd-rd50"
-                                                                             src="images/resource/profile-thumb5.jpg"
-                                                                             alt="profile-thumb5.jpg"
-                                                                             itemprop="image">
+                                                            <form action="dashboard/setting/update-profile" method="post" class="profile-info-form" enctype="multipart/form-data" name="updateProfile" onsubmit="return validateUpdateProfileForm()">
+                                                                @csrf
+                                                                <div class="col-md-4 col-sm-4 col-lg-4">
+                                                                    <div class="profile-info text-center">
+                                                                        <div class="profile-thumb brd-rd50">
+                                                                            <img id="profile-display"
+                                                                                 src="images/user/{{Auth::user()->avatar ?? 'default-user-avt.png'}}"
+                                                                                 alt="{{Auth::user()->avatar}}"
+                                                                                 itemprop="image">
+                                                                        </div>
+{{--                                                                        <a class="red-clr change-password" href="#"--}}
+{{--                                                                           title="" itemprop="url">Change Password</a>--}}
+                                                                        <div class="profile-img-upload-btn">
+                                                                            <label
+                                                                                class="fileContainer brd-rd5 yellow-bg">
+                                                                                UPLOAD PICTURE
+                                                                                <input id="profile-upload" name="avatar"
+                                                                                       type="file"/>
+                                                                            </label>
+                                                                            <span class="text-danger" style="float: left">{{$errors->first('avatar')}}</span>
+                                                                        </div>
+                                                                        <p itemprop="description">Upload a profile
+                                                                            picture</p>
                                                                     </div>
                                                                 </div>
-                                                            </div>
-                                                            <div class="col-md-8 col-sm-8 col-lg-8">
-                                                                <div class="profile-info-form-wrap">
-                                                                    <form class="profile-info-form">
+                                                                <div class="col-md-8 col-sm-8 col-lg-8">
+                                                                    <div class="profile-info-form-wrap">
+
                                                                         <div class="row mrg20">
                                                                             <div
                                                                                 class="col-md-12 col-sm-12 col-lg-12">
                                                                                 <label>Complete Name
                                                                                     <sup>*</sup></label>
-                                                                                <input class="brd-rd3" type="text"
-                                                                                       placeholder="Enter Your Name">
+                                                                                <input class="brd-rd3" type="text" name="full-name"
+                                                                                       placeholder="{{Auth::user()->name}}">
                                                                             </div>
-                                                                            <div
-                                                                                class="col-md-12 col-sm-12 col-lg-12">
-                                                                                <label>Email Address
-                                                                                    <sup>*</sup></label>
-                                                                                <input class="brd-rd3" type="email"
-                                                                                       placeholder="Enter Your Email Address">
-                                                                            </div>
+{{--                                                                            <div--}}
+{{--                                                                                class="col-md-12 col-sm-12 col-lg-12">--}}
+{{--                                                                                <label>Email Address--}}
+{{--                                                                                    <sup>*</sup></label>--}}
+{{--                                                                                <input class="brd-rd3" type="email" name="email"--}}
+{{--                                                                                       placeholder="{{Auth::user()->email}}">--}}
+{{--                                                                            </div>--}}
                                                                             <div
                                                                                 class="col-md-12 col-sm-12 col-lg-12">
                                                                                 <label>Phone No <sup>*</sup></label>
-                                                                                <input class="brd-rd3" type="text"
-                                                                                       placeholder="Enter Your Phone No">
+                                                                                <input class="brd-rd3" type="text" name="phone-number"
+                                                                                       placeholder="{{Auth::user()->telephone ?? 'Enter your phone'}}">
                                                                             </div>
                                                                             <div class="col-md-12 col-sm-12 col-lg-12">
                                                                                 <label>Address <sup>*</sup></label>
-                                                                                <textarea name="" id="" cols="30"
-                                                                                          rows="10"></textarea>
+                                                                                <textarea name="address" id="" cols="30"
+                                                                                          rows="10" placeholder="{{Auth::user()->address ?? 'Enter your address'}}"></textarea>
                                                                                 <button class="brd-rd3 red-bg"
                                                                                         type="submit"
                                                                                         id="update-user-profile">Update
                                                                                 </button>
                                                                             </div>
                                                                         </div>
-                                                                    </form>
+
+                                                                    </div>
                                                                 </div>
-                                                            </div>
+                                                            </form>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -135,4 +118,16 @@
             </div>
         </div>
     </section>
+    <script type="text/javascript">
+        function validateUpdateProfileForm() {
+            var fullName = document.forms["updateProfile"]["full-name"].value;
+            var avatar = document.forms["updateProfile"]["avatar"].value;
+            var telephone = document.forms["updateProfile"]["phone-number"].value;
+            var address = document.forms["updateProfile"]["address"].value;
+            if ((fullName == null || fullName === "") && (avatar == null || avatar === "") && (telephone == null || telephone === "")&& (address == null || address === "")) {
+                alert("Please fill in at least 1 field!");
+                return false;
+            }
+        }
+    </script>
 @endsection
