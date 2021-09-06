@@ -34,9 +34,13 @@ class HomeController
             return view('front.auth.login', compact('password','email'))->withErrors($errors);
         }
         else {
-            if (Auth::attempt(['email' => $email, 'password' =>$password])){
+            if (Auth::attempt(['email' => $email, 'password' =>$password, 'role' => 1])){
                 return redirect('/');
-            } else{
+            } else if (Auth::attempt(['email' => $email, 'password' =>$password, 'role' => 2])){
+                return redirect(route('showAdmin'));
+            }else if (Auth::attempt(['email' => $email, 'password' =>$password, 'role' => 0])){
+                return redirect('/management-dashboard');
+            }else{
                 $getSignedInUser = User::where('email',"$email")->count();
                 if ($getSignedInUser === 1){
                 return back()->withErrors([

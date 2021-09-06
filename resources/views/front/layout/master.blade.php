@@ -71,7 +71,7 @@
         <div class="logo-menu-sec">
             <div class="container">
                 <div class="logo"><h1 itemprop="headline"><a href="/" title="Home" itemprop="url"><img
-                                src="images/logo2.png" alt="logo.png" itemprop="image"></a></h1></div>
+                                src="images/logo_ok.png" alt="logo.png" itemprop="image"></a></h1></div>
                 <nav>
                     <div class="menu-sec">
                         <ul>

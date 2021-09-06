@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Front;
+use App\Http\Controllers\Admin;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -12,6 +13,10 @@ use App\Http\Controllers\Front;
 | contains the "web" middleware group. Now create something great!
 |
 */
+
+/*
+ * FRONT ROUTES
+ * */
 
 //    index route
 Route::get('/', [Front\HomeController::class, 'index']);
@@ -56,3 +61,31 @@ Route::prefix('/order')->group(function (){
     Route::post('/place-order', [Front\OrderController::class, 'placeOrder'])->middleware('auth');
     Route::get('/order-detail/{orderId}', [Front\OrderController::class, 'orderDetail'])->middleware('auth');
 });
+
+/*
+ * ADMIN ROUTES
+ * */
+
+// index route
+Route::get('/admin-dashboard', [Admin\HomeController::class, 'show'])->middleware('auth')->name('showAdmin');
+
+//Order routes
+Route::get('/admin-order', [Admin\OrderController::class, 'showOrders'])->middleware('auth');
+Route::get('/admin-order/{id}', [Admin\OrderController::class, 'orderDetail'])->middleware('auth');
+
+// Product routes
+Route::get('/admin-product', [Admin\ProductController::class, 'showProducts'])->middleware('auth');
+Route::get('/admin-product-edit/{id}', [Admin\ProductController::class, 'productEdit'])->middleware('auth');
+Route::get('/admin-add-product', [Admin\ProductController::class, 'showAdd'])->middleware('auth');
+
+//Restaurant routes
+Route::get('/admin-restaurant', [Admin\RestaurantController::class,'showRestaurantInfo'])->middleware('auth');
+
+/*
+ * MANAGEMENT ROUTES
+ * */
+
+Route::get('/management-dashboard', [Admin\ManagementController::class,'showDashboard'])->middleware('auth');
+Route::get('/management-restaurants', [Admin\ManagementController::class,'showRestaurants'])->middleware('auth');
+Route::get('/management-restaurant-detail/{id}', [Admin\ManagementController::class,'showDetail'])->middleware('auth');
+
