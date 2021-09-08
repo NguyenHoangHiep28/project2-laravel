@@ -26,8 +26,11 @@ Route::get('/search-not-found', [Front\HomeController::class, 'searchNotFound'])
 
 // restaurant routes
 Route::get('/restaurant-detail', [Front\RestaurantDetailController::class, 'restaurantDetail']);
-Route::get('/register-reservation', [Front\RegisterReservationController::class, 'registerReservation']);
+Route::get('/register-reservation/{userId}', [Front\RegisterReservationController::class, 'registerReservation'])->middleware('auth');
 Route::get('/restaurant-found', [Front\RestaurantController::class, 'showResult']);
+
+//register restaurant
+Route::post('/register-reservation/add',[Front\RegisterReservationController::class,'add']);
 
 //  login & register routes
 Route::get('/login', function (){

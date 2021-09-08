@@ -136,8 +136,16 @@
                             <li><a href="contact.html" title="CONTACT US" itemprop="url"><span class="red-clr"></span>CONTACT
                                     US</a></li>
                         </ul>
-                        <a class="red-bg brd-rd4" href="register-reservation.html" title="Register" itemprop="url">REGISTER
-                            RESTAURANT</a>
+
+
+                        @if(\Illuminate\Support\Facades\Auth::check())
+                            <a class="red-bg brd-rd4" href="/register-reservation/{{\Illuminate\Support\Facades\Auth::user()->id}}" title="Register" itemprop="url">REGISTER
+                                RESTAURANT</a>
+                        @else
+                            <a class="red-bg brd-rd4" href="#" itemprop="url" data-toggle="modal" data-target="#registerrestaurant" >REGISTER
+                                RESTAURANT</a>
+                        @endif
+
                         @if(\Illuminate\Support\Facades\Auth::check())
                             <div class="user-info-header">
                                 <div class="notification"><i class="fa fa-circle red-clr"></i></div>
@@ -294,6 +302,7 @@
 
     @yield('body')
     @include('front.components.signOutModal')
+    @include('front.components.registerRestaurantModal')
     <footer>
         <div class="block top-padd80 bottom-padd80 dark-bg">
             <div class="container">
