@@ -27,12 +27,12 @@
                                 @if($i < count($product->productImages))
                                     <div class="profile-info text-center">
                                         <h5 class="text-dark">{{$i}}</h5>
-                                        @if(count($product->productImages) != 1)
-                                            <a class="text-dark" href="/admin-product-edit/images/delete/{{$product->productImages[$i]->id}}" style="margin-left: 60%;" title="Delete image"><i
-                                                    class="fa fa-window-close fa-lg delete" style="cursor: pointer;"></i></a>
-                                        @else
-                                            <a class="text-dark" href="" style="margin-left: 60%;" title="Delete image"></a>
-                                        @endif
+                                            @if(count($product->productImages) != 1)
+                                                <a class="text-dark" href="/admin-product-edit/images/delete/{{$product->productImages[$i]->id}}" style="margin-left: 60%;" title="Delete image"><i
+                                                        class="fa fa-window-close fa-lg delete" style="cursor: pointer;"></i></a>
+                                            @else
+                                                <a class="text-dark" href="" style="margin-left: 60%;" title="Delete image"></a>
+                                            @endif
                                         <div class="profile-thumb brd-rd50">
                                             <img class="profile-display" src="images/resource/{{$product->productImages[$i]->path}}" alt="profile-img1.jpg"
                                                  itemprop="image">

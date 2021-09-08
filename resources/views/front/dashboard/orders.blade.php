@@ -81,12 +81,14 @@
                                                                             <td rowspan="{{count($orderDetail)}}">{{\App\Models\Product::find($orderDetail[0]['product_id'])->restaurant->restaurant_name}}</td>
                                                                             <td rowspan="{{count($orderDetail)}}"><span
                                                                                     class="brd-rd3 {{\App\Models\Order::find($orderDetail[0]['order_id'])->status}}">
-                                                                                    @if(\App\Models\Order::find($orderDetail[0]['order_id'])->status == 'processing')
+                                                                                    @if(\App\Models\Order::find($orderDetail[0]['order_id'])->status == 'pending')
                                                                                         pending
                                                                                     @elseif(\App\Models\Order::find($orderDetail[0]['order_id'])->status == 'on-delivery')
                                                                                         on delivery
                                                                                     @elseif(\App\Models\Order::find($orderDetail[0]['order_id'])->status == 'rejected')
                                                                                         rejected
+                                                                                    @elseif(\App\Models\Order::find($orderDetail[0]['order_id'])->status == 'processing')
+                                                                                        processing
                                                                                     @else
                                                                                         delivered
                                                                                     @endif
@@ -123,7 +125,7 @@
                                                                         <td>{{\App\Models\Product::find($orderDetail[0]['product_id'])->restaurant->restaurant_name}}</td>
                                                                         <td>
                                                                             <span class="brd-rd3 {{\App\Models\Order::find($orderDetail[0]['order_id'])->status}}">
-                                                                                @if(\App\Models\Order::find($orderDetail[0]['order_id'])->status == 'processing')
+                                                                                @if(\App\Models\Order::find($orderDetail[0]['order_id'])->status == 'pending')
                                                                                     pending
                                                                                 @elseif(\App\Models\Order::find($orderDetail[0]['order_id'])->status == 'on-delivery')
                                                                                     on delivery
@@ -131,6 +133,8 @@
                                                                                     rejected
                                                                                 @elseif(\App\Models\Order::find($orderDetail[0]['order_id'])->status == 'canceled')
                                                                                     canceled
+                                                                                @elseif(\App\Models\Order::find($orderDetail[0]['order_id'])->status == 'processing')
+                                                                                    processing
                                                                                 @else
                                                                                     delivered
                                                                                 @endif

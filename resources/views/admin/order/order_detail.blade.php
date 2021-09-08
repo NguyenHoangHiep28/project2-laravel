@@ -18,7 +18,7 @@
                         <table class="table align-items-center table-bordered">
                             <thead class="thead-light">
                             <tr>
-                                <th>Order ID</th>
+                                <th>ID</th>
                                 <th>Customer</th>
                                 <th>Item</th>
                                 <th>Qty</th>
@@ -32,36 +32,49 @@
                                     @if($i == 0)
                                         <tr>
                                             <td class="align-middle" rowspan="{{count($order->orderDetails)}}"><a
-                                                    href="#">#{{$order->id}}</a></td>
+                                                    href="#">#1</a></td>
                                             <td class="align-middle"
                                                 rowspan="{{count($order->orderDetails)}}">{{$order->full_name}}</td>
                                             <td class="align-middle">{{\App\Models\Product::find($order->orderDetails[0]->product_id)->name}}</td>
                                             <td class="align-middle">{{$order->orderDetails[0]->qty}}</td>
                                             <td class="align-middle" rowspan="{{count($order->orderDetails)}}">
-                                                @if($order->status == 'processing')
+                                                @if($order->status == 'pending')
                                                     <span class="badge badge-info">Pending</span>
                                                 @elseif($order->status == 'on-delivery')
                                                     <span class="badge badge-warning">On Delivery</span>
                                                 @elseif($order->status == 'rejected')
                                                     <span class="badge badge-danger">Rejected</span>
+                                                @elseif($order->status == 'processing')
+                                                    <span class="badge badge-primary">Processing</span>
                                                 @else
                                                     <span class="badge badge-dark">Delivered</span>
                                                 @endif
                                             </td>
                                             <td class="align-middle" rowspan="{{count($order->orderDetails)}}">
-                                                @if($order->status == 'processing')
+                                                @if($order->status == 'pending')
                                                     <a href="" data-toggle="modal" data-target="#acceptOrder"
-                                                       class="btn btn-sm btn-success">Accept</a>
+                                                       class="btn btn-sm btn-success"><i class="fa fa-check fa-sm"></i>
+                                                        Accept</a>
                                                     <a href="" data-toggle="modal" data-target="#rejectOrder"
-                                                       class="btn btn-sm btn-danger">Reject</a>
+                                                       class="btn btn-sm btn-danger"><i
+                                                            class="fa fa-trash-alt fa-sm"></i> Reject</a>
                                                 @elseif($order->status == 'on-delivery')
-                                                    <a href="/order-delivered/{{$order->id}}" class="btn btn-sm btn-success"><i
+                                                    <a href="" class="btn btn-sm btn-success" data-toggle="modal"
+                                                       data-target="#showConfirm"><i
                                                             class="fa fa-check fa-sm"></i> Mark as delivered</a>
                                                 @elseif($order->status == 'rejected')
                                                     <a href="" data-toggle="modal" data-target="#rejectOrder"
-                                                       class="btn btn-sm btn-danger"><i class="fa fa-eye fa-sm"></i> See reason</a>
+                                                       class="btn btn-sm btn-danger"><i class="fa fa-eye fa-sm"></i> See
+                                                        reason</a>
+                                                @elseif($order->status == 'processing')
+                                                    <a href="/order-start-delivery/{{$order->id}}"
+                                                       class="btn btn-sm btn-primary"><i
+                                                            class="fa fa-car-alt fa-sm"></i> Start delivery</a>
+                                                @else
+                                                    <a href="" class="btn btn-sm btn-warning" data-toggle="modal"
+                                                       data-target="#showConfirm"><i
+                                                            class="fa fa-eye fa-sm"></i> See confirm image</a>
                                                 @endif
-
                                             </td>
                                         </tr>
                                     @else
@@ -74,39 +87,53 @@
                             @else
                                 <tr>
                                     <td class="align-middle"><a
-                                            href="#">#{{$order->id}}</a></td>
+                                            href="#">#1</a></td>
                                     <td class="align-middle">{{$order->full_name}}</td>
                                     <td class="align-middle">{{\App\Models\Product::find($order->orderDetails[0]->product_id)->name}}</td>
                                     <td class="align-middle">{{$order->orderDetails[0]->qty}}</td>
                                     <td class="align-middle">
-                                        @if($order->status == 'processing')
+                                        @if($order->status == 'pending')
                                             <span class="badge badge-info">Pending</span>
                                         @elseif($order->status == 'on-delivery')
                                             <span class="badge badge-warning">On Delivery</span>
                                         @elseif($order->status == 'rejected')
                                             <span class="badge badge-danger">Rejected</span>
+                                        @elseif($order->status == 'processing')
+                                            <span class="badge badge-teal">Processing</span>
                                         @else
                                             <span class="badge badge-dark">Delivered</span>
                                         @endif
                                     </td>
                                     <td class="align-middle">
-                                        @if($order->status == 'processing')
+                                        @if($order->status == 'pending')
                                             <a href="" data-toggle="modal" data-target="#acceptOrder"
-                                               class="btn btn-sm btn-success"><i class="fa fa-check fa-sm"></i> Accept</a>
+                                               class="btn btn-sm btn-success"><i class="fa fa-check fa-sm"></i>
+                                                Accept</a>
                                             <a href="" data-toggle="modal" data-target="#rejectOrder"
-                                               class="btn btn-sm btn-danger"><i class="fa fa-trash-alt fa-sm"></i> Reject</a>
+                                               class="btn btn-sm btn-danger"><i class="fa fa-trash-alt fa-sm"></i>
+                                                Reject</a>
                                         @elseif($order->status == 'on-delivery')
-                                            <a href="/order-delivered/{{$order->id}}" class="btn btn-sm btn-success"><i
+                                            <a href="" class="btn btn-sm btn-success" data-toggle="modal"
+                                               data-target="#showConfirm"><i
                                                     class="fa fa-check fa-sm"></i> Mark as delivered</a>
                                         @elseif($order->status == 'rejected')
                                             <a href="" data-toggle="modal" data-target="#rejectOrder"
                                                class="btn btn-sm btn-danger"><i class="fa fa-eye fa-sm"></i> See reason</a>
+                                        @elseif($order->status == 'processing')
+                                            <a href="/order-start-delivery/{{$order->id}}"
+                                               class="btn btn-sm btn-primary"><i class="fa fa-car-alt fa-sm"></i> Start
+                                                delivery</a>
+                                        @else
+                                            <a href="" class="btn btn-sm btn-warning" data-toggle="modal"
+                                               data-target="#showConfirm"><i
+                                                    class="fa fa-eye fa-sm"></i> See confirm image</a>
                                         @endif
                                     </td>
                                 </tr>
                             @endif
                             </tbody>
                         </table>
+                        <span class="text-danger" style="display: block;float: right">{{$errors->first('imageConfirm')}}</span>
                     </div>
                     <div class="table-responsive" style="margin-top: 50px;">
                         <table class="table align-items-center table-bordered">
@@ -124,14 +151,14 @@
                                 <td>{{date('H:i - M d, Y', strtotime($order->created_at))}}</td>
                             </tr>
                             <tr>
-                                <td>Estimated delivery amount:</td>
-                                <td>{{$order->delivery_amount ?? 'Not yet'}}  (minutes)</td>
+                                <td>Estimated processing and delivery amount:</td>
+                                <td>{{$order->delivery_amount ?? 'Not yet'}} (minutes)</td>
                             </tr>
                             <tr>
                                 <td>Delivered time:</td>
                                 <td>
                                     @if($order->delivered_time != null)
-                                    {{date('H:i - M d, Y', strtotime($order->delivered_time))}}
+                                        {{date('H:i - M d, Y', strtotime($order->delivered_time))}}
                                     @else
                                         Not yet
                                     @endif
@@ -179,25 +206,26 @@
              aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered" role="document">
                 @if($order->status == 'rejected')
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalCenterTitle">Order rejected</h5>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                    </div>
-                    <form action="">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalCenterTitle">Order rejected</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <form action="">
                             <div class="modal-body">
                                 <div class="form-group">
                                     <label for="reason">Reason of rejection: </label>
-                                    <textarea class="form-control" id="reason" rows="4" disabled>{{$order->extra_info}}</textarea>
+                                    <textarea class="form-control" id="reason" rows="4"
+                                              disabled>{{$order->extra_info}}</textarea>
                                 </div>
                             </div>
                             <div class="modal-footer">
                                 <button type="button" class="btn btn-outline-dark" data-dismiss="modal">Back</button>
                             </div>
-                    </form>
-                </div>
+                        </form>
+                    </div>
                 @else
                     <div class="modal-content">
                         <div class="modal-header">
@@ -211,7 +239,8 @@
                             <div class="modal-body">
                                 <div class="form-group">
                                     <label for="reason">Reason of rejection: </label>
-                                    <textarea class="form-control" id="reason" name="reject-reason" rows="4" required></textarea>
+                                    <textarea class="form-control" id="reason" name="reject-reason" rows="4"
+                                              required></textarea>
                                     <input type="hidden" name="order-id" value="{{$order->id}}">
                                 </div>
                             </div>
@@ -224,4 +253,68 @@
                 @endif
             </div>
         </div>
+        @if($order->status == 'on-delivery')
+            <div class="modal fade" id="showConfirm" tabindex="-1" role="dialog"
+                 aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalCenterTitle">Confirm order delivered</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <form action="/admin-order/mark-order-delivered" method="post" enctype="multipart/form-data">
+                            <div class="modal-body">
+                                @csrf
+                                <input type="hidden" name="order-id" value="{{$order->id}}">
+                                <div class="profile-info text-center" style="width: 50%; margin-left: 25%;">
+                                    <div class="profile-thumb brd-rd50" style="width: 200px; height: 150px;">
+                                        <img class="profile-display" src="images/resource/unnamed.png" alt=""
+                                             itemprop="image">
+                                    </div>
+                                    <div class="profile-img-upload-btn">
+                                        <label class="fileContainer">
+                                            UPLOAD IMAGE
+                                            <input class="profile-upload" name="img-confirm" type="file"/>
+                                        </label>
+                                    </div>
+                                </div>
+                                <div class="btn-group" style="width : 40%;margin: 20px 30%;">
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-outline-dark" data-dismiss="modal">Cancel</button>
+                                <button type="submit" class="btn btn-success">Update confirm image</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+    @endif
+        @if($order->status == 'delivered')
+            <div class="modal fade" id="showConfirm" tabindex="-1" role="dialog"
+                 aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalCenterTitle">Confirm order delivered</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <form action="" method="post" enctype="multipart/form-data">
+                            <div class="modal-body" style="height: 400px">
+                                <div class="profile-info text-center" style="width: 450px; height: 350px">
+                                    <div class="profile-thumb brd-rd50" style="width: 90%; height: 90%">
+                                        <img class="profile-display" width="100%" height="auto" src="images/resource/{{$order->delivered_confirm}}" alt=""
+                                             itemprop="image">
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+    @endif
 @endsection

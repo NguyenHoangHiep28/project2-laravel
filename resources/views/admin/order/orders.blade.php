@@ -34,12 +34,12 @@
                                             @for($i = 0; $i < count($order->orderDetails); $i++)
                                                 @if($i == 0)
                                                     <tr>
-                                                        <td class="align-middle" rowspan="{{count($order->orderDetails)}}"><a href="#">#{{$order->id}}</a></td>
+                                                        <td class="align-middle" rowspan="{{count($order->orderDetails)}}"><a href="#">#{{$loop->index + 1}}</a></td>
                                                         <td class="align-middle" rowspan="{{count($order->orderDetails)}}">{{$order->full_name}}</td>
                                                         <td class="align-middle">{{\App\Models\Product::find($order->orderDetails[0]->product_id)->name}}</td>
                                                         <td class="align-middle">{{$order->orderDetails[0]->qty}}</td>
                                                         <td class="align-middle" rowspan="{{count($order->orderDetails)}}">
-                                                            @if($order->status == 'processing')
+                                                            @if($order->status == 'pending')
                                                                 <span class="badge badge-info">Pending</span>
                                                             @elseif($order->status == 'on-delivery')
                                                             <span class="badge badge-warning">On Delivery</span>
@@ -47,6 +47,8 @@
                                                             <span class="badge badge-danger">Rejected</span>
                                                             @elseif($order->status == 'canceled')
                                                                 <span class="badge badge-light">Canceled</span>
+                                                            @elseif($order->status == 'processing')
+                                                                <span class="badge badge-primary">processing</span>
                                                             @else
                                                                 <span class="badge badge-dark">Delivered</span>
                                                             @endif
@@ -62,12 +64,12 @@
                                             @endfor
                                         @else
                                             <tr>
-                                                <td class="align-middle"><a href="#">#{{$order->id}}</a></td>
+                                                <td class="align-middle"><a href="#">#{{$loop->index + 1}}</a></td>
                                                 <td class="align-middle">{{$order->full_name}}</td>
                                                 <td class="align-middle">{{\App\Models\Product::find($order->orderDetails[0]->product_id)->name}}</td>
                                                 <td class="align-middle">{{$order->orderDetails[0]->qty}}</td>
                                                 <td class="align-middle">
-                                                    @if($order->status == 'processing')
+                                                    @if($order->status == 'pending')
                                                         <span class="badge badge-info">Pending</span>
                                                     @elseif($order->status == 'on-delivery')
                                                         <span class="badge badge-warning">On Delivery</span>
@@ -75,6 +77,8 @@
                                                         <span class="badge badge-danger">Rejected</span>
                                                     @elseif($order->status == 'canceled')
                                                         <span class="badge badge-light">Canceled</span>
+                                                    @elseif($order->status == 'processing')
+                                                        <span class="badge badge-primary">processing</span>
                                                     @else
                                                         <span class="badge badge-dark">Delivered</span>
                                                     @endif

@@ -22,7 +22,13 @@ class CreateRestaurantsTable extends Migration
             $table->string('telephone');
             $table->string('email');
             $table->string('owner_name')->nullable();
+            $table->string('tel_owner');
             $table->string('avatar')->nullable();
+            $table->integer('user_id');
+            $table->integer('package');
+            $table->integer('status');
+            $table->date('start_date');
+            $table->date('end_date');
 
             $table->timestamps();
         });

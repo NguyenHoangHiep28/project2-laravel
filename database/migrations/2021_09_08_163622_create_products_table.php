@@ -25,8 +25,7 @@ class CreateProductsTable extends Migration
             $table->string('tag')->nullable();
             $table->integer('restaurant_id')->unsigned();
             $table->boolean('featured');
-            $table->integer('qty');
-
+            $table->integer('is_deleted')->default(0);
 
             $table->timestamps();
         });

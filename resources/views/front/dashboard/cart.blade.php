@@ -45,7 +45,7 @@
                                                                 @if(count($product) > 1)
                                                                     <div class="row restaurant-products">
                                                                         <div class="restaurant-info">
-                                                                            <img src="images/resource/{{\App\Models\Restaurant::find($product[0]['restaurant_id'])->avatar}}"
+                                                                            <img style="width: 66px;height: 65px" src="images/resource/{{\App\Models\Restaurant::find($product[0]['restaurant_id'])->avatar}}"
                                                                                  alt="restaurant-logo2.png" itemprop="image">
                                                                             <div class="restaurant-info-inner">
                                                                                 <h6 itemprop="headline"><a
@@ -99,7 +99,7 @@
                                                                 @else
                                                                     <div class="row restaurant-products">
                                                                         <div class="restaurant-info">
-                                                                            <img src="images/resource/{{\App\Models\Restaurant::find($product[0]['restaurant_id'])->avatar}}"
+                                                                            <img style="width: 66px; height: 65px" src="images/resource/{{\App\Models\Restaurant::find($product[0]['restaurant_id'])->avatar}}"
                                                                                  alt="restaurant-logo2.png" itemprop="image">
                                                                             <div class="restaurant-info-inner">
                                                                                 <h6 itemprop="headline"><a

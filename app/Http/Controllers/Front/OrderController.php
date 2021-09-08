@@ -51,7 +51,7 @@ class OrderController extends Controller
             $order->email = $request->input('email');
             $order->phone = $request->input('phone');
             $order->address = $request->input('address');
-            $order->status = 'processing';
+            $order->status = 'pending';
             $order->save();
 
             //insert products to order_details table

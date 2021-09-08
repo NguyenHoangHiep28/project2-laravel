@@ -19,7 +19,7 @@ use App\Http\Controllers\Admin;
  * */
 
 //    index route
-Route::get('/', [Front\HomeController::class, 'index']);
+Route::get('/', [Front\HomeController::class, 'index'])->name('showIndex');
 Route::get('/how-it-work', [Front\HowItWorkController::class, 'howItWork']);
 Route::get('/search-found', [Front\HomeController::class, 'search']);
 Route::get('/search-not-found', [Front\HomeController::class, 'searchNotFound']);
@@ -73,7 +73,8 @@ Route::get('/admin-dashboard', [Admin\HomeController::class, 'show'])->middlewar
 //Order routes
 Route::get('/admin-order', [Admin\OrderController::class, 'showOrders'])->middleware('auth');
 Route::get('/admin-order/{id}', [Admin\OrderController::class, 'orderDetail'])->middleware('auth');
-Route::get('/order-delivered/{orderId}',[Admin\OrderController::class,'markDelivered'])->middleware('auth');
+Route::get('/order-start-delivery/{orderId}', [Admin\OrderController::class, 'startDelivery'])->middleware('auth');
+Route::post('/admin-order/mark-order-delivered',[Admin\OrderController::class,'markDelivered']);
 Route::post('/admin-order/accept', [Admin\OrderController::class, 'acceptOrder'])->middleware('auth');
 Route::post('/admin-order/reject', [Admin\OrderController::class, 'rejectOrder'])->middleware('auth');
 
@@ -89,12 +90,15 @@ Route::post('/admin-add-product', [Admin\ProductController::class, 'addProduct']
 
 //Restaurant routes
 Route::get('/admin-restaurant', [Admin\RestaurantController::class,'showRestaurantInfo'])->middleware('auth');
-
+Route::get('/admin-restaurant/edit-images/delete/{RestaurantImageId}',[Admin\RestaurantController::class, 'deleteImage'])->middleware('auth');
+Route::post('/admin-restaurant/edit-avatar', [Admin\RestaurantController::class, 'editAvatar']);
+Route::post('/admin-restaurant/edit-images', [Admin\RestaurantController::class, 'editImages']);
+Route::post('/admin-restaurant/edit-info', [Admin\RestaurantController::class, 'editInfo']);
 /*
  * MANAGEMENT ROUTES
  * */
 
-Route::get('/management-dashboard', [Admin\ManagementController::class,'showDashboard'])->middleware('auth');
+Route::get('/management-dashboard', [Admin\ManagementController::class,'showDashboard'])->name('showManagement')->middleware('auth');
 Route::get('/management-restaurants', [Admin\ManagementController::class,'showRestaurants'])->middleware('auth');
 Route::get('/management-restaurant-detail/{id}', [Admin\ManagementController::class,'showDetail'])->middleware('auth');
 

@@ -16,9 +16,16 @@ class Restaurant extends Model
     public function products(){
         return $this->hasMany(Product::class,'restaurant_id', 'id');
     }
+    public function restaurantImages(){
+        return $this->hasMany(RestaurantImage::class, 'restaurant_id', 'id');
+    }
 
     public function restaurantMenus(){
         return $this->hasMany(RestaurantMenu::class, 'restaurant_id', 'id');
+    }
+
+    public function user(){
+        return $this->belongsTo(User::class, 'restaurant_id', 'id');
     }
 
 }

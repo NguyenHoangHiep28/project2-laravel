@@ -22,6 +22,21 @@ class HomeController
         $visibleClass = '';
         return view('front.index', compact('products', 'populars', 'restaurants', 'visibleClass'));
     }
+    public function redirectTo()
+    {
+        switch (auth()->user()->role) {
+            case '0':
+                return route('showManagement');
+            case '1':
+                return route('showIndex');
+            case '2':
+                return route('showAdmin');
+
+            default:
+                auth()->logout();
+                return route('showIndex');
+        }
+    }
     function login(Request $request){
         $validator = Validator::make($request->all(), [
             'email' => 'required|string|email|max:255',
@@ -34,15 +49,11 @@ class HomeController
             return view('front.auth.login', compact('password','email'))->withErrors($errors);
         }
         else {
-            if (Auth::attempt(['email' => $email, 'password' =>$password, 'role' => 1])){
-                return redirect('/');
-            } else if (Auth::attempt(['email' => $email, 'password' =>$password, 'role' => 2])){
-                return redirect(route('showAdmin'));
-            }else if (Auth::attempt(['email' => $email, 'password' =>$password, 'role' => 0])){
-                return redirect('/management-dashboard');
+            if (Auth::attempt(['email' => $email, 'password' =>$password])){
+                return redirect($this->redirectTo());
             }else{
-                $getSignedInUser = User::where('email',"$email")->count();
-                if ($getSignedInUser === 1){
+                $getSignedUpUser = User::where('email',"$email")->count();
+                if ($getSignedUpUser === 1){
                 return back()->withErrors([
                     'password' => 'Incorrect email or password !'
                 ]);

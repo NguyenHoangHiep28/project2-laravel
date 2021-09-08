@@ -15,7 +15,7 @@ class ProductController extends Controller
     //
     public function showProducts()
     {
-        $products = Product::where('restaurant_id', Auth::user()->restaurant_id)->get();
+        $products = Product::where('restaurant_id', Auth::user()->restaurant_id)->where('is_deleted', 0)->orderBy('name')->get();
         return view('admin.product.product_list', compact('products'));
     }
 
@@ -42,7 +42,7 @@ class ProductController extends Controller
         return redirect('/admin-product');
     }
 
-    public function checkAndSaveImage($key, Request $request,Product $product){
+    public function checkAndSaveImage($key, Request $request,$product){
         $validator = Validator::make(['image'.$key => $request->file('img-'.$key)], [
             'image'.$key => 'mimes:jpg,png,jpeg,gif|max:10000'
         ]);
@@ -85,17 +85,15 @@ class ProductController extends Controller
             $file->move(public_path('images/resource'), $imageName);
             // store path in database
             $image = $product->productImages[$index];
-            $image->path = $imageName;
-            $image->save();
         }else{
             // store new product image
             $file->move(public_path('images/resource'), $imageName);
             // store path in database
             $image = new ProductImage();
             $image->product_id = $product->id;
-            $image->path = $imageName;
-            $image->save();
         }
+        $image->path = $imageName;
+        $image->save();
     }
 
     public function deleteImage($id){
@@ -105,7 +103,9 @@ class ProductController extends Controller
         return back();
     }
     public function deleteProduct($id){
-        Product::find($id)->delete();
+        $product = Product::find($id);
+        $product->is_deleted = 1;
+        $product->save();
         return back();
     }
     public function showAdd()
@@ -131,7 +131,6 @@ class ProductController extends Controller
             $product->status = 1;
             $product->restaurant_id = Auth::user()->restaurant_id;
             $product->featured = 0;
-            $product->qty = 5;
             if ($discount == 0){
                 $product->discount = null;
             }else{

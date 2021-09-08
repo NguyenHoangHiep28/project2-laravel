@@ -20,7 +20,7 @@
                         <table class="table align-items-center table-flush">
                             <thead class="thead-light">
                             <tr>
-                                <th>Product ID</th>
+                                <th>ID</th>
                                 <th>Category</th>
                                 <th>Name</th>
                                 <th>Image</th>
@@ -32,7 +32,7 @@
                             <tbody>
                             @foreach($products as $product)
                                 <tr>
-                                    <td class="align-middle"><a href="#">{{$product->id}}</a></td>
+                                    <td class="align-middle"><a href="#">{{$loop->index+1}}</a></td>
                                     <td class="align-middle">{{$product->category->cate_name}}</td>
                                     <td class="align-middle">{{$product->name}}.</td>
                                     <td class="align-middle"><img src="images/resource/{{$product->productImages[0]->path}}" alt=""

@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Order;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Validator;
 
 class OrderController extends Controller
 {
@@ -25,8 +26,16 @@ class OrderController extends Controller
         $timeAmount = $request->input('estimated-amount');
         $order = Order::find($orderId);
         $order->delivery_amount = $timeAmount;
+        $order->status = 'processing';
+        $order->save();
+        return back();
+    }
+
+    public function startDelivery($orderId){
+        $order = Order::find($orderId);
         $order->status = 'on-delivery';
         $order->save();
+
         return back();
     }
 
@@ -40,11 +49,29 @@ class OrderController extends Controller
         return back();
     }
 
-    public function markDelivered($orderId){
+    public function markDelivered(Request $request){
+        $orderId = $request->input('order-id');
         $order = Order::find($orderId);
-        $order->status = 'delivered';
-        $order->delivered_time = date('Y-m-d h:i:s');
-        $order->save();
+
+        if ($request->hasFile('img-confirm')){
+            $validator = Validator::make(['imageConfirm' => $request->file('img-confirm')], [
+                'imageConfirm' => 'mimes:jpg,png,jpeg,gif|max:10000'
+            ]);
+            if ($validator->fails()){
+                $error = $validator->errors();
+                return back()->withErrors($error);
+            }else{
+                $file = $request->file('img-confirm');
+                $imageName = time().'.'.$file->getClientOriginalName();
+                // store new confirm image
+                $file->move(public_path('images/resource'), $imageName);
+                // store path in database
+                $order->delivered_confirm = $imageName;
+                $order->status = 'delivered';
+                $order->delivered_time = date('Y-m-d H:i:s');
+                $order->save();
+            }
+        }
         return back();
     }
 }

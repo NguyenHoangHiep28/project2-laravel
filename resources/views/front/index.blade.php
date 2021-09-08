@@ -123,7 +123,7 @@
                                         @else
                                             <span class="price">${{$product->price}}.00</span>
                                         @endif
-                                        <a class="brd-rd2 add-to-cart" href="/cart/add/{{\Illuminate\Support\Facades\Auth::id()}}/{{$product->id}}" title="Order Now" itemprop="url">Add
+                                        <a class="brd-rd2 add-to-cart" href="/cart/add/{{\Illuminate\Support\Facades\Auth::id() ?? 0}}/{{$product->id}}" title="Order Now" itemprop="url">Add
                                             to cart</a>
                                         <div class="restaurant-info">
                                             <img src="images/resource/{{$product->restaurant->avatar}}"

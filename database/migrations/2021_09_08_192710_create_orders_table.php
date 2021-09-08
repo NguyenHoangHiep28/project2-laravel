@@ -27,6 +27,7 @@ class CreateOrdersTable extends Migration
             $table->dateTime('delivered_time')->nullable();
             $table->text('extra_info')->nullable();
             $table->double('total');
+            $table->text('delivered_confirm')->nullable();
 
             $table->timestamps();
         });

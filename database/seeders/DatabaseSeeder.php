@@ -27,7 +27,7 @@ class DatabaseSeeder extends Seeder
                 'tag' => null,
                 'restaurant_id' => 1,
                 'featured' => false,
-                'qty' => 5,
+
             ],
             [
                 'name' => 'Second Product',
@@ -39,7 +39,7 @@ class DatabaseSeeder extends Seeder
                 'tag' => null,
                 'restaurant_id' => 1,
                 'featured' => false,
-                'qty' => 5,
+
             ],
             [
                 'name' => 'Third Product',
@@ -51,7 +51,7 @@ class DatabaseSeeder extends Seeder
                 'tag' => null,
                 'restaurant_id' => 2,
                 'featured' => false,
-                'qty' => 5,
+
             ],
             [
                 'name' => 'Product 4',
@@ -63,7 +63,7 @@ class DatabaseSeeder extends Seeder
                 'tag' => null,
                 'restaurant_id' => 1,
                 'featured' => true,
-                'qty' => 5,
+
             ],
             [
                 'name' => 'Product 5',
@@ -75,7 +75,7 @@ class DatabaseSeeder extends Seeder
                 'tag' => null,
                 'restaurant_id' => 1,
                 'featured' => true,
-                'qty' => 5,
+
             ],
             [
                 'name' => 'Product 6',
@@ -87,7 +87,7 @@ class DatabaseSeeder extends Seeder
                 'tag' => null,
                 'restaurant_id' => 1,
                 'featured' => true,
-                'qty' => 5,
+
             ],
             [
                 'name' => 'Product 7',
@@ -99,7 +99,7 @@ class DatabaseSeeder extends Seeder
                 'tag' => null,
                 'restaurant_id' => 2,
                 'featured' => true,
-                'qty' => 5,
+
             ],
         ]);
         DB::table('categories')->insert([
@@ -112,7 +112,8 @@ class DatabaseSeeder extends Seeder
                 'name' => 'Nguyen Hoang Hiep',
                 'email' => 'hiepphomacl7@gmail.com',
                 'password' => Hash::make('hiep28802'),
-                'role' => 1,
+                'role' => 2,
+                'restaurant_id' => 1,
             ],
         ]);
         DB::table('restaurants')->insert([
@@ -123,7 +124,13 @@ class DatabaseSeeder extends Seeder
                 'telephone' => '0123456789',
                 'email' => 'demorestaurant@gmail.com',
                 'owner_name' => 'Harry Kain',
-                'avatar' => 'restaurant-logo1.png'
+                'avatar' => 'restaurant-logo1-2.png',
+                'tel_owner' => '0123456789',
+                'status' => '1',
+                'user_id' => 1,
+                'package' => 1,
+                'start_date' => '2012-08-20',
+                'end_date' => '2013-08-20'
             ],
             [
                 'restaurant_name' => 'Restaurant 2',
@@ -132,7 +139,13 @@ class DatabaseSeeder extends Seeder
                 'telephone' => '03128123712',
                 'email' => 'demorestaurant@gmail.com',
                 'owner_name' => 'Marry Cue',
-                'avatar' => 'restaurant-logo1-1.png'
+                'avatar' => 'restaurant-logo1-1.png',
+                'tel_owner' => '0123456789',
+                'status' => '1',
+                'user_id' => 3,
+                'package' => 1,
+                'start_date' => '2012-08-20',
+                'end_date' => '2013-08-20'
             ],
         ]);
         DB::table('product_images')->insert([

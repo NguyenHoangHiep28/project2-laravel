@@ -10,23 +10,6 @@
                 <li class="breadcrumb-item active" aria-current="page" style="color: #EA1B25;">Add New Product</li>
             </ol>
         </div>
-            <div class="modal-dialog" role="document">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">×</span>
-                        </button>
-                    </div>
-                    <div class="modal-body">
-                        A new product is added successfully!
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">OK
-                        </button>
-                    </div>
-                </div>
-            </div>
-        </div>
         <form action="" method="post" enctype="multipart/form-data" id="create-product-form">
             @csrf
             <div class="row">
