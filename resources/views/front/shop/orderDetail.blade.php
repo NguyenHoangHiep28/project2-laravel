@@ -69,6 +69,8 @@
                                                                                     on delivery
                                                                                 @elseif(\App\Models\Order::find($orderDetails[0]->order_id)->status == 'rejected')
                                                                                     rejected
+                                                                                @elseif(\App\Models\Order::find($orderDetails[0]->order_id)->status == 'canceled')
+                                                                                    canceled
                                                                                 @else
                                                                                     delivered
                                                                                 @endif
@@ -126,15 +128,27 @@
                                                                 <button class="btn primary-btn red-bg" id="cancel-order-btn">Cancel this order</button>
                                                             </div>
                                                             <div class="cancel-order">
-                                                                <form action="#">
+                                                                <form method="post" action="/order/cancel">
+                                                                    @csrf
                                                                     <div class="form-group">
                                                                         <label for="cancel-reason">Reason of Cancelation: </label>
-                                                                        <textarea class="form-control" cols="10" id="cancel-reason"></textarea>
+                                                                        <textarea class="form-control" rows="4" id="cancel-reason" name="cancel-reason" required></textarea>
+                                                                        <input type="hidden" name="order-id" value="{{\App\Models\Order::find($orderDetails[0]->order_id)->id}}">
                                                                     </div>
                                                                     <button class="btn primary-btn red-bg" id="send-cancel" type="submit">Send</button>
                                                                     <button class="btn primary-btn" id="back" type="button">Cancel</button>
                                                                 </form>
                                                             </div>
+                                                            @endif
+                                                            @if(\App\Models\Order::find($orderDetails[0]->order_id)->status === 'rejected')
+                                                                <div class="cancel-order" style="display: block">
+                                                                    <form action="#">
+                                                                        <div class="form-group">
+                                                                            <label for="cancel-reason">Reason of Cancelation: </label>
+                                                                            <textarea class="form-control" rows="4" id="cancel-reason" disabled>{{\App\Models\Order::find($orderDetails[0]->order_id)->extra_info}}</textarea>
+                                                                        </div>
+                                                                    </form>
+                                                                </div>
                                                             @endif
                                                         </div>
                                                     </div>

@@ -25,6 +25,7 @@ class CreateOrdersTable extends Migration
             $table->integer('restaurant_id');
             $table->integer('delivery_amount')->nullable();
             $table->dateTime('delivered_time')->nullable();
+            $table->text('extra_info')->nullable();
             $table->double('total');
 
             $table->timestamps();

@@ -40,7 +40,7 @@
                                                     <h4 itemprop="headline">ACCOUNT SETTINGS</h4>
                                                     <div class="account-settings-inner">
                                                         <div class="row">
-                                                            <form action="dashboard/setting/update-profile" method="post" class="profile-info-form" enctype="multipart/form-data" name="updateProfile" onsubmit="return validateUpdateProfileForm()">
+                                                            <form action="dashboard/setting/update-profile" method="post" class="profile-info-form" enctype="multipart/form-data" name="updateProfile" onsubmit="validateUpdateProfileForm()">
                                                                 @csrf
                                                                 <div class="col-md-4 col-sm-4 col-lg-4">
                                                                     <div class="profile-info text-center">

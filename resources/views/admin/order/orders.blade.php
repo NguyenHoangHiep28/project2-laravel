@@ -16,7 +16,7 @@
                 <!-- Simple Tables -->
                 <div class="card">
                     <div class="table-responsive">
-                        <table class="table align-items-center table-flush">
+                        <table class="table align-items-center table-bordered">
                             <thead class="thead-light">
                             <tr>
                                 <th>Order ID</th>
@@ -28,40 +28,62 @@
                             </tr>
                             </thead>
                             <tbody>
-                            <tr>
-                                <td><a href="#">RA0449</a></td>
-                                <td>Udin Wayang</td>
-                                <td>Nasi Padang</td>
-                                <td>2</td>
-                                <td><span class="badge badge-dark">Delivered</span></td>
-                                <td><a href="order_detail.html" class="btn btn-sm btn-dark">Detail</a></td>
-                            </tr>
-                            <tr>
-                                <td><a href="#">RA5324</a></td>
-                                <td>Jaenab Bajigur</td>
-                                <td>Gundam 90' Edition</td>
-                                <td>2</td>
-                                <td><span class="badge badge-warning">On Delivery</span></td>
-                                <td><a href="order_detail.html" class="btn btn-sm btn-dark">Detail</a></td>
-                            </tr>
-                            <tr>
-                                <td><a href="#">RA8568</a></td>
-                                <td>Rivat Mahesa</td>
-                                <td>Oblong T-Shirt</td>
-                                <td>2</td>
-                                <td><span class="badge badge-info">Pending</span></td>
-                                <td>
-                                    <a href="order_detail.html" class="btn btn-sm btn-dark">Detail</a>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td><a href="#">RA1453</a></td>
-                                <td>Indri Junanda</td>
-                                <td>Hat Rounded</td>
-                                <td>2</td>
-                                <td><span class="badge badge-danger">Rejected</span></td>
-                                <td><a href="order_detail.html" class="btn btn-sm btn-dark">Detail</a></td>
-                            </tr>
+                            @if(count($orders) > 0)
+                                    @foreach($orders as $order)
+                                        @if(count($order->orderDetails) > 1)
+                                            @for($i = 0; $i < count($order->orderDetails); $i++)
+                                                @if($i == 0)
+                                                    <tr>
+                                                        <td class="align-middle" rowspan="{{count($order->orderDetails)}}"><a href="#">#{{$order->id}}</a></td>
+                                                        <td class="align-middle" rowspan="{{count($order->orderDetails)}}">{{$order->full_name}}</td>
+                                                        <td class="align-middle">{{\App\Models\Product::find($order->orderDetails[0]->product_id)->name}}</td>
+                                                        <td class="align-middle">{{$order->orderDetails[0]->qty}}</td>
+                                                        <td class="align-middle" rowspan="{{count($order->orderDetails)}}">
+                                                            @if($order->status == 'processing')
+                                                                <span class="badge badge-info">Pending</span>
+                                                            @elseif($order->status == 'on-delivery')
+                                                            <span class="badge badge-warning">On Delivery</span>
+                                                            @elseif($order->status == 'rejected')
+                                                            <span class="badge badge-danger">Rejected</span>
+                                                            @elseif($order->status == 'canceled')
+                                                                <span class="badge badge-light">Canceled</span>
+                                                            @else
+                                                                <span class="badge badge-dark">Delivered</span>
+                                                            @endif
+                                                        </td>
+                                                        <td class="align-middle" rowspan="{{count($order->orderDetails)}}"><a href="/admin-order/{{$order->id}}" class="btn btn-sm btn-dark">Detail</a></td>
+                                                    </tr>
+                                                @else
+                                                    <tr>
+                                                        <td>{{\App\Models\Product::find($order->orderDetails[$i]->product_id)->name}}</td>
+                                                        <td>{{$order->orderDetails[$i]->qty}}</td>
+                                                    </tr>
+                                                @endif
+                                            @endfor
+                                        @else
+                                            <tr>
+                                                <td class="align-middle"><a href="#">#{{$order->id}}</a></td>
+                                                <td class="align-middle">{{$order->full_name}}</td>
+                                                <td class="align-middle">{{\App\Models\Product::find($order->orderDetails[0]->product_id)->name}}</td>
+                                                <td class="align-middle">{{$order->orderDetails[0]->qty}}</td>
+                                                <td class="align-middle">
+                                                    @if($order->status == 'processing')
+                                                        <span class="badge badge-info">Pending</span>
+                                                    @elseif($order->status == 'on-delivery')
+                                                        <span class="badge badge-warning">On Delivery</span>
+                                                    @elseif($order->status == 'rejected')
+                                                        <span class="badge badge-danger">Rejected</span>
+                                                    @elseif($order->status == 'canceled')
+                                                        <span class="badge badge-light">Canceled</span>
+                                                    @else
+                                                        <span class="badge badge-dark">Delivered</span>
+                                                    @endif
+                                                </td>
+                                                <td class="align-middle"><a href="/admin-order/{{$order->id}}" class="btn btn-sm btn-dark">Detail</a></td>
+                                            </tr>
+                                        @endif
+                                    @endforeach
+                                @endif
                             </tbody>
                         </table>
                     </div>

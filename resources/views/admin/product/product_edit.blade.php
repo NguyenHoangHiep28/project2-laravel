@@ -11,76 +11,57 @@
                 <li class="breadcrumb-item active" aria-current="page" style="color: #EA1B25;">Edit Product</li>
             </ol>
         </div>
-        <button type="button" class="btn btn-dark" style="margin-bottom: 20px; margin-top: -15px;"><i
+        <button type="button" class="btn btn-dark" onclick="window.location.href = '/admin-product'" style="margin-bottom: 20px; margin-top: -15px;"><i
                 class="fa fa-chevron-left fa-sm"></i> Back to product list
         </button>
         <div class="row">
             <div class="col-lg-6">
                 <div class="card mb-4">
                     <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                        <h6 class="m-0 font-weight-bold text-dark">Edit product images :</h6>
+                        <h6 class="m-0 font-weight-bold text-dark">Edit product images : @for($i = 0; $i < 4; $i++)<span class="text-danger">{{$errors->first("image$i")}}</span>@endfor</h6>
                     </div>
                     <div class="card-body">
-                        <form action="">
-                            <div class="profile-info text-center">
-                                <a class="text-dark" href="#" style="margin-left: 60%;" title="Delete image"><i
-                                        class="fa fa-window-close fa-lg delete" style="cursor: pointer;"></i></a>
-                                <div class="profile-thumb brd-rd50">
-                                    <img class="profile-display" src="admin/img/girl.png" alt="profile-img1.jpg"
-                                         itemprop="image">
-                                </div>
-                                <div class="profile-img-upload-btn">
-                                    <label class="fileContainer">
-                                        CHANGE IMAGE
-                                        <input class="profile-upload" type="file"/>
-                                    </label>
-                                </div>
-                            </div>
-                            <div class="profile-info text-center">
-                                <a class="text-dark" href="#" style="margin-left: 60%;" title="Delete image"><i
-                                        class="fa fa-window-close fa-lg delete" style="cursor: pointer;"></i></a>
-
-                                <div class="profile-thumb brd-rd50">
-                                    <img class="profile-display" src="admin/img/girl.png" alt="profile-img1.jpg"
-                                         itemprop="image">
-                                </div>
-                                <div class="profile-img-upload-btn">
-                                    <label class="fileContainer">
-                                        CHANGE IMAGE
-                                        <input class="profile-upload" type="file"/>
-                                    </label>
-                                </div>
-                            </div>
-                            <div class="profile-info text-center">
-                                <a class="text-dark" href="#" style="margin-left: 60%;" title="Delete image"><i
-                                        class="fa fa-window-close fa-lg delete" style="cursor: pointer;"></i></a>
-
-                                <div class="profile-thumb brd-rd50">
-                                    <img class="profile-display" src="admin/img/girl.png" alt="profile-img1.jpg"
-                                         itemprop="image">
-                                </div>
-                                <div class="profile-img-upload-btn">
-                                    <label class="fileContainer">
-                                        CHANGE IMAGE
-                                        <input class="profile-upload" type="file"/>
-                                    </label>
-                                </div>
-                            </div>
-                            <div class="profile-info text-center">
-                                <a class="text-dark" href="#" style="margin-left: 60%;" title="Delete image"><i
-                                        class="fa fa-window-close fa-lg delete" style="cursor: pointer;"></i></a>
-
-                                <div class="profile-thumb brd-rd50">
-                                    <img class="profile-display" src="admin/img/food1.jpg" alt="profile-img1.jpg"
-                                         itemprop="image">
-                                </div>
-                                <div class="profile-img-upload-btn">
-                                    <label class="fileContainer">
-                                        CHANGE IMAGE
-                                        <input class="profile-upload" type="file"/>
-                                    </label>
-                                </div>
-                            </div>
+                        <form action="/admin-product-edit/images" method="post" enctype="multipart/form-data">
+                            @csrf
+                            @for($i = 0; $i < 4; $i++)
+                                @if($i < count($product->productImages))
+                                    <div class="profile-info text-center">
+                                        <h5 class="text-dark">{{$i}}</h5>
+                                        @if(count($product->productImages) != 1)
+                                            <a class="text-dark" href="/admin-product-edit/images/delete/{{$product->productImages[$i]->id}}" style="margin-left: 60%;" title="Delete image"><i
+                                                    class="fa fa-window-close fa-lg delete" style="cursor: pointer;"></i></a>
+                                        @else
+                                            <a class="text-dark" href="" style="margin-left: 60%;" title="Delete image"></a>
+                                        @endif
+                                        <div class="profile-thumb brd-rd50">
+                                            <img class="profile-display" src="images/resource/{{$product->productImages[$i]->path}}" alt="profile-img1.jpg"
+                                                 itemprop="image">
+                                        </div>
+                                        <div class="profile-img-upload-btn">
+                                            <label class="fileContainer">
+                                                CHANGE IMAGE
+                                                <input class="profile-upload" name="img-{{$i}}" type="file"/>
+                                            </label>
+                                        </div>
+                                    </div>
+                                @else
+                                    <div class="profile-info text-center">
+                                        <h5 class="text-dark">{{$i}}</h5>
+                                        <a class="text-dark" href="" style="margin-left: 60%;" title="Delete image"></a>
+                                        <div class="profile-thumb brd-rd50">
+                                            <img class="profile-display" src="admin/img/unnamed.png" alt=""
+                                                 itemprop="image">
+                                        </div>
+                                        <div class="profile-img-upload-btn">
+                                            <label class="fileContainer">
+                                                ADD IMAGE
+                                                <input class="profile-upload" name="img-{{$i}}" type="file"/>
+                                            </label>
+                                        </div>
+                                    </div>
+                                @endif
+                            @endfor
+                                <input type="hidden" name="product-id" value="{{$product->id}}">
                             <div class="btn-group" style="width : 40%;margin: 40px 30%;">
                                 <button type="submit" class="btn btn-danger">Update Images</button>
                             </div>
@@ -95,23 +76,21 @@
                         <h6 class="m-0 font-weight-bold text-dark">Edit product information :</h6>
                     </div>
                     <div class="card-body">
-                        <form>
+                        <form action="/admin-product-edit/info" method="post">
+                            @csrf
                             <div class="form-group">
                                 <label for="exampleInputEmail1">Product Id :</label>
-                                <input type="text" class="form-control" id="exampleInputEmail1"
-                                       aria-describedby="emailHelp"
-                                       placeholder="" value="#123EA" disabled>
+                                <input type="text" class="form-control" name="product-id"
+                                       placeholder="" value="{{$product->id}}" readonly>
                             </div>
                             <div class="form-group">
                                 <label for="exampleInputEmail1">Product name :</label>
-                                <input type="text" class="form-control" id="exampleInputEmail1"
-                                       aria-describedby="emailHelp"
-                                       placeholder="Enter product name" value="This is old product Name">
+                                <input type="text" class="form-control" name="product-name" placeholder="Enter product name" value="{{$product->name}}" required>
                             </div>
                             <div class="form-group">
                                 <label for="exampleFormControlSelect1">Category :</label>
-                                <select class="form-control" id="exampleFormControlSelect1">
-                                    <option>Fast Food</option>
+                                <select class="form-control" name="category" id="exampleFormControlSelect1" required>
+                                    <option value="1">{{$product->category->cate_name}}</option>
                                     <option>2</option>
                                     <option>3</option>
                                     <option>4</option>
@@ -120,17 +99,24 @@
                             </div>
                             <div class="form-group">
                                 <label for="exampleInputPassword1">Price :</label>
-                                <input type="number" class="form-control" id="exampleInputPassword1"
-                                       placeholder="Price ( $ )" value="40">
+                                <input type="number" name="price" class="form-control" id="exampleInputPassword1"
+                                       placeholder="Price ( $ )" oninput="validity.valid||(value='');" min="0" value="{{$product->price}}" required>
                             </div>
                             <div class="form-group">
                                 <label for="exampleInputPassword1">Discount :</label>
-                                <input type="number" class="form-control" id="exampleInputPassword1"
-                                       placeholder="Price ( $ )" value="30">
+                                <input type="number" name="discount" class="form-control" id="exampleInputPassword1" required
+                                       placeholder="Price ( $ )" min="0" oninput="validity.valid||(value='');" value="{{$product->discount ?? 0}}">
+                            </div>
+                            <div class="form-group">
+                                <label for="exampleFormControlSelect1">Status :</label>
+                                <select class="form-control" name="status" id="exampleFormControlSelect1" required>
+                                    <option value="1">In Stock</option>
+                                    <option value="0">Out Stock</option>
+                                </select>
                             </div>
                             <div class="form-group">
                                 <label for="exampleFormControlTextarea1">Description :</label>
-                                <textarea class="form-control" id="exampleFormControlTextarea1" rows="3">Lorem ipsum, dolor sit amet consectetur adipisicing elit. Cumque tempora dolor molestiae, sint sequi blanditiis architecto quia, eaque quis maxime in! Iste natus amet ipsum maxime, rerum quas nesciunt molestiae.</textarea>
+                                <textarea class="form-control" name="description" id="exampleFormControlTextarea1" rows="3" required>{{$product->description}}</textarea>
                             </div>
                             <button type="submit" class="btn btn-danger" style="margin-right: 20px;">Update Info
                             </button>

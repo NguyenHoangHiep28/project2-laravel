@@ -60,6 +60,7 @@ Route::prefix('/order')->group(function (){
     Route::get('/place-order/{userId}/{restaurantId}', [Front\OrderController::class, 'show'])->middleware('auth');
     Route::post('/place-order', [Front\OrderController::class, 'placeOrder'])->middleware('auth');
     Route::get('/order-detail/{orderId}', [Front\OrderController::class, 'orderDetail'])->middleware('auth');
+    Route::post('/cancel', [Front\OrderController::class, 'cancelOrder'])->middleware('auth');
 });
 
 /*
@@ -72,11 +73,19 @@ Route::get('/admin-dashboard', [Admin\HomeController::class, 'show'])->middlewar
 //Order routes
 Route::get('/admin-order', [Admin\OrderController::class, 'showOrders'])->middleware('auth');
 Route::get('/admin-order/{id}', [Admin\OrderController::class, 'orderDetail'])->middleware('auth');
+Route::get('/order-delivered/{orderId}',[Admin\OrderController::class,'markDelivered'])->middleware('auth');
+Route::post('/admin-order/accept', [Admin\OrderController::class, 'acceptOrder'])->middleware('auth');
+Route::post('/admin-order/reject', [Admin\OrderController::class, 'rejectOrder'])->middleware('auth');
 
 // Product routes
 Route::get('/admin-product', [Admin\ProductController::class, 'showProducts'])->middleware('auth');
-Route::get('/admin-product-edit/{id}', [Admin\ProductController::class, 'productEdit'])->middleware('auth');
+Route::get('/admin-product-edit/{id}', [Admin\ProductController::class, 'productEditShow'])->middleware('auth');
 Route::get('/admin-add-product', [Admin\ProductController::class, 'showAdd'])->middleware('auth');
+Route::get('/admin-delete-product/{productId}',[Admin\ProductController::class, 'deleteProduct'])->middleware('auth');
+Route::get('/admin-product-edit/images/delete/{productImageId}',[Admin\ProductController::class, 'deleteImage'])->middleware('auth');
+Route::post('/admin-product-edit/images', [Admin\ProductController::class, 'editImages']);
+Route::post('/admin-product-edit/info', [Admin\ProductController::class, 'editInfo']);
+Route::post('/admin-add-product', [Admin\ProductController::class, 'addProduct']);
 
 //Restaurant routes
 Route::get('/admin-restaurant', [Admin\RestaurantController::class,'showRestaurantInfo'])->middleware('auth');

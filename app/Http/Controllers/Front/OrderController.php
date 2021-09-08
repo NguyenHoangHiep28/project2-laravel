@@ -77,4 +77,14 @@ class OrderController extends Controller
         $orderDetails = DB::table('order_details')->where('order_id', $orderId)->get();
         return view('front.shop.orderDetail')->with('orderDetails', $orderDetails);
     }
+
+    public function rejectOrder(Request $request){
+        $orderId = $request->input('order-id');
+        $reason = $request->input('cancel-reason');
+        $order = Order::find($orderId);
+        $order->status = 'canceled';
+        $order->extra_info = $reason;
+        $order->save();
+        return back();
+    }
 }

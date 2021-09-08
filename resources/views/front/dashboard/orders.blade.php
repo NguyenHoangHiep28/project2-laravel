@@ -129,6 +129,8 @@
                                                                                     on delivery
                                                                                 @elseif(\App\Models\Order::find($orderDetail[0]['order_id'])->status == 'rejected')
                                                                                     rejected
+                                                                                @elseif(\App\Models\Order::find($orderDetail[0]['order_id'])->status == 'canceled')
+                                                                                    canceled
                                                                                 @else
                                                                                     delivered
                                                                                 @endif
