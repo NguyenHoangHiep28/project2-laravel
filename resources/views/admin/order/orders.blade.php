@@ -13,8 +13,20 @@
 
         <div class="row">
             <div class="col-lg-12 mb-4">
+                <form action="order/filter-by-status" method="get" style="margin-top: -30px">
+                    <div class="form-group" style="width: 12%;position: relative;left: 88%">
+                        <select class="form-control" name="status" id="exampleFormControlSelect1" onchange="this.form.submit()">
+                            <option {{request('status') == 'all' ? 'selected' : ''}} value="all">All status</option>
+                            <option {{request('status') == 'pending' ? 'selected' : ''}} value="pending">Pending</option>
+                            <option {{request('status') == 'processing' ? 'selected' : ''}} value="processing">Processing</option>
+                            <option {{request('status') == 'on-delivery' ? 'selected' : ''}} value="on-delivery">On Delivery</option>
+                            <option {{request('status') == 'delivered' ? 'selected' : ''}} value="delivered">Delivered</option>
+                        </select>
+                    </div>
+                </form>
                 <!-- Simple Tables -->
                 <div class="card">
+
                     <div class="table-responsive">
                         <table class="table align-items-center table-bordered">
                             <thead class="thead-light">
@@ -28,13 +40,13 @@
                             </tr>
                             </thead>
                             <tbody>
-                            @if(count($orders) > 0)
+                            @if($orders != null)
                                     @foreach($orders as $order)
                                         @if(count($order->orderDetails) > 1)
                                             @for($i = 0; $i < count($order->orderDetails); $i++)
                                                 @if($i == 0)
                                                     <tr>
-                                                        <td class="align-middle" rowspan="{{count($order->orderDetails)}}"><a href="#">#{{$loop->index + 1}}</a></td>
+                                                        <td class="align-middle" rowspan="{{count($order->orderDetails)}}"><a href="#">#{{$order->id}}</a></td>
                                                         <td class="align-middle" rowspan="{{count($order->orderDetails)}}">{{$order->full_name}}</td>
                                                         <td class="align-middle">{{\App\Models\Product::find($order->orderDetails[0]->product_id)->name}}</td>
                                                         <td class="align-middle">{{$order->orderDetails[0]->qty}}</td>
@@ -64,7 +76,7 @@
                                             @endfor
                                         @else
                                             <tr>
-                                                <td class="align-middle"><a href="#">#{{$loop->index + 1}}</a></td>
+                                                <td class="align-middle"><a href="#">#{{$order->id}}</a></td>
                                                 <td class="align-middle">{{$order->full_name}}</td>
                                                 <td class="align-middle">{{\App\Models\Product::find($order->orderDetails[0]->product_id)->name}}</td>
                                                 <td class="align-middle">{{$order->orderDetails[0]->qty}}</td>
@@ -91,7 +103,17 @@
                             </tbody>
                         </table>
                     </div>
-                    <div class="card-footer"></div>
+                    @if($orders == null)
+                        <div class="jumbotron text-center" style="background-color: white">
+                            <h1 class="display-3">Order not found</h1>
+                            <p class="lead">There are no order with status " {{$selected}} "</p>
+                            <hr>
+                            <br>
+                        </div>
+                    @endif
+                    <div class="card-footer"><div class="card-footer text-center align-items-center" style="margin-top: 50px">
+                                {{$orders->appends(request()->all())->links()}}
+                        </div></div>
                 </div>
             </div>
         </div>

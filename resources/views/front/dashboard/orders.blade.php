@@ -41,17 +41,19 @@
                                                     <h4 itemprop="headline">MY Orders</h4>
                                                     <div class="select-wrap-inner">
                                                         <div class="select-wrp2" style="float:right;">
-                                                            <select>
-                                                                <option>All status</option>
-                                                                <option>Pending orders</option>
-                                                                <option>On delivery orders</option>
-                                                                <option>Delivered orders</option>
-                                                                <option>Rejected orders</option>
-                                                            </select>
+                                                            <form action="order/filter-order-status" method="get">
+                                                                <select onchange="this.form.submit()" name="status">
+                                                                    <option value="all" {{request("status") == 'all' ? 'selected' : '' }}>All status</option>
+                                                                    <option value="pending" {{request("status") == 'pending' ? 'selected' : '' }}>Pending orders</option>
+                                                                    <option value="on-delivery" {{request("status") == 'on-delivery' ? 'selected' : '' }}>On delivery orders
+                                                                    </option>
+                                                                    <option value="delivered" {{request("status") == 'delivered' ? 'selected' : '' }}>Delivered orders</option>
+                                                                    <option value="rejected" {{request("status") == 'rejected' ? 'selected' : '' }}>Rejected orders</option>
+                                                                </select>
+                                                            </form>
                                                         </div>
                                                     </div>
                                                     <div class="booking-table">
-                                                        @if(count($data) > 0)
                                                         <table class="table-bordered">
                                                             <thead>
                                                             <tr>
@@ -65,82 +67,87 @@
                                                             </tr>
                                                             </thead>
                                                             <tbody>
-                                                            @foreach($data as $orderDetail)
-                                                                @if(count($orderDetail) > 1)
-                                                                    @for($i = 0; $i < count($orderDetail); $i++)
+                                                            @foreach($orders as $order)
+                                                                @if(count($order->orderDetails) > 1)
+                                                                    @for($i = 0; $i < count($order->orderDetails); $i++)
                                                                         @if($i == 0)
-                                                                        <tr>
-                                                                            <td rowspan="{{count($orderDetail)}}">#{{\App\Models\Order::find($orderDetail[0]['order_id'])->id}}</td>
-                                                                            <td class="order-dish-name">
-                                                                                <h5 itemprop="headline"><a href="#" title=""
-                                                                                                           itemprop="url">{{\App\Models\Product::find($orderDetail[0]['product_id'])->name}}
-                                                                                    </a></h5>
-                                                                            </td>
-                                                                            <td>{{$orderDetail[0]['qty']}}</td>
-                                                                            <td rowspan="{{count($orderDetail)}}">{{date('H:i - M d, Y', strtotime(\App\Models\Order::find($orderDetail[0]['order_id'])->created_at))}}</td>
-                                                                            <td rowspan="{{count($orderDetail)}}">{{\App\Models\Product::find($orderDetail[0]['product_id'])->restaurant->restaurant_name}}</td>
-                                                                            <td rowspan="{{count($orderDetail)}}"><span
-                                                                                    class="brd-rd3 {{\App\Models\Order::find($orderDetail[0]['order_id'])->status}}">
-                                                                                    @if(\App\Models\Order::find($orderDetail[0]['order_id'])->status == 'pending')
-                                                                                        pending
-                                                                                    @elseif(\App\Models\Order::find($orderDetail[0]['order_id'])->status == 'on-delivery')
-                                                                                        on delivery
-                                                                                    @elseif(\App\Models\Order::find($orderDetail[0]['order_id'])->status == 'rejected')
-                                                                                        rejected
-                                                                                    @elseif(\App\Models\Order::find($orderDetail[0]['order_id'])->status == 'processing')
-                                                                                        processing
-                                                                                    @else
-                                                                                        delivered
-                                                                                    @endif
-                                                                                </span>
-                                                                                <a class="detail-link brd-rd50"
-                                                                                   href="/order/order-detail/{{$orderDetail[0]['order_id']}}"
-                                                                                   title="Order Detail" itemprop="url"><i
-                                                                                        class="fa fa-chain"></i></a></td>
-                                                                        </tr>
+                                                                            <tr>
+                                                                                <td rowspan="{{count($order->orderDetails)}}">
+                                                                                    #{{$order->id}}</td>
+                                                                                <td class="order-dish-name">
+                                                                                    <h5 itemprop="headline"><a href="#"
+                                                                                                               title=""
+                                                                                                               itemprop="url">{{\App\Models\Product::find($order->orderDetails[0]->product_id)->name}}
+                                                                                        </a></h5>
+                                                                                </td>
+                                                                                <td>{{$order->orderDetails[0]->qty}}</td>
+                                                                                <td rowspan="{{count($order->orderDetails)}}">{{date('H:i - M d, Y', strtotime($order->created_at))}}</td>
+                                                                                <td rowspan="{{count($order->orderDetails)}}">{{\App\Models\Product::find($order->orderDetails[0]->product_id)->restaurant->restaurant_name}}</td>
+                                                                                <td rowspan="{{count($order->orderDetails)}}"><span
+                                                                                        class="brd-rd3 {{$order->status}}">
+                                                                                        @if($order->status == 'pending')
+                                                                                            pending
+                                                                                        @elseif($order->status == 'on-delivery')
+                                                                                            on delivery
+                                                                                        @elseif($order->status == 'rejected')
+                                                                                            rejected
+                                                                                        @elseif($order->status == 'processing')
+                                                                                            processing
+                                                                                        @else
+                                                                                            delivered
+                                                                                        @endif
+                                                                                    </span>
+                                                                                    <a class="detail-link brd-rd50"
+                                                                                       href="/order/order-detail/{{$order->id}}"
+                                                                                       title="Order Detail"
+                                                                                       itemprop="url"><i
+                                                                                            class="fa fa-chain"></i></a>
+                                                                                </td>
+                                                                            </tr>
                                                                         @else
                                                                             <tr>
                                                                                 <td>
-                                                                                    <h5 itemprop="headline"><a href="#" title=""
+                                                                                    <h5 itemprop="headline"><a href="#"
+                                                                                                               title=""
                                                                                                                itemprop="url"
-                                                                                                               class="text-truncate">{{\App\Models\Product::find($orderDetail[$i]['product_id'])->name}}
+                                                                                                               class="text-truncate">{{\App\Models\Product::find($order->orderDetails[$i]->product_id)->name}}
                                                                                         </a></h5>
                                                                                 </td>
-                                                                                <td>{{$orderDetail[$i]['qty']}}</td>
+                                                                                <td>{{$order->orderDetails[$i]->qty}}</td>
 
                                                                             </tr>
                                                                         @endif
                                                                     @endfor
                                                                 @else
                                                                     <tr>
-                                                                        <td>#{{\App\Models\Order::find($orderDetail[0]['order_id'])->id}}</td>
+                                                                        <td>#{{$order->id}}</td>
                                                                         <td>
                                                                             <h5 itemprop="headline"><a href="#" title=""
                                                                                                        itemprop="url"
-                                                                                                       class="text-truncate">{{\App\Models\Product::find($orderDetail[0]['product_id'])->name}}
+                                                                                                       class="text-truncate">{{\App\Models\Product::find($order->orderDetails[0]->product_id)->name}}
                                                                                 </a></h5>
                                                                         </td>
-                                                                        <td>{{$orderDetail[0]['qty']}}</td>
-                                                                        <td>{{date('H:i - M d, Y', strtotime(\App\Models\Order::find($orderDetail[0]['order_id'])->created_at))}}</td>
-                                                                        <td>{{\App\Models\Product::find($orderDetail[0]['product_id'])->restaurant->restaurant_name}}</td>
+                                                                        <td>{{$order->orderDetails[0]->qty}}</td>
+                                                                        <td>{{date('H:i - M d, Y', strtotime($order->created_at))}}</td>
+                                                                        <td>{{\App\Models\Product::find($order->orderDetails[0]->product_id)->restaurant->restaurant_name}}</td>
                                                                         <td>
-                                                                            <span class="brd-rd3 {{\App\Models\Order::find($orderDetail[0]['order_id'])->status}}">
-                                                                                @if(\App\Models\Order::find($orderDetail[0]['order_id'])->status == 'pending')
+                                                                            <span class="brd-rd3 {{$order->status}}">
+                                                                                @if($order->status == 'pending')
                                                                                     pending
-                                                                                @elseif(\App\Models\Order::find($orderDetail[0]['order_id'])->status == 'on-delivery')
+                                                                                @elseif($order->status == 'on-delivery')
                                                                                     on delivery
-                                                                                @elseif(\App\Models\Order::find($orderDetail[0]['order_id'])->status == 'rejected')
+                                                                                @elseif($order->status == 'rejected')
                                                                                     rejected
-                                                                                @elseif(\App\Models\Order::find($orderDetail[0]['order_id'])->status == 'canceled')
+                                                                                @elseif($order->status == 'canceled')
                                                                                     canceled
-                                                                                @elseif(\App\Models\Order::find($orderDetail[0]['order_id'])->status == 'processing')
+                                                                                @elseif($order->status == 'processing')
                                                                                     processing
                                                                                 @else
                                                                                     delivered
                                                                                 @endif
                                                                             </span>
                                                                             <a class="detail-link brd-rd50"
-                                                                               href="/order/order-detail/{{$orderDetail[0]['order_id']}}"
+                                                                               href="/order/order-detail/{{$order->id}}"
                                                                                title="Order Detail" itemprop="url"><i
                                                                                     class="fa fa-chain"></i></a>
                                                                         </td>
@@ -149,12 +156,17 @@
                                                             @endforeach
                                                             </tbody>
                                                         </table>
-                                                        @else
-                                                        <h4>Your order is now empty :( <br/><br/>Let's discover some tasty food and place an order now !</h4>
-                                                        @endif
+{{--                                                        @else--}}
+{{--                                                        <h4>Your order is now empty :( <br/><br/>Let's discover some tasty food and place an order now !</h4>--}}
+{{--                                                        @endif--}}
                                                     </div>
                                                 </div>
                                             </div>
+                                        </div>
+                                        <div class="rite-meta" style="padding-left: 10%">
+                                            @if($orders instanceof \Illuminate\Pagination\LengthAwarePaginator)
+                                                {!! $orders->appends(request()->all())->links("pagination::bootstrap-4")!!}
+                                            @endif
                                         </div>
                                     </div>
                                     @include('front.components.signOutModal')
