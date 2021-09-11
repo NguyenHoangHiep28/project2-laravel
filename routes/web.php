@@ -1,8 +1,11 @@
 <?php
 
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Front;
 use App\Http\Controllers\Admin;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -17,92 +20,130 @@ use App\Http\Controllers\Admin;
 /*
  * FRONT ROUTES
  * */
-
+Route::group(['middleware' => ['user.or.guest']], function () {
 //    index route
-Route::get('/', [Front\HomeController::class, 'index'])->name('showIndex');
-Route::get('/how-it-work', [Front\HowItWorkController::class, 'howItWork']);
-Route::get('/search-found', [Front\HomeController::class, 'search']);
-Route::get('/search-not-found', [Front\HomeController::class, 'searchNotFound']);
+    Route::get('/', [Front\HomeController::class, 'index'])->name('showIndex');
+    Route::get('/how-it-work', [Front\HowItWorkController::class, 'howItWork']);
+    Route::get('/shop', [Front\HomeController::class, 'showShop']);
+    Route::get('/search-not-found', [Front\HomeController::class, 'searchNotFound']);
+    Route::post('/product-search', [Front\HomeController::class, 'search']);
+    Route::get('/about-us', [Front\HomeController::class, 'showAboutUs']);
+    Route::get('/contact-us', [Front\HomeController::class,'showContact']);
+    Route::post('/contact-us', [Front\HomeController::class, 'getMessage']);
 
+// product routes
+    Route::get('/product-detail/{productId}', [Front\ProductController::class, 'showDetail']);
+    Route::post('/product-review', [Front\ProductController::class, 'review'])->middleware('auth');
+    Route::post('/shop', [Front\HomeController::class, 'filterProducts']);
+    Route::get('/shop/{cateId}', [Front\HomeController::class, 'category']);
+    Route::get('/shop-featured', [Front\HomeController::class, 'showFeature']);
 // restaurant routes
-Route::get('/restaurant-detail', [Front\RestaurantDetailController::class, 'restaurantDetail']);
-Route::get('/register-reservation/{userId}', [Front\RegisterReservationController::class, 'registerReservation'])->middleware('auth');
-Route::get('/restaurant-found', [Front\RestaurantController::class, 'showResult']);
+    Route::get('/restaurant-detail', [Front\RestaurantDetailController::class, 'restaurantDetail']);
+    Route::get('/restaurants', [Front\RestaurantController::class, 'show']);
+    Route::post('/restaurant-search', [Front\RestaurantController::class, 'searchRestaurant']);
+    Route::get('/restaurant-not-found', [Front\RestaurantController::class, 'showNotFound']);
+    Route::get('/restaurants/{cateId}', [Front\RestaurantController::class, 'category']);
 
 //register restaurant
-Route::post('/register-reservation/add',[Front\RegisterReservationController::class,'add']);
-
+    Route::group(['middleware' => ['auth']], function () {
+        Route::post('/register-reservation/add', [Front\RegisterReservationController::class, 'add']);
+        Route::get('/register-reservation/{userId}', [Front\RegisterReservationController::class, 'registerReservation']);
+    });
 //  login & register routes
-Route::get('/login', function (){
-    return view('front.auth.login');
-})->name('login');
-Route::get('/register', function (){
-    $login = null;
-    return view('front.auth.register', compact('login'));
-});
-Route::post('/login', [Front\HomeController::class, 'login']);
-Route::post('/register', [Front\HomeController::class, 'register']);
-Route::get('/logout', [Front\HomeController::class, 'logout']);
+    Route::get('/login', function () {
+        return view('front.auth.login');
+    })->name('login');
+    Route::get('/register', function () {
+        $login = null;
+        return view('front.auth.register', compact('login'));
+    });
+    Route::post('/login', [Front\HomeController::class, 'login']);
+    Route::post('/register', [Front\HomeController::class, 'register']);
 
 // user dashboard routes
-Route::prefix('/dashboard')->group(function (){
-    Route::get('/setting',[Front\HomeController::class, 'showAccountSetting'])->middleware('auth');
-    Route::post('/setting/update-profile', [Front\HomeController::class, 'updateProfile'])->middleware('auth');
-    Route::get('/cart',[Front\CartController::class, 'show']);
-    Route::get('/orders',[Front\OrderController::class, 'showOrderList']);
-});
+    Route::prefix('/dashboard')->group(function () {
+        Route::group(['middleware' => ['auth']], function () {
+            Route::get('/setting', [Front\HomeController::class, 'showAccountSetting']);
+            Route::post('/setting/update-profile', [Front\HomeController::class, 'updateProfile']);
+            Route::get('/cart', [Front\CartController::class, 'show']);
+            Route::get('/orders', [Front\OrderController::class, 'showOrderList'])->name('orderList');
+        });
+    });
 // cart
-Route::prefix('/cart')->group(function (){
-    Route::get('/add/{userId}/{productId}', [Front\CartController::class, 'add'])->middleware('auth');
-    Route::get('/delete/{userId}/{productId}', [Front\CartController::class, 'delete'])->middleware('auth');
-    Route::get('/destroy/{userId}/{restaurantId}', [Front\CartController::class, 'destroy'])->middleware('auth');
-    Route::get('/update', [Front\CartController::class, 'update'])->middleware('auth');
-});
+    Route::prefix('/cart')->group(function () {
+        Route::group(['middleware' => ['auth']], function () {
+            Route::get('/add/{userId}/{productId}', [Front\CartController::class, 'add']);
+            Route::get('/delete/{userId}/{productId}', [Front\CartController::class, 'delete']);
+            Route::get('/destroy/{userId}/{restaurantId}', [Front\CartController::class, 'destroy']);
+            Route::get('/update', [Front\CartController::class, 'update']);
+            Route::get('/updateNum', [Front\CartController::class, 'updateNum']);
+            Route::get('/add-from-detail', [Front\CartController::class,'addFromDetail']);
+        });
+    });
 // Order routes
-Route::prefix('/order')->group(function (){
-    Route::get('/place-order/{userId}/{restaurantId}', [Front\OrderController::class, 'show'])->middleware('auth');
-    Route::post('/place-order', [Front\OrderController::class, 'placeOrder'])->middleware('auth');
-    Route::get('/order-detail/{orderId}', [Front\OrderController::class, 'orderDetail'])->middleware('auth');
-    Route::post('/cancel', [Front\OrderController::class, 'cancelOrder'])->middleware('auth');
+    Route::prefix('/order')->group(function () {
+        Route::group(['middleware' => ['auth']], function () {
+            Route::get('/place-order/{userId}/{restaurantId}', [Front\OrderController::class, 'show']);
+            Route::post('/place-order', [Front\OrderController::class, 'placeOrder']);
+            Route::get('/order-detail/{orderId}', [Front\OrderController::class, 'orderDetail']);
+            Route::post('/cancel', [Front\OrderController::class, 'cancelOrder']);
+            Route::get('/filter-order-status', [Front\OrderController::class, 'statusFilter']);
+        });
+    });
 });
+//logout
+Route::get('/logout', [Front\HomeController::class, 'logout']);
+
 
 /*
  * ADMIN ROUTES
  * */
-
+Route::group(['middleware' => ['admin']], function () {
 // index route
-Route::get('/admin-dashboard', [Admin\HomeController::class, 'show'])->middleware('auth')->name('showAdmin');
+    Route::get('/admin-dashboard', [Admin\HomeController::class, 'show'])->name('showAdmin');
 
 //Order routes
-Route::get('/admin-order', [Admin\OrderController::class, 'showOrders'])->middleware('auth');
-Route::get('/admin-order/{id}', [Admin\OrderController::class, 'orderDetail'])->middleware('auth');
-Route::get('/order-start-delivery/{orderId}', [Admin\OrderController::class, 'startDelivery'])->middleware('auth');
-Route::post('/admin-order/mark-order-delivered',[Admin\OrderController::class,'markDelivered']);
-Route::post('/admin-order/accept', [Admin\OrderController::class, 'acceptOrder'])->middleware('auth');
-Route::post('/admin-order/reject', [Admin\OrderController::class, 'rejectOrder'])->middleware('auth');
+    Route::get('/admin-order', [Admin\OrderController::class, 'showOrders']);
+    Route::get('/admin-order/{id}', [Admin\OrderController::class, 'orderDetail']);
+    Route::get('/order-start-delivery/{orderId}', [Admin\OrderController::class, 'startDelivery']);
+    Route::post('/admin-order/mark-order-delivered', [Admin\OrderController::class, 'markDelivered']);
+    Route::post('/admin-order/accept', [Admin\OrderController::class, 'acceptOrder']);
+    Route::post('/admin-order/reject', [Admin\OrderController::class, 'rejectOrder']);
+    Route::get('/order/filter-by-status', [Admin\OrderController::class, 'statusFilter']);
 
 // Product routes
-Route::get('/admin-product', [Admin\ProductController::class, 'showProducts'])->middleware('auth');
-Route::get('/admin-product-edit/{id}', [Admin\ProductController::class, 'productEditShow'])->middleware('auth');
-Route::get('/admin-add-product', [Admin\ProductController::class, 'showAdd'])->middleware('auth');
-Route::get('/admin-delete-product/{productId}',[Admin\ProductController::class, 'deleteProduct'])->middleware('auth');
-Route::get('/admin-product-edit/images/delete/{productImageId}',[Admin\ProductController::class, 'deleteImage'])->middleware('auth');
-Route::post('/admin-product-edit/images', [Admin\ProductController::class, 'editImages']);
-Route::post('/admin-product-edit/info', [Admin\ProductController::class, 'editInfo']);
-Route::post('/admin-add-product', [Admin\ProductController::class, 'addProduct']);
+    Route::get('/admin-product', [Admin\ProductController::class, 'showProducts']);
+    Route::get('/admin-product-edit/{id}', [Admin\ProductController::class, 'productEditShow']);
+    Route::get('/admin-add-product', [Admin\ProductController::class, 'showAdd']);
+    Route::get('/admin-delete-product/{productId}', [Admin\ProductController::class, 'deleteProduct']);
+    Route::get('/admin-product-edit/images/delete/{productImageId}', [Admin\ProductController::class, 'deleteImage']);
+    Route::post('/admin-product-edit/images', [Admin\ProductController::class, 'editImages']);
+    Route::post('/admin-product-edit/info', [Admin\ProductController::class, 'editInfo']);
+    Route::post('/admin-add-product', [Admin\ProductController::class, 'addProduct']);
+    Route::post('/admin-product-search', [Admin\ProductController::class, 'searchProductResult']);
 
 //Restaurant routes
-Route::get('/admin-restaurant', [Admin\RestaurantController::class,'showRestaurantInfo'])->middleware('auth');
-Route::get('/admin-restaurant/edit-images/delete/{RestaurantImageId}',[Admin\RestaurantController::class, 'deleteImage'])->middleware('auth');
-Route::post('/admin-restaurant/edit-avatar', [Admin\RestaurantController::class, 'editAvatar']);
-Route::post('/admin-restaurant/edit-images', [Admin\RestaurantController::class, 'editImages']);
-Route::post('/admin-restaurant/edit-info', [Admin\RestaurantController::class, 'editInfo']);
+    Route::get('/admin-restaurant', [Admin\RestaurantController::class, 'showRestaurantInfo']);
+    Route::get('/admin-restaurant/edit-images/delete/{RestaurantImageId}', [Admin\RestaurantController::class, 'deleteImage']);
+    Route::post('/admin-restaurant/edit-avatar', [Admin\RestaurantController::class, 'editAvatar']);
+    Route::post('/admin-restaurant/edit-images', [Admin\RestaurantController::class, 'editImages']);
+    Route::post('/admin-restaurant/edit-info', [Admin\RestaurantController::class, 'editInfo']);
+
+});
 /*
  * MANAGEMENT ROUTES
  * */
+<<<<<<< HEAD
 
 Route::get('/management-dashboard', [Admin\ManagementController::class,'showDashboard'])->name('showManagement')->middleware('auth');
 Route::get('/management-restaurants', [Admin\ManagementController::class,'showRestaurants'])->middleware('auth');
 Route::get('/management-restaurant-detail/{id}', [Admin\ManagementController::class,'showDetail'])->middleware('auth');
 Route::get('/management-restaurant-detail/status/{id}/{status}', [Admin\ManagementController::class,'updateStatus'])->middleware('auth');
+=======
+Route::group(['middleware' => ['root']], function () {
+    Route::get('/management-dashboard', [Admin\ManagementController::class, 'showDashboard'])->name('showManagement');
+    Route::get('/management-restaurants', [Admin\ManagementController::class, 'showRestaurants']);
+    Route::get('/management-restaurant-detail/{id}', [Admin\ManagementController::class, 'showDetail']);
+});
+>>>>>>> c654b41a93279856b738da47fd18b03bc657c316
 

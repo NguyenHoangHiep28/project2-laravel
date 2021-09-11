@@ -12,8 +12,29 @@ class OrderController extends Controller
 {
     //
     public function showOrders(){
-        $orders = Order::where('email', '<>', 'undefined')->where('restaurant_id', Auth::id())->orderBy('created_at', 'DESC')->get();
+        $orders = Order::where('email', '<>', 'undefined')->where('restaurant_id', Auth::id())->orderBy('created_at', 'DESC')->paginate(6);
         return view('admin.order.orders', compact('orders'));
+    }
+
+//    public function statusFilter(Request $request)
+//    {
+//        $orders = Order::where('email', '<>', 'undefined')->where('restaurant_id', Auth::id())->orderBy('created_at', 'DESC');
+//        $orders = $this->filter($orders, $request);
+//        $orders = $orders->paginate(2);
+//        return view('admin.order.orders', compact('orders'));
+//    }
+
+    public function statusFilter()
+    {
+        $status = $_GET['status'];
+            if ($status != 'all') {
+                $orders = Order::where('email', '<>', 'undefined')->where('restaurant_id', Auth::id())
+                    ->where('status', $status)
+                    ->orderBy('created_at', 'DESC')->paginate(6);
+                return view('admin.order.orders', compact('orders'));
+            }else{
+                return redirect('/admin-order');
+            }
     }
 
     public function orderDetail($orderId){

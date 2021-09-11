@@ -26,6 +26,7 @@
                                 <th>Action</th>
                             </tr>
                             </thead>
+                            @if($order != null)
                             <tbody>
                             @if(count($order->orderDetails) > 1)
                                 @for($i = 0; $i < count($order->orderDetails); $i++)
@@ -316,5 +317,6 @@
                     </div>
                 </div>
             </div>
+    @endif
     @endif
 @endsection

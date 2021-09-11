@@ -9,7 +9,6 @@
     <title>@yield('title')</title>
     <link rel="shortcut icon" href="images/favicon.png" type="image/x-icon">
 
-
     <link rel="stylesheet" href="css/icons.min.css">
     <link rel="stylesheet" href="css/bootstrap.min.css">
     <link rel="stylesheet" href="css/animate.min.css">
@@ -17,6 +16,7 @@
     <link rel="stylesheet" href="css/red-color.css">
     <link rel="stylesheet" href="css/yellow-color.css">
     <link rel="stylesheet" href="css/responsive.css">
+
 </head>
 <body itemscope>
 <main>
@@ -78,8 +78,14 @@
                             <li class="menu-item-has-children"><a href="/" title="HOMEPAGES" itemprop="url"><span
                                         class="red-clr"></span>HOMEPAGE</a>
                             </li>
-                            <li class="menu-item-has-children"><a href="#" title="RESTAURANTS" itemprop="url"><span
-                                        class="red-clr"></span>RESTAURANTS</a>
+                            <li class="menu-item-has-children"><a href="" title="RESTAURANTS" itemprop="url"><span
+                                        class="red-clr"></span>DISCOVER</a>
+                                <ul class="sub-dropdown">
+                                    <li class="menu-item-has-children"><a href="/shop" title="Shop" itemprop="url"><span class="red-clr"></span>FOOD</a>
+                                    </li>
+                                    <li class="menu-item-has-children"><a href="/restaurants" title="RESTAURANTS" itemprop="url"><span
+                                                class="red-clr"></span>RESTAURANTS</a></li>
+                                </ul>
                             </li>
                             <li class="menu-item-has-children"><a href="#" title="PAGES" itemprop="url"><span
                                         class="red-clr"></span>CATEGORIES</a>
@@ -133,7 +139,7 @@
                                     <li><a href="dashboard.html" title="USER PROFILE" itemprop="url">CATEGORY 4</a></li>
                                 </ul>
                             </li>
-                            <li><a href="contact.html" title="CONTACT US" itemprop="url"><span class="red-clr"></span>CONTACT
+                            <li><a href="/contact-us" title="CONTACT US" itemprop="url"><span class="red-clr"></span>CONTACT
                                     US</a></li>
                         </ul>
 
@@ -202,7 +208,7 @@
                     <li class="menu-item-has-children"><a href="#" title="HOMEPAGES" itemprop="url"><span
                                 class="yellow-clr"></span>HOMEPAGE</a>
                     </li>
-                    <li class="menu-item-has-children"><a href="#" title="RESTAURANTS" itemprop="url"><span
+                    <li class="menu-item-has-children"><a href="/restaurants" title="RESTAURANTS" itemprop="url"><span
                                 class="yellow-clr"></span>RESTAURANTS</a>
                     </li>
                     <li class="menu-item-has-children"><a href="#" title="PAGES" itemprop="url"><span
@@ -312,7 +318,7 @@
                             <div class="row">
                                 <div class="col-md-3 col-sm-6 col-lg-3">
                                     <div class="widget about_widget wow fadeIn" data-wow-delay="0.1s">
-                                        <div class="logo"><h1 itemprop="headline"><a href="#" title="Home"
+                                        <div class="logo"><h1 itemprop="headline"><a href="/" title="Home"
                                                                                      itemprop="url"><img
                                                         src="images/logo.png" alt="logo.png" itemprop="image"></a></h1>
                                         </div>
@@ -334,8 +340,8 @@
                                     <div class="widget information_links wow fadeIn" data-wow-delay="0.2s">
                                         <h4 class="widget-title" itemprop="headline">INFORMATION</h4>
                                         <ul>
-                                            <li><a href="#" title="" itemprop="url">About Us</a></li>
-                                            <li><a href="#" title="" itemprop="url">How It Works</a></li>
+                                            <li><a href="/about-us" title="" itemprop="url">About Us</a></li>
+                                            <li><a href="/how-it-work" title="" itemprop="url">How It Works</a></li>
                                             <li><a href="#" title="" itemprop="url">Press Releases</a></li>
                                             <li><a href="#" title="" itemprop="url">Shop with Points</a></li>
                                             <li><a href="#" title="" itemprop="url">More Branches</a></li>
@@ -346,10 +352,10 @@
                                     <div class="widget customer_care wow fadeIn" data-wow-delay="0.3s">
                                         <h4 class="widget-title" itemprop="headline">CUSTOMER CARE</h4>
                                         <ul>
-                                            <li><a href="#" title="" itemprop="url">My Account</a></li>
-                                            <li><a href="#" title="" itemprop="url">My Cart</a></li>
-                                            <li><a href="#" title="" itemprop="url">Contact</a></li>
-                                            <li><a href="#" title="" itemprop="url">My Orders</a></li>
+                                            <li><a href="/dashboard/setting" title="" itemprop="url">My Account</a></li>
+                                            <li><a href="/dashboard/cart" title="" itemprop="url">My Cart</a></li>
+                                            <li><a href="/contact-us" title="" itemprop="url">Contact</a></li>
+                                            <li><a href="/dahsboard/orders" title="" itemprop="url">My Orders</a></li>
                                             <li><a href="#" title="" itemprop="url">Money Back</a></li>
                                         </ul>
                                     </div>
@@ -358,11 +364,9 @@
                                     <div class="widget get_in_touch wow fadeIn" data-wow-delay="0.4s">
                                         <h4 class="widget-title" itemprop="headline">GET IN TOUCH</h4>
                                         <ul>
-                                            <li><i class="fa fa-map-marker"></i> 123 New Design Str, ABC Building,
-                                                melbourne, Australia.
-                                            </li>
-                                            <li><i class="fa fa-phone"></i> (0044) 8647 1234 587</li>
-                                            <li><i class="fa fa-envelope"></i> <a href="#" title="" itemprop="url">hello@yourdomain.com</a>
+                                            <li class="align-middle"><i class="fa fa-map-marker"></i>No. 08, Ton That Thuyet Street, My Dinh Ward, Tu Liem District, Hanoi City.</li>
+                                            <li class="align-middle"><i class="fa fa-phone"></i> 033937165</li>
+                                            <li class="align-middle"><i class="fa fa-envelope"></i> <a href="mailto:hellofoodmate@gmail.com" title="" itemprop="url">hello@foodmate.com</a>
                                             </li>
                                         </ul>
                                     </div>
