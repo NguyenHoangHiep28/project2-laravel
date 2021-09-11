@@ -133,17 +133,11 @@ Route::group(['middleware' => ['admin']], function () {
 /*
  * MANAGEMENT ROUTES
  * */
-<<<<<<< HEAD
 
-Route::get('/management-dashboard', [Admin\ManagementController::class,'showDashboard'])->name('showManagement')->middleware('auth');
-Route::get('/management-restaurants', [Admin\ManagementController::class,'showRestaurants'])->middleware('auth');
-Route::get('/management-restaurant-detail/{id}', [Admin\ManagementController::class,'showDetail'])->middleware('auth');
-Route::get('/management-restaurant-detail/status/{id}/{status}', [Admin\ManagementController::class,'updateStatus'])->middleware('auth');
-=======
 Route::group(['middleware' => ['root']], function () {
     Route::get('/management-dashboard', [Admin\ManagementController::class, 'showDashboard'])->name('showManagement');
     Route::get('/management-restaurants', [Admin\ManagementController::class, 'showRestaurants']);
     Route::get('/management-restaurant-detail/{id}', [Admin\ManagementController::class, 'showDetail']);
+    Route::get('/management-restaurant-detail/status/{id}/{status}', [Admin\ManagementController::class,'updateStatus']);
 });
->>>>>>> c654b41a93279856b738da47fd18b03bc657c316
 
