@@ -27,6 +27,7 @@ class CreateRestaurantsTable extends Migration
             $table->integer('user_id');
             $table->integer('package');
             $table->integer('status');
+            $table->integer('stop')->default(0);
             $table->date('start_date');
             $table->date('end_date');
 

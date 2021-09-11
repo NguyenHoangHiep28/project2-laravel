@@ -7,8 +7,9 @@
             <div class="restaurant-searching text-center">
                 <div class="restaurant-searching-inner">
                     <h2 itemprop="headline">Order <span>Food Online From</span> the Best Restaurants</h2>
-                    <form class="restaurant-search-form2 brd-rd30">
-                        <input class="brd-rd30" type="text" placeholder="FEEL LIKE EATING ...">
+                    <form class="restaurant-search-form2 brd-rd30" method="post" action="/product-search">
+                        @csrf
+                        <input style="font-size: 14px" class="brd-rd30" type="text" name="key-word" placeholder="FEEL LIKE EATING ...">
                         <button class="brd-rd30 red-bg" type="submit">SEARCH</button>
                     </form>
                     <div class="funfacts">
@@ -106,19 +107,19 @@
                                 <div class="col-md-4 col-sm-6 col-lg-4">
                                 <div class="popular-dish-box wow fadeIn" data-wow-delay="0.2s">
                                     <div class="popular-dish-thumb">
-                                        <a href="food-detail.html" title="" itemprop="url"><img
+                                        <a href="/product-detail/{{$product->id}}" title="" itemprop="url"><img
                                                 src="images/resource/{{$product->productImages[0]->path}}"
                                                 alt="popular-dish-img1.jpg" itemprop="image" style="width: 370px;height: 236px"></a>
-                                        <span class="post-rate yellow-bg brd-rd2"><i
-                                                class="fa fa-star-o"></i> 4.25</span>
+{{--                                        <span class="post-rate yellow-bg brd-rd2"><i--}}
+{{--                                                class="fa fa-star-o"></i> 4.25</span>--}}
                                     </div>
                                     <div class="popular-dish-info">
-                                        <h4 itemprop="headline"><a href="food-detail.html" title="" itemprop="url">
+                                        <h4 itemprop="headline"><a href="/product-detail/{{$product->id}}" title="" itemprop="url">
                                                 {{$product->name}}</a>
                                         </h4>
                                         <p itemprop="description">{{$product->description}}</p>
                                         @if($product->discount != null)
-                                            <span class="discount-price">${{$product->price}}</span>
+                                            <span class="discount-price">${{$product->price}}.00</span>
                                             <span class="price">${{$product->discount}}.00</span>
                                         @else
                                             <span class="price">${{$product->price}}.00</span>
@@ -140,7 +141,7 @@
                             </div>
                             @endforeach
                             <div class="rite-meta">
-                                <a href="#" title="" class="view-more">view more food</a>
+                                <a href="/shop" title="" class="view-more">view more food</a>
                             </div>
                         </div>
                     </div>
@@ -161,55 +162,33 @@
                                 <div class="title1-inner">
                                     <span>Find Favourite Food</span>
                                     <h2 itemprop="headline">Popular This Month</h2>
-                                    <b>Near you</b>
                                 </div>
                             </div>
                         </div>
                     </div>
                     <div class="col-md-4 col-xs-12">
-                        <div class="dishes-caro">
-                            <div class="dish-item">
-                                <figure><img src="images/resource/dish-caro1.jpg" alt="" style="width: 370px;height: 283px"></figure>
-                                <div class="item-meta">
-                                    <img src="images/resource/restaurant-logo2.png" alt="">
+                        <div class="dishes-caro wow fadeIn" data-wow-delay="0.3s">
+                            @foreach($promotions as $product)
+                                <div class="dish-item" style="padding-bottom: 50px">
+                                <figure><a href="/product-detail/{{$product->id}}"><img src="images/resource/{{$product->productImages[0]->path}}" alt="" style="width: 370px;height: 283px"></a></figure>
+                                <div class="item-meta" style="padding: 15px">
+                                    <img src="images/resource/{{$product->restaurant->avatar}}" style="width: 54px; height: 54px" alt="">
                                     <div>
-                                        <span>Jagnetina Na Raznju</span>
-                                        <p>68 5th Avenue New York </p>
+                                        <a href=""><span>{{$product->restaurant->restaurant_name}}</span></a>
+                                        <p>{{$product->restaurant->address}}</p>
                                     </div>
                                 </div>
                                 <div class="caro-dish-name">
-                                    <h4>Korean Bibimbap Yamyam</h4>
-                                    <span>$10.00–$30.00</span>
+                                    <h4><a href="/product-detail/{{$product->id}}">{{$product->name}}</a></h4>
+                                    @if($product->discount != null)
+                                        <span class="discount-price" style="text-align: right;display: inline-block; width: 40%; height: 40px">${{$product->price}}.00</span>
+                                        <span class="price" style="display: inline-block; width: 40%; height: 40px; padding-top: 5px">${{$product->discount}}.00</span>
+                                    @else
+                                        <span class="price">${{$product->price}}.00</span>
+                                    @endif
                                 </div>
                             </div>
-                            <div class="dish-item">
-                                <figure><img src="images/resource/dish-caro1.jpg" alt=""></figure>
-                                <div class="item-meta">
-                                    <img src="images/resource/restaurant-logo3.png" alt="">
-                                    <div>
-                                        <span>Central Caffe Pizzeria</span>
-                                        <p>68 5th Avenue New York </p>
-                                    </div>
-                                </div>
-                                <div class="caro-dish-name">
-                                    <h4>Korean Bibimbap Yamyam</h4>
-                                    <span>$10.00–$30.00</span>
-                                </div>
-                            </div>
-                            <div class="dish-item">
-                                <figure><img src="images/resource/dish-caro1.jpg" alt=""></figure>
-                                <div class="item-meta">
-                                    <img src="images/resource/restaurant-logo4.png" alt="">
-                                    <div>
-                                        <span>Dream Food By Opaq</span>
-                                        <p>68 5th Avenue New York </p>
-                                    </div>
-                                </div>
-                                <div class="caro-dish-name">
-                                    <h4>Korean Bibimbap Yamyam</h4>
-                                    <span>$10.00–$30.00</span>
-                                </div>
-                            </div>
+                            @endforeach
                         </div>
                     </div>
                     <div class="col-md-8 col-xs-12">
@@ -224,13 +203,13 @@
                                             @else
                                                 <span>${{$popular->price}}.00</span>
                                             @endif
-                                            <h4><a href="#" title="">{{$popular->name}}</a></h4>
+                                            <h4><a href="/product-detail/{{$product->id}}" title="">{{$popular->name}}</a></h4>
                                         </div>
                                     </div>
                                     <div class="item-meta">
-                                        <img alt="" src="images/resource/{{$popular->restaurant->avatar}}">
+                                        <a href=""><img alt="" width="55px" height="55px" src="images/resource/{{$popular->restaurant->avatar}}"></a>
                                         <div>
-                                            <span>{{$popular->restaurant->restaurant_name}}</span>
+                                            <a href=""><span>{{$popular->restaurant->restaurant_name}}</span></a>
                                             <p>{{$popular->restaurant->address}}</p>
                                         </div>
                                     </div>
@@ -238,7 +217,7 @@
                             @endforeach
                         </div>
                         <div class="rite-meta">
-                            <a href="#" title="" class="view-more">view more food</a>
+                            <a href="/shop-featured" title="" class="view-more">view more food</a>
                         </div>
                     </div>
                 </div>

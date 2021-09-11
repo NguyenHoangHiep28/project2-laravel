@@ -63,7 +63,7 @@ function addressAutocomplete(containerElement, callback, options) {
             currentPromiseReject = reject;
 
             var apiKey = "ff4b1acf95c848b9a1c7abad79bdee06";
-            var url = `https://api.geoapify.com/v1/geocode/autocomplete?&lang=vi&text=${encodeURIComponent(currentValue)}&limit=5&apiKey=${apiKey}`;
+            var url = `https://api.geoapify.com/v1/geocode/autocomplete?&lang=en&text=${encodeURIComponent(currentValue)}&limit=5&apiKey=${apiKey}`;
             if (options.type) {
                 url += `&type=${options.type}`;
             }

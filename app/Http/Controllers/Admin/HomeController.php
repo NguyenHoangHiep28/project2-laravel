@@ -3,12 +3,75 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\Order;
+use App\Models\OrderDetail;
+use App\Models\Product;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class HomeController extends Controller
 {
     //
-    public function show(){
-        return view('admin.index');
+    public function show()
+    {
+        $orders = Order::where('restaurant_id', Auth::user()->restaurant_id)->whereMonth('created_at', '=', date('m'))->where('status','<>','in cart')->get();
+        $monthlyEarning = 0;
+        foreach ($orders as $order) {
+            $monthlyEarning += $order->total;
+        }
+        $customers = Order::where('restaurant_id', Auth::user()->restaurant_id)->whereMonth('created_at', '=', date('m'))->where('status','<>','delivered')->distinct('user_id')->count();
+        $orderNumber = count($orders);
+        $todayOrderNumber = Order::where('restaurant_id', Auth::user()->restaurant_id)->where('status','<>','in cart')->whereDay('created_at', '=', date('d'))->count();
+        $data = array();
+        $months = date('m');
+        for ($i = 1; $i <= $months; $i++) {
+            $orders = Order::where('restaurant_id', Auth::user()->restaurant_id)->whereMonth('created_at', '=', $i)->where('status', 'delivered')->get();
+            $monthlyEarn = 0;
+            foreach ($orders as $order) {
+                $monthlyEarn += $order->total;
+            }
+            $data[$i] = $monthlyEarn;
+        }
+        $productIds = array();
+        $products = Product::where('restaurant_id', Auth::user()->restaurant_id)->get();
+        for ($i = 0; $i < count($products); $i++) {
+            $productIds[$i] = $products[$i]->id;
+        }
+        $orderDetails = DB::table('order_details')->whereMonth('created_at', '=',date('m'))->get();
+        $allProductSold = $this->group_by("product_id", $orderDetails);
+        $productWithQty = array();
+        $totalSales = 0;
+        foreach ($allProductSold as $product) {
+            $qty = 0;
+            if (Product::find($product[0]['product_id'])->restaurant_id == Auth::user()->restaurant_id){
+                for ($j = 0; $j < count($product);$j++) {
+                        $qty += $product[$j]["qty"];
+                }
+                $totalSales += $qty;
+                $productWithQty[count($productWithQty)] = array("product_id" => $product[$j - 1]['product_id'], "qty" => $qty);
+            }
+        }
+        $quantity = array_column($productWithQty, 'qty');
+        array_multisort($quantity, SORT_DESC, $productWithQty);
+        if (count($productWithQty) > 5){
+            $productWithQty = array_slice($productWithQty, 0, 5);
+        }
+        return view('admin.index', compact('orderNumber', 'monthlyEarning', 'customers', 'todayOrderNumber', 'data','productWithQty', 'totalSales'));
+    }
+    function group_by($key, $data)
+    {
+        $result = array();
+
+        foreach ($data as &$val) {
+            $val = get_object_vars($val);
+            if (array_key_exists($key, $val)) {
+                $result[$val[$key]][] = $val;
+            } else {
+                $result[""][] = $val;
+            }
+        }
+
+        return $result;
     }
 }

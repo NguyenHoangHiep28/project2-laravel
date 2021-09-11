@@ -16,7 +16,24 @@
             <div class="col-lg-12 mb-4">
                 <!-- Simple Tables -->
                 <div class="card">
+                    <div style="margin: 30px auto; width: 50%">
+                        <form class="navbar-search" method="post" action="admin-product-search">
+                            @csrf
+                            <div class="input-group">
+                                <input type="text" class="form-control bg-light border-1 small"
+                                       placeholder="Enter product name"
+                                       aria-label="Search" aria-describedby="basic-addon2"
+                                       style="border-color: #999999;" name="product-name">
+                                <div class="input-group-append">
+                                    <button class="btn btn-danger" type="submit">
+                                        <i class="fas fa-search fa-sm"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
                     <div class="table-responsive">
+                        @if($products != null)
                         <table class="table align-items-center table-flush">
                             <thead class="thead-light">
                             <tr>
@@ -76,8 +93,24 @@
                             @endforeach
                             </tbody>
                         </table>
+                        @endif
                     </div>
-                    <div class="card-footer"></div>
+                    @if($products == null)
+                        <div class="jumbotron text-center" style="background-color: white">
+                            <h1 class="display-3">Search Not Found</h1>
+                            <p class="lead">Cannot found product name " {{$oldName}} "</p>
+                            <hr>
+                            <br>
+                            <p class="lead">
+                                <a class="btn btn-danger" href="/admin-product" role="button">Back to product list</a>
+                            </p>
+                        </div>
+                    @endif
+                    <div class="card-footer text-center align-items-center" style="margin-top: 50px">
+                        @isset($products)
+                            {{$products->links()}}
+                        @endisset
+                    </div>
                 </div>
             </div>
         </div>

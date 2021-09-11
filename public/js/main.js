@@ -47,15 +47,15 @@ $(document).ready(function () {
     // });
     //
     // //===== Sign Up Popup Script =====//
-    // $('.sign-popup-btn').on('click',function(){
-    //   $('html').addClass('sign-popup-active');
-    //   return false;
-    // });
-    //
-    // $('.sign-close-btn').on('click',function(){
-    //   $('html').removeClass('sign-popup-active');
-    //   return false;
-    // });
+        // $('.sign-btn').on('click',function(){
+        //   $('html').addClass('sign-popup-active');
+        //   return false;
+        // });
+        //
+        // $('.sign-close-btn').on('click',function(){
+        //   $('html').removeClass('sign-popup-active');
+        //   return false;
+        // });
 
     //===== Newsletter Popup Script =====//
     // $('a.close-btn').on('click',function(){
@@ -433,34 +433,34 @@ $(document).ready(function () {
     }
 
     //===== Ajax Contact Form =====//
-    $('#contactform').on('submit', function () {
-        var action = $(this).attr('action');
-
-        var msg = $('#message');
-        $(msg).hide();
-        var data = 'name=' + $('#name').val() + '&email=' + $('#email').val() + '&phone=' + $('#phone').val() + '&comments=' + $('#comments').val() + '&verify=' + $('#verify').val() + '&captcha=' + $(".g-recaptcha-response").val();
-
-        $.ajax({
-            type: 'POST',
-            url: action,
-            data: data,
-            beforeSend: function () {
-                $('#submit').attr('disabled', true);
-                $('img.loader').fadeIn('slow');
-            },
-            success: function (data) {
-                $('#submit').attr('disabled', false);
-                $('img.loader').fadeOut('slow');
-                $(msg).empty();
-                $(msg).html(data);
-                $('#message').slideDown('slow');
-                if (data.indexOf('success') > 0) {
-                    $('#contactform').slideUp('slow');
-                }
-            }
-        });
-        return false;
-    });
+    // $('#contactform').on('submit', function () {
+    //     var action = $(this).attr('action');
+    //
+    //     var msg = $('#message');
+    //     $(msg).hide();
+    //     var data = 'name=' + $('#name').val() + '&email=' + $('#email').val() + '&phone=' + $('#phone').val() + '&comments=' + $('#comments').val() + '&verify=' + $('#verify').val() + '&captcha=' + $(".g-recaptcha-response").val();
+    //
+    //     $.ajax({
+    //         type: 'POST',
+    //         url: action,
+    //         data: data,
+    //         beforeSend: function () {
+    //             $('#submit').attr('disabled', true);
+    //             $('img.loader').fadeIn('slow');
+    //         },
+    //         success: function (data) {
+    //             $('#submit').attr('disabled', false);
+    //             $('img.loader').fadeOut('slow');
+    //             $(msg).empty();
+    //             $(msg).html(data);
+    //             $('#message').slideDown('slow');
+    //             if (data.indexOf('success') > 0) {
+    //                 $('#contactform').slideUp('slow');
+    //             }
+    //         }
+    //     });
+    //     return false;
+    // });
     jQuery('#master-user-info').mouseenter(function () {
         var dashboard = jQuery('.user-dashboard');
         dashboard.css("display", "block");
@@ -482,11 +482,55 @@ $(document).ready(function () {
         }
     });
 
-    $('.bootstrap-touchspin button').on('click', function () {
+    $('.order-info .bootstrap-touchspin button').on('click', function () {
         const button = $(this);
         const qtyValue = button.parent().siblings('input[type=text]').val();
         const dataId = button.parent().closest('div').siblings('input[type=hidden]').val();
         updateCart(dataId, qtyValue);
+    });
+    $('.detail-to-cart').on('click', function (event) {
+        event.preventDefault();
+        const button = $(this);
+        const qtyValue = button.siblings('.qty-wrap').find('input[type=text]').val();
+        const dataId = button.siblings('.qty-wrap').children('input[type=hidden]').val();
+        addFromDetail(dataId, qtyValue);
+    });
+    function addFromDetail(itemId, qty){
+        $.ajax({
+            type : "GET",
+            url : "cart/add-from-detail",
+            data : {itemId : itemId, qty:qty},
+            success : function (response){
+                console.log(response);
+            },
+            error: function (error){
+                alert('Update failed');
+                console.log(error);
+            },
+        });
+    }
+    function updateCartNum(itemId, qty){
+        $.ajax({
+            type : "GET",
+            url : "cart/updateNum",
+            data : {itemId : itemId, qty:qty},
+            success : function (response){
+                console.log(response);
+            },
+            error: function (error){
+                alert('Update failed');
+                console.log(error);
+            },
+        });
+    }
+    $('.order-info .qty').keyup(function () {
+        const input = $(this);
+        const itemId = input.parent().siblings('input[type=hidden]').val();
+        const qtyValue = input.val();
+        updateCartNum(itemId, qtyValue);
+    })
+    .focusout(function () {
+        window.location.reload();
     });
     function updateCart(itemId, qty){
         $.ajax({
@@ -495,7 +539,7 @@ $(document).ready(function () {
             data : {itemId : itemId, qty:qty},
             success : function (response){
                 console.log(response);
-                location.reload();
+                window.location.reload();
             },
             error: function (error){
                 alert('Update failed');

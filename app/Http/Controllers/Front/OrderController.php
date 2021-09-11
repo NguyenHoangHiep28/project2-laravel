@@ -7,28 +7,13 @@ use App\Models\Order;
 use App\Models\OrderDetail;
 use App\Models\UserCart;
 use Illuminate\Http\Request;
+use Illuminate\Pagination\Paginator;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\View;
 
 class OrderController extends Controller
 {
-    //
-    function group_by($key, $data) {
-        $result = array();
-
-        foreach($data as &$val) {
-            $val = get_object_vars($val);
-            if(array_key_exists($key, $val)){
-                $result[$val[$key]][] = $val;
-            }else{
-                $result[""][] = $val;
-            }
-        }
-
-        return $result;
-    }
-
     public function show($userId, $restaurantId)
     {
         $order = Order::where('user_id', $userId)->where('restaurant_id', $restaurantId)->where('status', 'in cart')->get();
@@ -36,13 +21,20 @@ class OrderController extends Controller
         return view('front.shop.placeOrder', compact('order', 'products'));
     }
 
+
     public function showOrderList(){
-        $orderDetails = DB::table('order_details')->where('user_id', '=', Auth::id())
-            ->orderBy('created_at', 'DESC')
-            ->get();
-        $data = $this->group_by("order_id", $orderDetails);
-        return View::make('front.dashboard.orders', ['data' =>$data]);
+        $orders = Order::where('email', '<>', 'undefined')->where('user_id', Auth::id())->orderBy('created_at', 'DESC')->paginate(4);
+        return \view('front.dashboard.orders', compact('orders'));
     }
+
+    public function statusFilter(){
+        $status = $_GET['status'];
+        if ($status == 'all'){
+            return redirect(route('orderList'));
+        }
+        $orders = Order::where('email', '<>', 'undefined')->where('user_id', Auth::id())->where('status', $status)->orderBy('created_at', 'DESC')->paginate(4);
+        return \view('front.dashboard.orders', compact('orders'));
+   }
 
     public function placeOrder(Request $request){
         if ($request->input('checkout-method') == 'later') {
@@ -67,7 +59,7 @@ class OrderController extends Controller
             }
             //delete products in cart after place order
             UserCart::where('order_id', $order->id)->delete();
-            return 'Thanks for your purchasing. Your order will be paid on delivery!';
+            return \view('front.shop.thank');
         }else {
             return 'We are not support online checkout now !';
         }

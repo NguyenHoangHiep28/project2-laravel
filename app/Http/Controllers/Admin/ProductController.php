@@ -15,8 +15,28 @@ class ProductController extends Controller
     //
     public function showProducts()
     {
-        $products = Product::where('restaurant_id', Auth::user()->restaurant_id)->where('is_deleted', 0)->orderBy('name')->get();
+        $products = Product::where('restaurant_id', Auth::user()->restaurant_id)->where('is_deleted', 0)->orderBy('name')->paginate(5);
+//        $products = $products->paginate(6);
         return view('admin.product.product_list', compact('products'));
+    }
+
+    public function searchProductResult(Request $request){
+        $oldName = '';
+        if ($request->input('product-name') !== null){
+            $name = $request->input('product-name');
+            $products = Product::where('restaurant_id', Auth::user()->restaurant_id)
+                ->where('is_deleted', 0)
+                ->where('name', 'like', "%$name%");
+            if (count($products->get()) == 0){
+                $products = null;
+                $oldName = $name;
+            }else{
+                $products = Product::where('restaurant_id', Auth::user()->restaurant_id)
+                    ->where('is_deleted', 0)
+                    ->where('name', 'like', "%$name%")->paginate(5);
+            }
+        }
+        return view('admin.product.product_list', compact('products', 'oldName'));
     }
 
     public function productEditShow($productId)
