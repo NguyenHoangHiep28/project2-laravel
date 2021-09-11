@@ -22,72 +22,42 @@
                                 <th>Restaurant</th>
                                 <th>Manager</th>
                                 <th>Phone Restaurant</th>
+                                <th>Email</th>
                                 <th>Address</th>
                                 <th>Status</th>
                                 <th>Action</th>
                             </tr>
                             </thead>
                             <tbody>
-                            <tr>
-                                <td>RA0449</td>
-                                <td><a href="#">Restaurant1</a></td>
-                                <td>J.Clay</td>
-                                <td>098.7654.321</td>
-                                <td>123 Kim ma, Ba Dinh, HN</td>
-                                <td><span class="badge badge-warning">Pending</span></td>
-                                <td>
-                                    <a href="admin_restaurant_detail.html" data-toggle="tooltip" title="Detail"><span
-                                            class="fa fa-eye"></span></a>
-                                    <a href="javascript:void(0);" data-toggle="modal" data-target="#deleteModal"
-                                       data-toggle="tooltip" title="Delete restaurant"><span style="padding-left: 15px"
-                                                                                             class="fa fa-trash"></span></a>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>RA5324</td>
-                                <td><a href="#">Restaurant2</a></td>
-                                <td>MC.Donal</td>
-                                <td>0989.989.999</td>
-                                <td>57 Hang Bo, Ba Trieu, HN</td>
-                                <td><span class="badge badge-info">Not payment</span></td>
-                                <td>
-                                    <a href="order_detail.html" data-toggle="tooltip" title="Detail"><span
-                                            class="fa fa-eye"></span></a>
-                                    <a href="javascript:void(0);" data-toggle="modal" data-target="#deleteModal"
-                                       data-toggle="tooltip" title="Delete restaurant"><span style="padding-left: 15px"
-                                                                                             class="fa fa-trash"></span></a>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>RA8568</td>
-                                <td><a href="#">Restaurant3</a></td>
-                                <td>Mr.John</td>
-                                <td>098.123.4567</td>
-                                <td>87 Dai Linh, Trung Van, Nam Tu Liem, HN</td>
-                                <td><span class="badge badge-success">Active</span></td>
-                                <td>
-                                    <a href="order_detail.html" data-toggle="tooltip" title="Detail"><span
-                                            class="fa fa-eye"></span></a>
-                                    <a href="javascript:void(0);" data-toggle="modal" data-target="#deleteModal"
-                                       data-toggle="tooltip" title="Delete restaurant"><span style="padding-left: 15px"
-                                                                                             class="fa fa-trash"></span></a>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>RA1453</td>
-                                <td><a href="#">Restaurant4</a></td>
-                                <td>John Cart</td>
-                                <td>0779.778.776</td>
-                                <td>103 Ly Thuong Kiet, Tran Dung Dao, HN</td>
-                                <td><span class="badge badge-dark">Expired</span></td>
-                                <td>
-                                    <a href="order_detail.html" data-toggle="tooltip" title="Detail"><span
-                                            class="fa fa-eye"></span></a>
-                                    <a href="javascript:void(0);" data-toggle="modal" data-target="#deleteModal"
-                                       data-toggle="tooltip" title="Delete restaurant"><span style="padding-left: 15px"
-                                                                                             class="fa fa-trash"></span></a>
-                                </td>
-                            </tr>
+                            @foreach($restaurants as $r)
+                                <tr>
+                                    <td>{{$r->id}}</td>
+                                    <td><a href="./management-restaurant-detail/{{$r->id}}">{{$r->restaurant_name}}</a></td>
+                                    <td>{{$r->owner_name}}</td>
+                                    <td>{{$r->telephone}}</td>
+                                    <td>{{$r->email}}</td>
+                                    <td>{{$r->address}}</td>
+                                    @if($r->status == 1)
+                                        <td><span class="badge badge-info">Pending</span></td>
+                                    @endif
+                                    @if($r->status == 2)
+                                        <td><span class="badge badge-warning">Wait for pay</span></td>
+                                    @endif
+                                    @if($r->status == 3)
+                                        <td><span class="badge badge-success">Active</span></td>
+                                    @endif
+                                    @if($r->status == 4)
+                                        <td><span class="badge badge-danger">Expired </span></td>
+                                    @endif
+                                    @if($r->status == 5)
+                                        <td><span class="badge badge-dark">Stop Working</span></td>
+                                    @endif
+                                    <td>
+                                        <a href="./management-restaurant-detail/{{$r->id}}" class="btn btn-sm btn-primary">Detail</a>
+                                        <a href="javascript:void(0);" data-toggle="modal" class="btn btn-sm btn-danger" data-target="#deleteModal" >Delete</a>
+                                    </td>
+                                </tr>
+                            @endforeach
                             </tbody>
                         </table>
                     </div>

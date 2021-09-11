@@ -104,4 +104,5 @@ Route::post('/admin-restaurant/edit-info', [Admin\RestaurantController::class, '
 Route::get('/management-dashboard', [Admin\ManagementController::class,'showDashboard'])->name('showManagement')->middleware('auth');
 Route::get('/management-restaurants', [Admin\ManagementController::class,'showRestaurants'])->middleware('auth');
 Route::get('/management-restaurant-detail/{id}', [Admin\ManagementController::class,'showDetail'])->middleware('auth');
+Route::get('/management-restaurant-detail/status/{id}/{status}', [Admin\ManagementController::class,'updateStatus'])->middleware('auth');
 
