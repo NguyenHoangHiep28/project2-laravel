@@ -22,62 +22,111 @@
                                 <th>Restaurant</th>
                                 <th>Manager</th>
                                 <th>Phone Restaurant</th>
+                                <th>Email</th>
                                 <th>Address</th>
                                 <th>Status</th>
                                 <th>Action</th>
                             </tr>
                             </thead>
                             <tbody>
-                            <tr>
-                                <td>RA0449</td>
-                                <td><a href="#">Restaurant1</a></td>
-                                <td>J.Clay</td>
-                                <td>098.7654.321</td>
-                                <td>123 Kim ma, Ba Dinh, HN</td>
-                                <td><span class="badge badge-warning">Pending</span></td>
-                                <td>
-                                    <a href="order_detail.html" data-toggle="tooltip" title="Confirm"><span
-                                            class="fa fa-check"></span></a>
-                                    <a href="javascript:void(0);" data-toggle="modal" data-target="#deleteModal"
-                                       data-toggle="tooltip" title="Delete restaurant"><span style="padding-left: 15px"
-                                                                                             class="fa fa-trash"></span></a>
-                                </td>
-                            </tr>
+                            @foreach($restaurant_detail as $r)
+                                <tr>
+                                    <td>{{$r->id}}</td>
+                                    <td>{{$r->restaurant_name}}</td>
+                                    <td>{{$r->owner_name}}</td>
+                                    <td>{{$r->telephone}}</td>
+                                    <td>{{$r->email}}</td>
+                                    <td>{{$r->address}}</td>
+                                    @if($r->status == 1)
+                                        <td><span class="badge badge-info">Pending</span></td>
+                                        <td>
+                                            <a href="./management-restaurant-detail/status/{{$r->id}}/{{$r->status}}" class="btn btn-sm btn-success">Accept </a>
+                                            <a href="javascript:void(0);" data-toggle="modal" class="btn btn-sm btn-danger" data-target="#deleteModal" >Refuse</a>
+                                        </td>
+                                    @endif
+                                    @if($r->status == 2)
+                                        <td><span class="badge badge-warning">Wait for pay</span></td>
+                                        <td>
+                                            <a href="./management-restaurant-detail/status/{{$r->id}}/{{$r->status}}" class="btn btn-sm btn-success">Active </a>
+                                            <a href="javascript:void(0);" data-toggle="modal" class="btn btn-sm btn-danger" data-target="#deleteModal" >Delete</a>
+                                        </td>
+                                    @endif
+                                    @if($r->status == 3)
+                                        <td><span class="badge badge-success">Active</span></td>
+                                        <td>
+                                            <a href="./management-restaurant-detail/status/{{$r->id}}/{{$r->status}}" class="btn btn-sm btn-success">Expired </a>
+                                            <a href="javascript:void(0);" data-toggle="modal" class="btn btn-sm btn-danger" data-target="#deleteModal" >Delete</a>
+                                        </td>
+                                    @endif
+                                    @if($r->status == 4)
+                                        <td><span class="badge badge-danger">Expired </span></td>
+                                        <td>
+                                            <a href="./management-restaurant-detail/status/{{$r->id}}/2" class="btn btn-sm btn-success">Active </a>
+                                            <a href="./management-restaurant-detail/status/{{$r->id}}/{{$r->status}}" class="btn btn-sm btn-dark">Stop Working</a>
+                                            <a href="javascript:void(0);" data-toggle="modal" class="btn btn-sm btn-danger" data-target="#deleteModal" >Delete</a>
+                                        </td>
+                                    @endif
+                                    @if($r->status == 5)
+                                        <td><span class="badge badge-dark">Stop Working</span></td>
+                                        <td>
+                                            <a href="./management-restaurant-detail/status/{{$r->id}}/1" class="btn btn-sm btn-success">Accept </a>
+                                            <a href="javascript:void(0);" data-toggle="modal" class="btn btn-sm btn-danger" data-target="#deleteModal" >Delete</a>
+                                        </td>
+                                    @endif
+                                </tr>
+                            @endforeach
                             </tbody>
                         </table>
                     </div>
                     <div class="table-responsive" style="margin-top: 50px;">
                         <table class="table align-items-center table-bordered">
                             <tbody>
+                            @foreach($restaurant_detail as $r)
                             <tr>
                                 <td>Avatar Restaurant:</td>
-                                <td><img style="max-width: 300px; max-height: 200px" src="admin/img/logo/logo2.png"></td>
+                                <td><img style="max-width: 300px; max-height: 200px" src="admin/img/logo/{{$r->avatar}}"></td>
                             </tr>
                             <tr>
                                 <td>Telephone of manager:</td>
-                                <td>099.779.000</td>
+                                <td>{{$r->tel_owner}}</td>
                             </tr>
                             <tr>
                                 <td>Business License:</td>
-                                <td><a href="#">FoodMate-Web Application_SRS.pdf</a></td>
+                                <td><a href="#">{{$r->business_license}}</a></td>
                             </tr>
-                            <tr>
+                            @if($r->package == 0)
+                                <tr>
                                 <td>Subscription package</td>
                                 <td>Not Yet</td>
-                            </tr>
-                            <tr>
-                                <td>Start Day:</td>
-                                <td>Not Yet</td>
-                            </tr>
-                            <tr>
-                                <td>End Date:</td>
-                                <td>Not Yet</td>
-                            </tr>
+                                </tr>
+                                <tr>
+                                    <td>Start Day:</td>
+                                    <td>Not Yet</td>
+                                </tr>
+                                <tr>
+                                    <td>End Date:</td>
+                                    <td>Not Yet</td>
+                                </tr>
+                            @else
+                                <tr>
+                                    <td>Subscription package</td>
+                                    <td>{{$r->package}}</td>
+                                </tr>
+                                <tr>
+                                    <td>Start Day:</td>
+                                    <td>{{$r->start_date}}</td>
+                                </tr>
+                                <tr>
+                                    <td>End Date:</td>
+                                    <td>{{$r->end_date}}</td>
+                                </tr>
+                            @endif
+                            @endforeach
                             </tbody>
                         </table>
                     </div>
                 </div>
-                <a href="admin_restaurant.html" class="btn btn-dark" style="margin-top: 20px;"><i
+                <a href="./management-restaurants" class="btn btn-dark" style="margin-top: 20px;"><i
                         class="fa fa-chevron-left"></i> Back to restaurant</a>
             </div>
         </div>
