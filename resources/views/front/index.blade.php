@@ -110,22 +110,35 @@
                                         <a href="/product-detail/{{$product->id}}" title="" itemprop="url"><img
                                                 src="images/resource/{{$product->productImages[0]->path}}"
                                                 alt="popular-dish-img1.jpg" itemprop="image" style="width: 370px;height: 236px"></a>
-{{--                                        <span class="post-rate yellow-bg brd-rd2"><i--}}
-{{--                                                class="fa fa-star-o"></i> 4.25</span>--}}
+                                        <span class="post-rate yellow-bg brd-rd2"><i
+                                                class="fa fa-star-o"></i> {{number_format($product->rating, 1)}}</span>
                                     </div>
                                     <div class="popular-dish-info">
                                         <h4 itemprop="headline"><a href="/product-detail/{{$product->id}}" title="" itemprop="url">
                                                 {{$product->name}}</a>
                                         </h4>
-                                        <p itemprop="description">{{$product->description}}</p>
+                                        <span><a href="/shop/{{$product->category->id}}}" title=""
+                                                 itemprop="url" style="display: block;text-transform: capitalize; color: #ea1b25; margin-bottom: 5px">{{$product->category->cate_name}}</a></span>
+                                        <p itemprop="description" style="height: 50px">{{$product->description}}</p>
                                         @if($product->discount != null)
                                             <span class="discount-price">${{$product->price}}.00</span>
                                             <span class="price">${{$product->discount}}.00</span>
                                         @else
                                             <span class="price">${{$product->price}}.00</span>
                                         @endif
-                                        <a class="brd-rd2 add-to-cart" href="/cart/add/{{\Illuminate\Support\Facades\Auth::id() ?? 0}}/{{$product->id}}" title="Order Now" itemprop="url">Add
+                                        <input type="hidden" id="user-id" value="{{\Illuminate\Support\Facades\Auth::id()}}">
+                                        <input type="hidden" id="product-id" value="{{$product->id}}">
+                                        @if(\Illuminate\Support\Facades\Auth::check())
+                                        <a class="brd-rd2 add-to-cart"
+{{--                                           href="/cart/add/{{\Illuminate\Support\Facades\Auth::id() ?? 0}}/{{$product->id}}" --}}
+                                           title="Order Now" itemprop="url">Add
                                             to cart</a>
+                                        @else
+                                            <a class="brd-rd2" data-toggle="modal" data-target="#registerrestaurant"
+                                               {{--                                           href="/cart/add/{{\Illuminate\Support\Facades\Auth::id() ?? 0}}/{{$product->id}}" --}}
+                                               title="Order Now" itemprop="url">Add
+                                                to cart</a>
+                                        @endif
                                         <div class="restaurant-info">
                                             <img src="images/resource/{{$product->restaurant->avatar}}"
                                                  alt="{{$product->restaurant->avatar}}" itemprop="image" style="width: 66px;height: 66px">
@@ -179,12 +192,12 @@
                                     </div>
                                 </div>
                                 <div class="caro-dish-name">
-                                    <h4><a href="/product-detail/{{$product->id}}">{{$product->name}}</a></h4>
+                                    <h4 style="font-size: 15px"><a href="/product-detail/{{$product->id}}">{{$product->name}}</a></h4>
+                                    <span><a href="/shop/{{$product->category->id}}}" title=""
+                                             itemprop="url" style="display: block;text-transform: capitalize; color: #ea1b25; margin-bottom: 5px; font-size: 14px">{{$product->category->cate_name}}</a></span>
                                     @if($product->discount != null)
-                                        <span class="discount-price" style="text-align: right;display: inline-block; width: 40%; height: 40px">${{$product->price}}.00</span>
-                                        <span class="price" style="display: inline-block; width: 40%; height: 40px; padding-top: 5px">${{$product->discount}}.00</span>
-                                    @else
-                                        <span class="price">${{$product->price}}.00</span>
+                                        <span class="discount-price" style="text-align: right;display: inline-block; width: 40%; height: 40px;color: #1a1a1a">${{$product->price}}.00</span>
+                                        <span class="price" style="display: inline-block; width: 40%; height: 40px; padding-top: 5px;color: #1a1a1a">${{$product->discount}}.00</span>
                                     @endif
                                 </div>
                             </div>
@@ -199,11 +212,13 @@
                                         <img src="images/resource/{{$popular->productImages[0]->path}}" alt="" style="width: 88px;height: 88px">
                                         <div class="dish-meta">
                                             @if($popular->discount != null)
-                                                <span>${{$popular->discount}}.00</span>
+                                                <span style="color: #1a1a1a">${{$popular->discount}}.00</span>
                                             @else
-                                                <span>${{$popular->price}}.00</span>
+                                                <span style="color: #1a1a1a">${{$popular->price}}.00</span>
                                             @endif
-                                            <h4><a href="/product-detail/{{$product->id}}" title="">{{$popular->name}}</a></h4>
+                                            <h4 style="font-size: 14px"><a href="/product-detail/{{$product->id}}" title="">{{$popular->name}}</a></h4>
+                                                <span><a href="/shop/{{$product->category->id}}}" title=""
+                                                         itemprop="url" style="display: block;text-transform: capitalize; color: #ea1b25; margin-bottom: 5px">{{$product->category->cate_name}}</a></span>
                                         </div>
                                     </div>
                                     <div class="item-meta">

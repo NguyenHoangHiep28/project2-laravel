@@ -5,7 +5,7 @@
         <div class="container">
             <ol class="breadcrumb">
                 <li class="breadcrumb-item"><a href="#" title="" itemprop="url">Home</a></li>
-                <li class="breadcrumb-item active">Cart</li>
+                <li class="breadcrumb-item active">Orders</li>
             </ol>
         </div>
     </div>
@@ -39,20 +39,32 @@
                                             <div class="tab-pane fade in active" id="my-orders">
                                                 <div class="tabs-wrp brd-rd5">
                                                     <h4 itemprop="headline">MY Orders</h4>
-                                                    <div class="select-wrap-inner">
-                                                        <div class="select-wrp2" style="float:right;">
-                                                            <form action="order/filter-order-status" method="get">
+                                                    <form action="order/filter-order-status" method="get">
+                                                    <div class="select-wrap-inner" style="max-width: 100%">
+                                                        <div class="select-wrp2"style="width: 30%">
+                                                                <div class="input-daterange input-group">
+                                                                    <input type="date" style="padding: 22px;color: #a2a2a2; border: 0; box-shadow: 0 3px 10px rgb(0 0 0 / 4%);" class="input-sm form-control" name="start-time" onchange="this.form.submit()" value="{{request('start-time')}}" />
+                                                                </div>
+                                                        </div>
+                                                        <span class="input-group-text" style="display: inline-block;padding: 12px 0px; float: left; font-size: 14px;">To</span>
+                                                        <div class="select-wrp2"style="width: 30%;margin-left: 10px">
+                                                            <div class="input-daterange input-group">
+                                                                <input type="date" class="input-sm form-control" style="padding: 22px;color: #a2a2a2;border: 0;box-shadow: 0 3px 10px rgb(0 0 0 / 4%);" name="end-time" onchange="this.form.submit()" value="{{request('end-time')}}" />
+                                                            </div>
+                                                        </div>
+                                                        <div class="select-wrp2" style="float:right; width: 30%">
                                                                 <select onchange="this.form.submit()" name="status">
-                                                                    <option value="all" {{request("status") == 'all' ? 'selected' : '' }}>All status</option>
-                                                                    <option value="pending" {{request("status") == 'pending' ? 'selected' : '' }}>Pending orders</option>
-                                                                    <option value="on-delivery" {{request("status") == 'on-delivery' ? 'selected' : '' }}>On delivery orders
-                                                                    </option>
-                                                                    <option value="delivered" {{request("status") == 'delivered' ? 'selected' : '' }}>Delivered orders</option>
-                                                                    <option value="rejected" {{request("status") == 'rejected' ? 'selected' : '' }}>Rejected orders</option>
+                                                                    <option value="all" {{request("status") == 'all' ? 'selected' : '' }}>All</option>
+                                                                    <option value="pending" {{request("status") == 'pending' ? 'selected' : '' }}>Pending</option>
+                                                                    <option value="canceled" {{request("status") == 'canceled' ? 'selected' : '' }}>Canceled</option>
+                                                                    <option value="processing" {{request("status") == 'processing' ? 'selected' : '' }}>Processing</option>
+                                                                    <option value="on-delivery" {{request("status") == 'on-delivery' ? 'selected' : '' }}>On delivery</option>
+                                                                    <option value="delivered" {{request("status") == 'delivered' ? 'selected' : '' }}>Delivered</option>
+                                                                    <option value="rejected" {{request("status") == 'rejected' ? 'selected' : '' }}>Rejected</option>
                                                                 </select>
-                                                            </form>
                                                         </div>
                                                     </div>
+                                                    </form>
                                                     <div class="booking-table">
                                                         <table class="table-bordered">
                                                             <thead>
@@ -91,6 +103,8 @@
                                                                                             on delivery
                                                                                         @elseif($order->status == 'rejected')
                                                                                             rejected
+                                                                                        @elseif($order->status == 'canceled')
+                                                                                            canceled
                                                                                         @elseif($order->status == 'processing')
                                                                                             processing
                                                                                         @else

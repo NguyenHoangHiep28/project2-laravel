@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Front;
 
 use App\Http\Controllers\Controller;
+use App\Models\Category;
 use App\Models\Comment;
 use App\Models\Product;
 use Illuminate\Http\Request;
@@ -12,19 +13,10 @@ use Illuminate\Support\Facades\DB;
 class ProductController extends Controller
 {
     public function showDetail($productId){
-        $allComment = Comment::where('product_id', $productId)->where('rating', '>', 0)->get();
-        $sum = 0;
-        foreach ($allComment as $comment){
-            $sum += $comment->rating;
-        }
-        if (count($allComment) > 0) {
-            $rating = number_format($sum / count($allComment), 1);
-        }else{
-            $rating = null;
-        }
+        $categories = Category::all();
         $product = Product::find($productId);
         $comments = Comment::where('product_id', $productId)->orderBy('created_at', 'DESC')->limit(3)->get();
-        return view('front.shop.food-detail', compact('product', 'comments', 'rating'));
+        return view('front.shop.food-detail', compact('product', 'comments', 'categories'));
     }
     public function review(Request $request){
         $productId = $request->input('product-id');
@@ -51,6 +43,21 @@ class ProductController extends Controller
         $review->email = Auth::user()->email;
         $review->name = Auth::user()->name;
         $review->save();
+
+        //update rating in products table
+        $product = Product::find($productId);
+        $allComment = Comment::where('product_id', $productId)->where('rating', '>', 0)->get();
+        $sum = 0;
+        if (count($allComment) > 0) {
+        foreach ($allComment as $comment){
+            $sum += $comment->rating;
+        }
+            $rating = number_format($sum / count($allComment), 1);
+        }else{
+            $rating = $product->rating;
+        }
+        $product->rating = number_format($rating, 1);
+        $product->save();
         return back();
     }
 }

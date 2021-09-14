@@ -5,10 +5,10 @@ namespace App\Http\Controllers\Front;
 
 
 use App\Models\Category;
+use App\Models\Faq;
 use App\Models\Product;
 use App\Models\Restaurant;
 use App\Models\User;
-use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
@@ -35,25 +35,11 @@ class HomeController
     }
 
     public function showAboutUs(){
+        $faqs = Faq::all();
         $restaurants = Restaurant::where('status', 1)->orderByDesc('created_at')->limit(8)->get();
-        return view('front.about-us', compact('restaurants'));
+        return view('front.about-us', compact('restaurants', 'faqs'));
     }
 
-    public function redirectTo()
-    {
-        switch (auth()->user()->role) {
-            case '0':
-                return route('showManagement');
-            case '1':
-                    return route('showIndex');
-            case '2':
-                return route('showAdmin');
-
-            default:
-                auth()->logout();
-                return route('showIndex');
-        }
-    }
 
     function login(Request $request)
     {
@@ -68,7 +54,14 @@ class HomeController
             return view('front.auth.login', compact('password', 'email'))->withErrors($errors);
         } else {
             if (Auth::attempt(['email' => $email, 'password' => $password])) {
-                return redirect($this->redirectTo());
+                if (Auth::user()->role == 1) {
+                    $request->session()->regenerate();
+                    return redirect()->intended('/');
+                }elseif (Auth::user()->role == 2){
+                    return redirect('/admin-dashboard/1');
+                }else{
+                    return redirect('/management-dashboard');
+                }
             } else {
                 $getSignedUpUser = User::where('email', "$email")->count();
                 if ($getSignedUpUser === 1) {
@@ -116,13 +109,13 @@ class HomeController
     }
 
     public function search(Request $request)
-    {
+    {   $categories = Category::all();
         $productName = $request->input('key-word');
         $products = Product::where('is_deleted', 0)->where('name', 'like', "%$productName%")->orderBy('created_at')->get();
         if (count($products) > 0){
             $products = Product::where('is_deleted', 0)->where('name', 'like', "%$productName%")->orderBy('created_at')->paginate(9);
             $search = 'Search Food';
-            return view('front.shop.shop', compact('products', 'search'))->with(['keyWord' => $productName]);
+            return view('front.shop.shop', compact('products', 'search', 'categories'))->with(['keyWord' => $productName]);
         }else{
             return redirect('/search-not-found')->with(['keyWord' => $productName]);
         }
@@ -189,10 +182,19 @@ class HomeController
         $products = Product::where('is_deleted', 0)->where('featured', 1)->orderBy('created_at')->limit(24)->paginate(6);
         return view('front.shop.shop', compact('products', 'search', 'categories'));
     }
-    public function category($cateId){
+    public function showCategory($cateId, Request $request){
         $categories = Category::all();
         $search = null;
-        $products = Product::where('is_deleted', 0)->where('cate_id', $cateId)->paginate(6);
+        $products = Product::where('is_deleted', 0)->where('cate_id', $cateId);
+        $products = $products->paginate(6);
+        return view('front.shop.shop', compact('products', 'search', 'categories'));
+    }
+    public function filterCategory($cateId, Request $request){
+        $categories = Category::all();
+        $search = null;
+        $products = Product::where('is_deleted', 0)->where('cate_id', $cateId);
+        $products = $this->filter($products, $request);
+        $products = $products->paginate(6);
         return view('front.shop.shop', compact('products', 'search', 'categories'));
     }
     public function filterProducts(Request $request){

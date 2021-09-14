@@ -178,5 +178,23 @@ class DatabaseSeeder extends Seeder
                 'path' => 'round-pic4.jpg',
             ],
         ]);
+        DB::table('faqs')->insert([
+            [
+                'title' => 'What is FoodMate ?',
+                'content' => 'FoodMate is one of the most favorite e-commerce service in Vietnam, connecting millions of buyers and sellers to cater to the growing demand for online shopping a reliable e-commerce bridge, FoodMate also provides fast and convenient delivery service, giving customers the effective and optimal online shopping experience'
+            ],
+            [
+                'title' =>'Superior delivery',
+                'content' => 'The private delivery team guarantees all your food is delivered on time.'
+            ],
+            [
+                'title' =>'Diversity foods',
+                'content' => 'Thousands of products and services ranging from food, drinks, cuisines'
+            ],
+            [
+                'title' =>'Local company',
+                'content' => 'As a Vietnamese company that caters to Vietnamese people, we are knowledgeable about the Vietnamese market and know the buying psychology of our users'
+            ],
+        ]);
     }
 }

@@ -7,10 +7,8 @@ use App\Models\Order;
 use App\Models\OrderDetail;
 use App\Models\UserCart;
 use Illuminate\Http\Request;
-use Illuminate\Pagination\Paginator;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\View;
 
 class OrderController extends Controller
 {
@@ -28,11 +26,21 @@ class OrderController extends Controller
     }
 
     public function statusFilter(){
-        $status = $_GET['status'];
-        if ($status == 'all'){
-            return redirect(route('orderList'));
+        $orders = Order::where('email', '<>', 'undefined')->where('user_id', Auth::id());
+        $start = $_GET['start-time'];
+        $end = $_GET['end-time'];
+        if ($start!=null && $end != null) {
+            $orders = $orders->whereBetween('created_at', [$start, $end]);
+        }elseif ($start!=null && $end == null){
+            $orders = $orders->where('created_at', '>=', $start);
+        }elseif($start == null && $end != null){
+            $orders = $orders->where('created_at', '<=', $end);
         }
-        $orders = Order::where('email', '<>', 'undefined')->where('user_id', Auth::id())->where('status', $status)->orderBy('created_at', 'DESC')->paginate(4);
+        $status = $_GET['status'];
+        if ($status != 'all'){
+            $orders = $orders->where('status', $status);
+        }
+        $orders = $orders->orderBy('created_at','DESC')->paginate(4);
         return \view('front.dashboard.orders', compact('orders'));
    }
 
@@ -44,11 +52,13 @@ class OrderController extends Controller
             $order->phone = $request->input('phone');
             $order->address = $request->input('address');
             $order->status = 'pending';
+            $order->created_at = date('Y-m-d H:i:s');
             $order->save();
 
-            //insert products to order_details table
             $products = UserCart::where('order_id', $order->id)->get();
             foreach ($products as $product){
+                //insert products to order_details table
+
                 $orderDetail = new OrderDetail();
                 $orderDetail->order_id = $order->id;
                 $orderDetail->product_id = $product->product_id;
@@ -56,7 +66,9 @@ class OrderController extends Controller
                 $orderDetail->qty = $product->qty;
                 $orderDetail->total = $product->total;
                 $orderDetail->save();
+
             }
+
             //delete products in cart after place order
             UserCart::where('order_id', $order->id)->delete();
             return \view('front.shop.thank');
@@ -70,7 +82,7 @@ class OrderController extends Controller
         return view('front.shop.orderDetail')->with('orderDetails', $orderDetails);
     }
 
-    public function rejectOrder(Request $request){
+    public function cancelOrder(Request $request){
         $orderId = $request->input('order-id');
         $reason = $request->input('cancel-reason');
         $order = Order::find($orderId);

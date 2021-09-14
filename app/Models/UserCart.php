@@ -11,4 +11,16 @@ class UserCart extends Model
     protected $table = 'user_carts';
     protected $primaryKey = 'id';
     protected $guarded = [];
+
+    public function user(){
+        return $this->belongsTo(User::class, 'user_id', 'id');
+    }
+
+    public function restaurant(){
+        return $this->belongsTo(Restaurant::class, 'restaurant_id', 'id');
+    }
+
+    public function product(){
+        return $this->belongsTo(Product::class, 'product_id', 'id');
+    }
 }

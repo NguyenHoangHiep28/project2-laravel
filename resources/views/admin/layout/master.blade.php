@@ -11,24 +11,26 @@
     <link href="images/logo_ok.png" rel="icon">
     <title>@yield('title')</title>
     <link rel="stylesheet" href="https://www.unpkg.com/tailwindcss@^1.0/dist/tailwind.min.css">
+    <link href="admin/vendor/clock-picker/clockpicker.css" rel="stylesheet">
     <link href="admin/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
     <link href="admin/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css">
     <link href="admin/vendor/select2/dist/css/select2.min.css" rel="stylesheet" type="text/css">
     <link href="admin/css/ruang-admin.min.css" rel="stylesheet">
+
 </head>
 
 <body id="page-top">
 <div id="wrapper">
     <!-- Sidebar -->
     <ul class="navbar-nav sidebar sidebar-light accordion" id="accordionSidebar">
-        <a class="sidebar-brand d-flex align-items-center justify-content-center" href="/admin-dashboard">
+        <a class="sidebar-brand d-flex align-items-center justify-content-center" href="/admin-dashboard/1">
             <div class="sidebar-brand-icon">
                 <img src="images/logo_ok.png">
             </div>
         </a>
         <hr class="sidebar-divider my-0">
         <li class="nav-item active">
-            <a class="nav-link" href="/admin-dashboard">
+            <a class="nav-link" href="/admin-dashboard/1">
                 <i class="fas fa-fw fa-tachometer-alt"></i>
                 <span>Dashboard</span></a>
         </li>
@@ -308,6 +310,8 @@
 <script src="admin/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
 <script src="admin/vendor/jquery-easing/jquery.easing.min.js"></script>
 <script src="admin/js/ruang-admin.min.js"></script>
+<script src="admin/vendor/bootstrap-datepicker/js/bootstrap-datepicker.min.js"></script>
+<script src="admin/vendor/clock-picker/clockpicker.js"></script>
 <script src="admin/js/helper.js"></script>
 <script src="admin/vendor/chart.js/Chart.min.js"></script>
 <script src="admin/vendor/select2/dist/js/select2.min.js"></script>

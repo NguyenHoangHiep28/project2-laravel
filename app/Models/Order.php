@@ -17,4 +17,12 @@ class Order extends Model
         return $this->hasMany(OrderDetail::class, 'order_id', 'id');
     }
 
+    public function userCarts(){
+        return $this->hasMany(UserCart::class, 'order_id', 'id');
+    }
+
+    public function restaurant(){
+        return $this->belongsTo(Restaurant::class, 'restaurant_id', 'id');
+    }
+
 }

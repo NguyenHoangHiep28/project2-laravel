@@ -4,7 +4,7 @@
         <div class="bread-crumbs-wrapper">
             <div class="container">
                 <ol class="breadcrumb">
-                    <li class="breadcrumb-item"><a href="#" title="" itemprop="url">Home</a></li>
+                    <li class="breadcrumb-item"><a href="/" title="" itemprop="url">Home</a></li>
                     <li class="breadcrumb-item active">Food Details</li>
                 </ol>
             </div>
@@ -43,16 +43,16 @@
                                                 </div>
                                                 <div class="restaurant-detail-title">
 
-                                                    <h1 style="font-size: 28px"
+                                                    <h1 style="font-size: 24px"
                                                         itemprop="headline">{{$product->name}}</h1>
                                                     <div class="info-meta">
                                                         <span><a href="#">{{$product->restaurant->restaurant_name}}</a></span>
-                                                        <span><a href="#" title=""
-                                                                 itemprop="url">{{$product->category->cate_name}}</a></span>
+                                                        <span><a href="/shop/{{$product->category->id}}}" title=""
+                                                                 itemprop="url" style="text-transform: capitalize">{{$product->category->cate_name}}</a></span>
                                                     </div>
                                                     <div class="rating-wrapper">
                                                         <a class="gradient-brd brd-rd2" href="" title="" itemprop="url"><i
-                                                                class="fa fa-star"></i> Rate <i>{{$rating ?? 0.0}}</i></a>
+                                                                class="fa fa-star"></i> Rate <i>{{number_format($product->rating, 1)}}</i></a>
                                                     </div>
                                                     <div style="margin-bottom: 10px">
                                                         @if($product->discount != null)
@@ -62,15 +62,16 @@
                                                             <span class="price" style="float: none">${{$product->price}}.00</span>
                                                         @endif
                                                     </div>
+                                                    <form action="cart/add-from-detail" method="get" class="detail-to-cart">
                                                     <div class="qty-wrap">
-                                                        <input type="hidden" value="{{$product->id}}">
+                                                        <input type="hidden" name="itemId" value="{{$product->id}}">
                                                         <input class="qty" name="qty" type="text" value="1">
                                                     </div>
-                                                    <p itemprop="description">{{$product->description}}</p>
-                                                    <a class="brd-rd3 detail-to-cart" href="" title="" itemprop="url"
-                                                       style="margin-right: 30px;">Add to cart</a>
-{{--                                                    <a class="brd-rd3" style="background-color: #ea1b25" href="#"--}}
-{{--                                                       title="" itemprop="url">Order Now</a>--}}
+                                                    <p itemprop="description" style="margin-top: 10px">{{$product->description}}</p>
+                                                        <button type="submit" style="background-color: transparent; display: block; width: 160px">
+                                                            <a class="brd-rd3 detail-to-cart" title="" itemprop="url">Add to cart</a>
+                                                        </button>
+                                                    </form>
                                                 </div>
                                                 <div class="restaurant-detail-tabs">
                                                     <ul class="nav nav-tabs">
@@ -124,7 +125,7 @@
                                                                         <div style="width: 100%; height: 200px"><h4 style="color: #5c5c5c">There is no comment about this food now.</h4></div>
                                                                     @endif
                                                                 </ul>
-                                                                @if(\Illuminate\Support\Facades\Auth::check())
+{{--                                                                @if(\Illuminate\Support\Facades\Auth::check())--}}
                                                                     <div class="your-review">
                                                                         <h4 class="title3" itemprop="headline"><span
                                                                                 class="sudo-bottom sudo-bg-red">Write</span>
@@ -167,10 +168,10 @@
                                                                             </div>
                                                                         </form>
                                                                     </div>
-                                                                @else
+{{--                                                                @else--}}
                                                                     <h4 style="color: #5c5c5c">You need login to review
                                                                         food !</h4>
-                                                                @endif
+{{--                                                                @endif--}}
                                                             </div>
                                                         </div>
                                                     </div>
@@ -186,26 +187,9 @@
                                                         Filters</h4>
                                                     <div class="widget-data">
                                                         <ul>
-                                                            <li><a href="#" title="" itemprop="url">Fast Food</a> <span>30</span>
-                                                            </li>
-                                                            <li><a href="#" title="" itemprop="url">North Indian</a>
-                                                                <span>28</span></li>
-                                                            <li><a href="#" title="" itemprop="url">Chinese</a>
-                                                                <span>25</span></li>
-                                                            <li><a href="#" title="" itemprop="url">Bakery</a>
-                                                                <span>11</span></li>
-                                                            <li><a href="#" title="" itemprop="url">Mughlai</a>
-                                                                <span>7</span></li>
-                                                            <li><a href="#" title="" itemprop="url">Pizza</a>
-                                                                <span>6</span></li>
-                                                            <li><a href="#" title="" itemprop="url">Ice Cream</a> <span>6</span>
-                                                            </li>
-                                                            <li><a href="#" title="" itemprop="url">Rolls</a>
-                                                                <span>6</span></li>
-                                                            <li><a href="#" title="" itemprop="url">Cafe</a>
-                                                                <span>5</span></li>
-                                                            <li><a href="#" title="" itemprop="url">Italian</a>
-                                                                <span>5</span></li>
+                                                            @foreach($categories as $category)
+                                                            <li><a href="/shop/{{$category->id}}" title="" itemprop="url" style="text-transform: capitalize">{{$category->cate_name}}</a></li>
+                                                            @endforeach
                                                         </ul>
                                                     </div>
                                                 </div>

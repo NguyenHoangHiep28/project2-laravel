@@ -6610,6 +6610,19 @@ i.off {color: #d7d7d7;}
   vertical-align: middle;
   margin-top: 30px;
 }
+.detail-to-cart  a{
+    display: inline-block;
+    padding: 10px 20px;
+    font-size: 14px;
+    color: #fff;
+    background-color: #434343;
+    vertical-align: middle;
+    font-weight: 500;
+    width: 100%;
+}
+.detail-to-cart  a:hover{
+    background-color: #ea1b25;
+}
 .restaurant-detail-title > p {
   margin: 20px 0 0;
   line-height: 28px;
@@ -7580,6 +7593,9 @@ a.thanks-close:focus {color: #333;}
     left: 50%;
     padding-top: 20px;
 }
+.pagination-wrapper nav{
+    max-width: 100%;
+}
 .rite-meta .pagination li{
     border-color: #6f6f6f !important;
 }
@@ -7619,3 +7635,13 @@ a.thanks-close:focus {color: #333;}
 .rate > label:hover ~ input:checked ~ label {
     color: orange;
 }
+.alertify-notifier .ajs-message.ajs-success{
+    border-radius: 15px !important;
+    background-color: #1a1a1a !important;
+    color: white !important;
+    border: 0;
+}
+a.add-to-cart{
+    cursor: pointer;
+}
+

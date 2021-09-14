@@ -18,4 +18,13 @@ $(document).ready(function(){
     $('.select2-multiple').select2({
         placeholder: " Select category"
     });
+    // $('#simple-date4 .input-daterange').datepicker({
+    //     format: 'dd/mm/yyyy',
+    //     autoclose: true,
+    //     todayHighlight: true,
+    //     todayBtn: 'linked',
+    // });
+    $('#clockPicker2').clockpicker({
+        autoclose: true
+    });
 });
