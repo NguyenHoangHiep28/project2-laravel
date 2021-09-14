@@ -39,7 +39,7 @@ Route::group(['middleware' => ['user.or.guest']], function () {
     Route::post('/shop/{cateId}', [Front\HomeController::class, 'filterCategory']);
     Route::get('/shop-featured', [Front\HomeController::class, 'showFeature']);
 // restaurant routes
-    Route::get('/restaurant-detail', [Front\RestaurantDetailController::class, 'restaurantDetail']);
+    Route::get('/restaurant-detail/{id}', [Front\RestaurantDetailController::class, 'restaurantDetail']);
     Route::get('/restaurants', [Front\RestaurantController::class, 'show']);
     Route::post('/restaurant-search', [Front\RestaurantController::class, 'searchRestaurant']);
     Route::get('/restaurant-not-found', [Front\RestaurantController::class, 'showNotFound']);
@@ -146,8 +146,11 @@ Route::group(['middleware' => ['admin']], function () {
 
 Route::group(['middleware' => ['root']], function () {
     Route::get('/management-dashboard', [Admin\ManagementController::class, 'showDashboard'])->name('showManagement');
-    Route::get('/management-restaurants', [Admin\ManagementController::class, 'showRestaurants']);
     Route::get('/management-restaurant-detail/{id}', [Admin\ManagementController::class, 'showDetail']);
     Route::get('/management-restaurant-detail/status/{id}/{status}', [Admin\ManagementController::class,'updateStatus']);
 });
+Route::get('/management-restaurants', [Admin\ManagementController::class, 'showRestaurants']);
+Route::get('/management-restaurant-detail/{id}', [Admin\ManagementController::class, 'showDetail']);
+Route::get('/management-restaurant-detail/status/{id}/{status}', [Admin\ManagementController::class,'updateStatus']);
+Route::get('/management-restaurant-detail/stop/{id}', [Admin\ManagementController::class,'stopRestaurant']);
 

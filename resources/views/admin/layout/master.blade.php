@@ -61,6 +61,12 @@
                 <span>Restaurant Management</span>
             </a>
         </li>
+        <li class="nav-item">
+            <a class="nav-link" href="/management-restaurants">
+                <i class="fas fa-utensil-spoon"></i>
+                <span>List Restaurant </span>
+            </a>
+        </li>
         <hr class="sidebar-divider">
     </ul>
     <!-- Sidebar -->
