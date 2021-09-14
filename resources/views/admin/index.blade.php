@@ -6,7 +6,7 @@
         <div class="d-sm-flex align-items-center justify-content-between mb-4">
             <h1 class="h3 mb-0 text-gray-800">Dashboard</h1>
             <ol class="breadcrumb">
-                <li class="breadcrumb-item"><a href="./admin-dashboard" class="text-dark">Home</a></li>
+                <li class="breadcrumb-item"><a href="./admin-dashboard/1" class="text-dark">Home</a></li>
                 <li class="breadcrumb-item active" aria-current="page" style="color: #EA1B25;">Dashboard</li>
             </ol>
         </div>
@@ -18,7 +18,7 @@
                     <div class="card-body">
                         <div class="row align-items-center">
                             <div class="col mr-2">
-                                <div class="text-xs font-weight-bold text-uppercase mb-1">Earnings (Monthly)</div>
+                                <div class="text-xs font-weight-bold text-uppercase mb-1"><a href="/admin-earning" class="text-dark">Earnings (Monthly)</a></div>
                                 <div class="h5 mb-0 font-weight-bold text-gray-800">${{$monthlyEarning}}.00</div>
 
                             </div>
@@ -35,7 +35,7 @@
                     <div class="card-body">
                         <div class="row no-gutters align-items-center">
                             <div class="col mr-2">
-                                <div class="text-xs font-weight-bold text-uppercase mb-1">Orders (Monthly)</div>
+                                <div class="text-xs font-weight-bold text-uppercase mb-1"><a href="/admin-order" class="text-dark">Orders (Monthly)</a></div>
                                 <div class="h5 mb-0 font-weight-bold text-gray-800">{{$orderNumber}}</div>
                             </div>
                             <div class="col-auto">
@@ -51,9 +51,8 @@
                     <div class="card-body">
                         <div class="row no-gutters align-items-center">
                             <div class="col mr-2">
-                                <div class="text-xs font-weight-bold text-uppercase mb-1">Order (Today)</div>
+                                <div class="text-xs font-weight-bold text-uppercase mb-1"><a href="/admin-order" class="text-dark">Order (Today)</a></div>
                                 <div class="h5 mb-0 font-weight-bold text-gray-800">{{$todayOrderNumber}}</div>
-
                             </div>
                             <div class="col-auto">
                                 <i class="fas fa-window-maximize fa-2x text-danger"></i>
@@ -98,19 +97,27 @@
                     <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
                         <h6 class="m-0 font-weight-bold" style="color: #333333;">Products Sold</h6>
                         <div class="dropdown no-arrow">
-                            <a class="dropdown-toggle btn btn-danger btn-sm" href="#" role="button"
+                            <a class="dropdown-toggle btn btn-danger btn-sm" href="" role="button"
                                id="dropdownMenuLink"
                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                Month <i class="fas fa-chevron-down"></i>
+                                @if($type == 1)
+                                    Month
+                                @elseif($type == 2)
+                                    Today
+                                @else
+                                    This Year
+                                @endif
+                                <i class="fas fa-chevron-down"></i>
                             </a>
-                            <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in"
-                                 aria-labelledby="dropdownMenuLink">
-                                <div class="dropdown-header">Select Periode</div>
-                                <a class="dropdown-item" href="#">Today</a>
-                                <a class="dropdown-item" href="#">Week</a>
-                                <a class="dropdown-item active bg-danger" href="#">Month</a>
-                                <a class="dropdown-item" href="#">This Year</a>
-                            </div>
+                            <form action="" method="get">
+                                <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in"
+                                     aria-labelledby="dropdownMenuLink">
+                                    <div class="dropdown-header">Select Periode</div>
+                                    <a class="dropdown-item {{$type == 2 ? 'active bg-danger' : ''}}" href="/admin-dashboard/2">Today</a>
+                                    <a class="dropdown-item {{$type == 1 ? 'active bg-danger' : ''}}" href="/admin-dashboard/1">Month</a>
+                                    <a class="dropdown-item {{$type == 3 ? 'active bg-danger' : ''}}" href="/admin-dashboard/3">This Year</a>
+                                </div>
+                            </form>
                         </div>
                     </div>
                     <div class="card-body">
@@ -126,46 +133,6 @@
                                 </div>
                             </div>
                         @endforeach
-{{--                        <div class="mb-3">--}}
-{{--                            <div class="small text-gray-500">Gundam 90'Editions--}}
-{{--                                <div class="small float-right"><b>500 of 800 Items</b></div>--}}
-{{--                            </div>--}}
-{{--                            <div class="progress" style="height: 12px;">--}}
-{{--                                <div class="progress-bar bg-danger" role="progressbar" style="width: 70%"--}}
-{{--                                     aria-valuenow="0"--}}
-{{--                                     aria-valuemin="0" aria-valuemax="100"></div>--}}
-{{--                            </div>--}}
-{{--                        </div>--}}
-{{--                        <div class="mb-3">--}}
-{{--                            <div class="small text-gray-500">Rounded Hat--}}
-{{--                                <div class="small float-right"><b>455 of 800 Items</b></div>--}}
-{{--                            </div>--}}
-{{--                            <div class="progress" style="height: 12px;">--}}
-{{--                                <div class="progress-bar bg-danger" role="progressbar" style="width: 55%"--}}
-{{--                                     aria-valuenow="0"--}}
-{{--                                     aria-valuemin="0" aria-valuemax="100"></div>--}}
-{{--                            </div>--}}
-{{--                        </div>--}}
-{{--                        <div class="mb-3">--}}
-{{--                            <div class="small text-gray-500">Indomie Goreng--}}
-{{--                                <div class="small float-right"><b>400 of 800 Items</b></div>--}}
-{{--                            </div>--}}
-{{--                            <div class="progress" style="height: 12px;">--}}
-{{--                                <div class="progress-bar bg-danger" role="progressbar" style="width: 50%"--}}
-{{--                                     aria-valuenow="0"--}}
-{{--                                     aria-valuemin="0" aria-valuemax="100"></div>--}}
-{{--                            </div>--}}
-{{--                        </div>--}}
-{{--                        <div class="mb-3">--}}
-{{--                            <div class="small text-gray-500">Remote Control Car Racing--}}
-{{--                                <div class="small float-right"><b>200 of 800 Items</b></div>--}}
-{{--                            </div>--}}
-{{--                            <div class="progress" style="height: 12px;">--}}
-{{--                                <div class="progress-bar bg-danger" role="progressbar" style="width: 30%"--}}
-{{--                                     aria-valuenow="0"--}}
-{{--                                     aria-valuemin="0" aria-valuemax="100"></div>--}}
-{{--                            </div>--}}
-{{--                        </div>--}}
                     </div>
                     <div class="card-footer text-center">
                         <a class="m-0 small text-dark card-link" href="#">View More <i

@@ -27,30 +27,14 @@
               </div>
                 <div class="toggle-wrapper text-center top-padd80">
                     <div id="toggle" class="toggle">
+                        @foreach($faqs as $faq)
                         <div class="toggle-item">
-                            <h4><i class="fa fa-angle-right brd-rd50"></i> What is FoodMate ?</h4>
+                            <h4><i class="fa fa-angle-right brd-rd50"></i>{{$faq->title}}</h4>
                             <div class="content">
-                                <p>FoodMate is one of the most favorite e-commerce service in Vietnam, connecting millions of buyers and sellers to cater to the growing demand for online shopping a reliable e-commerce bridge, Lozi also provides fast and convenient delivery service in just 1 hour, giving customers the effective and optimal online shopping experience</p>
+                                <p>{{$faq->content}}</p>
                             </div>
                         </div>
-                        <div class="toggle-item">
-                            <h4><i class="fa fa-angle-right brd-rd50"></i>Superior delivery</h4>
-                            <div class="content">
-                                <p>The private delivery team by loship guarantees all your shopping needs in just 1 hour</p>
-                            </div>
-                        </div>
-                        <div class="toggle-item">
-                            <h4><i class="fa fa-angle-right brd-rd50"></i> Diversity foods</h4>
-                            <div class="content">
-                                <p>Thousands of products and services ranging from food, drinks, cuisines</p>
-                            </div>
-                        </div>
-                        <div class="toggle-item">
-                            <h4><i class="fa fa-angle-right brd-rd50"></i> Local company</h4>
-                            <div class="content">
-                                <p>As a Vietnamese company that caters to Vietnamese people, we are knowledgeable about the Vietnamese market and know the buying psychology of our users</p>
-                            </div>
-                        </div>
+                        @endforeach
                     </div><!-- Accordions -->
                 </div>
               <div class="block less-spacing">

@@ -40,11 +40,15 @@
                                                         <a href="/product-detail/{{$product->id}}" title="" itemprop="url"><img
                                                                 src="images/resource/{{$product->productImages[0]->path}}"
                                                                 alt="" itemprop="image" style="width: 249px;height: 159px"></a>
+                                                        <span class="post-rate yellow-bg brd-rd2"><i
+                                                                class="fa fa-star-o"></i> {{number_format($product->rating, 1)}}</span>
                                                     </div>
                                                     <div class="popular-dish-info" style="padding: 10px">
                                                         <h4 itemprop="headline" style="font-size: 16px"><a
                                                                 href="/product-detail/{{$product->id}}" title="" itemprop="url">{{$product->name}}</a>
                                                         </h4>
+                                                        <span><a href="/shop/{{$product->category->id}}}" title=""
+                                                                 itemprop="url" style="display: block;text-transform: capitalize; color: #ea1b25; margin-bottom: 5px">{{$product->category->cate_name}}</a></span>
                                                         <p itemprop="description" style="font-size: 14px; margin-bottom: 15px">{{$product->description}}</p>
                                                         <div style="margin-bottom: 10px">
                                                         @if($product->discount != null)

@@ -23,7 +23,7 @@ class CreateOrdersTable extends Migration
             $table->string('status');
             $table->integer('user_id');
             $table->integer('restaurant_id');
-            $table->integer('delivery_amount')->nullable();
+            $table->timestamp('delivery_estimated')->nullable();
             $table->dateTime('delivered_time')->nullable();
             $table->text('extra_info')->nullable();
             $table->double('total');

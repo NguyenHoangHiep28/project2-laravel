@@ -6,12 +6,12 @@
         <div class="d-sm-flex align-items-center justify-content-between mb-4">
             <h1 class="h3 mb-0 text-gray-800">Edit product</h1>
             <ol class="breadcrumb">
-                <li class="breadcrumb-item"><a class="text-dark" href="./admin-dashboard">Home</a></li>
+                <li class="breadcrumb-item"><a class="text-dark" href="./admin-dashboard/1">Home</a></li>
                 <li class="breadcrumb-item text-dark">Product Management</li>
                 <li class="breadcrumb-item active" aria-current="page" style="color: #EA1B25;">Edit Product</li>
             </ol>
         </div>
-        <button type="button" class="btn btn-dark" onclick="window.location.href = '/admin-product'" style="margin-bottom: 20px; margin-top: -15px;"><i
+        <button type="button" class="btn btn-dark" onclick="window.location.href = '/admin-product/1'" style="margin-bottom: 20px; margin-top: -15px;"><i
                 class="fa fa-chevron-left fa-sm"></i> Back to product list
         </button>
         <div class="row">
@@ -90,11 +90,9 @@
                             <div class="form-group">
                                 <label for="exampleFormControlSelect1">Category :</label>
                                 <select class="form-control" name="category" id="exampleFormControlSelect1" required>
-                                    <option value="1">{{$product->category->cate_name}}</option>
-                                    <option>2</option>
-                                    <option>3</option>
-                                    <option>4</option>
-                                    <option>5</option>
+                                    @foreach($restaurantMenus as $restaurantMenu)
+                                        <option {{$product->category->id == $restaurantMenu->category->id ? 'selected' : ''}} style="text-transform: capitalize" value="{{$restaurantMenu->category->id}}">{{$restaurantMenu->category->cate_name}}</option>
+                                    @endforeach
                                 </select>
                             </div>
                             <div class="form-group">

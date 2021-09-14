@@ -16,6 +16,10 @@
     <link rel="stylesheet" href="css/red-color.css">
     <link rel="stylesheet" href="css/yellow-color.css">
     <link rel="stylesheet" href="css/responsive.css">
+    <!-- CSS -->
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/css/alertify.min.css"/>
+    <!-- Default theme -->
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/css/themes/semantic.min.css"/>
 
 </head>
 <body itemscope>
@@ -75,10 +79,10 @@
                 <nav>
                     <div class="menu-sec">
                         <ul>
-                            <li class="menu-item-has-children"><a href="/" title="HOMEPAGES" itemprop="url"><span
+                            <li class="menu-item-has-children"><a href="/" title="HOMEPAGE" itemprop="url"><span
                                         class="red-clr"></span>HOMEPAGE</a>
                             </li>
-                            <li class="menu-item-has-children"><a href="" title="RESTAURANTS" itemprop="url"><span
+                            <li class="menu-item-has-children"><a title="RESTAURANTS" itemprop="url"><span
                                         class="red-clr"></span>DISCOVER</a>
                                 <ul class="sub-dropdown">
                                     <li class="menu-item-has-children"><a href="/shop" title="Shop" itemprop="url"><span class="red-clr"></span>FOOD</a>
@@ -87,57 +91,8 @@
                                                 class="red-clr"></span>RESTAURANTS</a></li>
                                 </ul>
                             </li>
-                            <li class="menu-item-has-children"><a href="#" title="PAGES" itemprop="url"><span
-                                        class="red-clr"></span>CATEGORIES</a>
-                                <ul class="sub-dropdown">
-                                    <li class="menu-item-has-children"><a href="#" title="BLOG" itemprop="url">CATEGORY
-                                            1</a>
-                                        <ul class="sub-dropdown">
-                                            <li class="menu-item-has-children"><a href="#" title="BLOG LAYOUTS"
-                                                                                  itemprop="url">CATEGORY 1</a>
-                                                <ul class="sub-dropdown">
-                                                    <li><a href="blog-right-sidebar.html"
-                                                           title="BLOG WITH RIGHT SIDEBAR" itemprop="url">SUB-CATE</a>
-                                                    </li>
-                                                    <li><a href="blog-left-sidebar.html" title="BLOG WITH LEFT SIDEBAR"
-                                                           itemprop="url">SUB-CATE</a></li>
-                                                    <li><a href="blog.html" title="BLOG WITH NO SIDEBAR" itemprop="url">SUB-CATE</a>
-                                                    </li>
-                                                </ul>
-                                            </li>
-                                            <li class="menu-item-has-children"><a href="#" title="BLOG DETAIL"
-                                                                                  itemprop="url">CATEGORY 2</a>
-                                                <ul class="sub-dropdown">
-                                                    <li><a href="blog-detail-right-sidebar.html"
-                                                           title="BLOG DETAIL WITH RIGHT SIDEBAR" itemprop="url">SUB-CATE</a>
-                                                    </li>
-                                                    <li><a href="blog-detail-left-sidebar.html"
-                                                           title="BLOG DETAIL WITH LEFT SIDEBAR"
-                                                           itemprop="url">SUB-CATE</a></li>
-                                                    <li><a href="blog-detail.html" title="BLOG DETAIL WITH NO SIDEBAR"
-                                                           itemprop="url">SUB-CATE</a></li>
-                                                </ul>
-                                            </li>
-                                            <li class="menu-item-has-children"><a href="#" title="BLOG FORMATES"
-                                                                                  itemprop="url">CATEGORY 3</a>
-                                                <ul class="sub-dropdown">
-                                                    <li><a href="blog-detail-video.html" title="BLOG DETAIL WITH VIDEO"
-                                                           itemprop="url">SUB-CATE</a></li>
-                                                    <li><a href="blog-detail-audio.html" title="BLOG DETAIL WITH AUDIO"
-                                                           itemprop="url">SUB-CATE</a></li>
-                                                    <li><a href="blog-detail-carousel.html"
-                                                           title="BLOG DETAIL WITH CAROUSEL" itemprop="url">SUB-CATE</a>
-                                                    </li>
-                                                </ul>
-                                            </li>
-                                        </ul>
-                                    </li>
-                                    <li><a href="register-reservation.html" title="REGISTER RESERVATION" itemprop="url">CATEGORY
-                                            2</a></li>
-                                    <li><a href="how-it-works.html" title="HOW IT WORKS" itemprop="url">CATEGORY 3</a>
-                                    </li>
-                                    <li><a href="dashboard.html" title="USER PROFILE" itemprop="url">CATEGORY 4</a></li>
-                                </ul>
+                            <li class="menu-item-has-children"><a href="/about-us" title="ABOUT FOODMATE" itemprop="url"><span
+                                        class="red-clr"></span>ABOUT US</a>
                             </li>
                             <li><a href="/contact-us" title="CONTACT US" itemprop="url"><span class="red-clr"></span>CONTACT
                                     US</a></li>
@@ -163,7 +118,7 @@
                                 </div>
                             </div>
                             <div class="col-md-4 col-sm-12 col-lg-4 user-dashboard">
-                                <div class="profile-sidebar-header brd-rd5 wow fadeIn" data-wow-delay="0.2s">
+                                <div class="profile-sidebar-header brd-rd5">
                                     <div class="profile-sidebar-inner brd-rd5">
                                         <ul class="nav nav-tabs">
                                             <li id="cart-menu" class="{{$active ?? ''}}"><a href="/dashboard/cart"><i
@@ -454,6 +409,13 @@
 <script src="js/plugins.js"></script>
 <script src="js/main.js"></script>
 <script src="js/address-autoComplete.js"></script>
+<script src="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/alertify.min.js"></script>
+@if(session('message') != null)
+<script type="text/javascript">
+    alertify.set('notifier','position', 'top-center');
+    alertify.success('This food has been added to your cart !');
+</script>
+@endif
 </body>
 
 </html>

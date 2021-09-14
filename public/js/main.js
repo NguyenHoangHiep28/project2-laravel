@@ -470,38 +470,23 @@ $(document).ready(function () {
         dashboard.css("display", "none");
     });
 
-    //Add to cart notification
-    $('.add-to-cart').on('click', function () {
-        const notification = $('.notification');
-        const menuActive = $('#cart-menu');
-        if (notification.css('display') === 'none') {
-            notification.css('display', 'block')
-        }
-        if (!menuActive.hasClass("active")) {
-            menuActive.addClass("active")
-        }
+    // Add to cart notification
+    $('a.add-to-cart').on('click', function (event) {
+        event.preventDefault();
+        const userId = $(this).siblings('input#user-id').val();
+        const productId = $(this).siblings('input#product-id').val();
+        addToCart(userId, productId);
     });
 
-    $('.order-info .bootstrap-touchspin button').on('click', function () {
-        const button = $(this);
-        const qtyValue = button.parent().siblings('input[type=text]').val();
-        const dataId = button.parent().closest('div').siblings('input[type=hidden]').val();
-        updateCart(dataId, qtyValue);
-    });
-    $('.detail-to-cart').on('click', function (event) {
-        event.preventDefault();
-        const button = $(this);
-        const qtyValue = button.siblings('.qty-wrap').find('input[type=text]').val();
-        const dataId = button.siblings('.qty-wrap').children('input[type=hidden]').val();
-        addFromDetail(dataId, qtyValue);
-    });
-    function addFromDetail(itemId, qty){
+    function addToCart(userId, productId){
         $.ajax({
             type : "GET",
-            url : "cart/add-from-detail",
-            data : {itemId : itemId, qty:qty},
+            url : "cart/add",
+            data : {userId : userId, productId: productId},
             success : function (response){
                 console.log(response);
+                alertify.set('notifier','position', 'top-center');
+                alertify.success('This food has been added to your cart !');
             },
             error: function (error){
                 alert('Update failed');
@@ -509,6 +494,13 @@ $(document).ready(function () {
             },
         });
     }
+
+    $('.order-info .bootstrap-touchspin button').on('click', function () {
+        const button = $(this);
+        const qtyValue = button.parent().siblings('input[type=text]').val();
+        const dataId = button.parent().closest('div').siblings('input[type=hidden]').val();
+        updateCart(dataId, qtyValue);
+    });
     function updateCartNum(itemId, qty){
         $.ajax({
             type : "GET",
