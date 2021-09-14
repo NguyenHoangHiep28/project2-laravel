@@ -1,7 +1,5 @@
 <?php
 
-namespace App\Http\Controllers\Front;
-
 use App\Models\Category;
 use App\Models\Restaurant;
 use App\Models\RestaurantMenu;

@@ -18,14 +18,14 @@ class RegisterReservationController
         }else{
             $restaurant_status = 0;
         }
-        return view('front.restaurant.registerReservation',compact('restaurant_status','restaurant_status'));
+        return view('front.restaurant.registerReservation',compact('restaurant_status','restaurant_status'),compact('restaurant','restaurant'));
     }
 
     public function add(Request $request){
         if (isset($request)){
             $newRestaurant = new Restaurant();
             $newRestaurant->restaurant_name = $request->name_restaurant;
-            $newRestaurant->address = $request->street_restaurant.', '.$request->city_restaurant.', '.$request->country_restaurant;
+            $newRestaurant->address = $request->street_restaurant.', '.$request->district.', '.$request->city_restaurant.', '.$request->country_restaurant;
             $newRestaurant->telephone = $request->phone_restaurant;
             $newRestaurant->email = $request->email_restaurant;
             $newRestaurant->owner_name = $request->name_manager;

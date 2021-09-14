@@ -143,9 +143,11 @@ Route::group(['middleware' => ['admin']], function () {
 /*
  * MANAGEMENT ROUTES
  * */
+
 Route::group(['middleware' => ['root']], function () {
     Route::get('/management-dashboard', [Admin\ManagementController::class, 'showDashboard'])->name('showManagement');
     Route::get('/management-restaurants', [Admin\ManagementController::class, 'showRestaurants']);
     Route::get('/management-restaurant-detail/{id}', [Admin\ManagementController::class, 'showDetail']);
+    Route::get('/management-restaurant-detail/status/{id}/{status}', [Admin\ManagementController::class,'updateStatus']);
 });
 
