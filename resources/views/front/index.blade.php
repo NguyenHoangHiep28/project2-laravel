@@ -249,7 +249,7 @@
                     <div class="col-md-12 col-sm-12 col-lg-12">
                         <div class="title1-wrapper text-center">
                             <div class="title1-inner">
-                                <span>Welcome to Cloud-Kitchen-Name</span>
+                                <span>Welcome to FoodMate</span>
                                 <h2 class="text-white" itemprop="headline">easy order in 3 steps</h2>
                             </div>
                         </div>
