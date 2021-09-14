@@ -175,6 +175,12 @@ class DatabaseSeeder extends Seeder
                 'product_id' => '10',
                 'path' => 'creamy-vegetable-soup.jpg',
             ],
+            [
+                'cate_name' => 'Pizza',
+            ],
+            [
+                'cate_name' => 'Cafe',
+            ]
         ]);
         DB::table('categories')->insert([
             [
@@ -267,6 +273,36 @@ class DatabaseSeeder extends Seeder
                 'role' => 2,
                 'restaurant_id' => 1,
             ],
+        ]);
+        DB::table('restaurant_images')->insert([
+            [
+                'restaurant_id' => '1',
+                'path' => 'popular-dish-img1.jpg',
+            ],
+            [
+                'restaurant_id' => '1',
+                'path' => 'popular-dish-img2.jpg',
+            ],
+            [
+                'restaurant_id' => '1',
+                'path' => 'popular-dish-img3.jpg',
+            ],
+            [
+                'restaurant_id' => '2',
+                'path' => 'popular-dish-img1.jpg',
+            ],
+            [
+                'restaurant_id' => '2',
+                'path' => 'popular-dish-img2.jpg',
+            ],
+            [
+                'restaurant_id' => '2',
+                'path' => 'popular-dish-img3.jpg',
+            ],
+            [
+                'restaurant_id' => '2',
+                'path' => 'round-pic4.jpg',
+            ]
         ]);
         DB::table('faqs')->insert([
             [

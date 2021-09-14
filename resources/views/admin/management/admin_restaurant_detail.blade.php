@@ -41,21 +41,21 @@
                                         <td><span class="badge badge-info">Pending</span></td>
                                         <td>
                                             <a href="./management-restaurant-detail/status/{{$r->id}}/{{$r->status}}" class="btn btn-sm btn-success">Accept </a>
-                                            <a href="javascript:void(0);" data-toggle="modal" class="btn btn-sm btn-danger" data-target="#deleteModal" >Refuse</a>
+                                            <a href="javascript:void(0);" data-toggle="modal" class="btn btn-sm btn-danger" data-target="#deleteModal{{$r->id}}" >Refuse</a>
                                         </td>
                                     @endif
                                     @if($r->status == 2)
                                         <td><span class="badge badge-warning">Wait for pay</span></td>
                                         <td>
                                             <a href="./management-restaurant-detail/status/{{$r->id}}/{{$r->status}}" class="btn btn-sm btn-success">Active </a>
-                                            <a href="javascript:void(0);" data-toggle="modal" class="btn btn-sm btn-danger" data-target="#deleteModal" >Delete</a>
+                                            <a href="javascript:void(0);" data-toggle="modal" class="btn btn-sm btn-danger" data-target="#deleteModal{{$r->id}}" >Delete</a>
                                         </td>
                                     @endif
                                     @if($r->status == 3)
                                         <td><span class="badge badge-success">Active</span></td>
                                         <td>
                                             <a href="./management-restaurant-detail/status/{{$r->id}}/{{$r->status}}" class="btn btn-sm btn-success">Expired </a>
-                                            <a href="javascript:void(0);" data-toggle="modal" class="btn btn-sm btn-danger" data-target="#deleteModal" >Delete</a>
+                                            <a href="javascript:void(0);" data-toggle="modal" class="btn btn-sm btn-danger" data-target="#deleteModal{{$r->id}}" >Delete</a>
                                         </td>
                                     @endif
                                     @if($r->status == 4)
@@ -63,14 +63,14 @@
                                         <td>
                                             <a href="./management-restaurant-detail/status/{{$r->id}}/2" class="btn btn-sm btn-success">Active </a>
                                             <a href="./management-restaurant-detail/status/{{$r->id}}/{{$r->status}}" class="btn btn-sm btn-dark">Stop Working</a>
-                                            <a href="javascript:void(0);" data-toggle="modal" class="btn btn-sm btn-danger" data-target="#deleteModal" >Delete</a>
+                                            <a href="javascript:void(0);" data-toggle="modal" class="btn btn-sm btn-danger" data-target="#deleteModal{{$r->id}}" >Delete</a>
                                         </td>
                                     @endif
                                     @if($r->status == 5)
                                         <td><span class="badge badge-dark">Stop Working</span></td>
                                         <td>
                                             <a href="./management-restaurant-detail/status/{{$r->id}}/1" class="btn btn-sm btn-success">Accept </a>
-                                            <a href="javascript:void(0);" data-toggle="modal" class="btn btn-sm btn-danger" data-target="#deleteModal" >Delete</a>
+                                            <a href="javascript:void(0);" data-toggle="modal" class="btn btn-sm btn-danger" data-target="#deleteModal{{$r->id}}" >Delete</a>
                                         </td>
                                     @endif
                                 </tr>
@@ -131,27 +131,29 @@
             </div>
         </div>
         <!--                Modal Delete Restaurant-->
-        <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog"
-             aria-labelledby="exampleModalLabelDeleteRestaurant"
-             aria-hidden="true">
-            <div class="modal-dialog" role="document">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLabelDeleteRestaurant">What is your reason?</h5>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                    </div>
-                    <div class="modal-body">
-                        <textarea style="width: 100%" rows="3"></textarea>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-outline-primary" data-dismiss="modal">Cancel</button>
-                        <a href="#" class="btn btn-danger">Delete</a>
+        @foreach($restaurant_detail as $r)
+            <div class="modal fade" id="deleteModal{{$r->id}}" tabindex="-1" role="dialog"
+                 aria-labelledby="exampleModalLabelDeleteRestaurant"
+                 aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabelDeleteRestaurant">What is your reason?</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <textarea style="width: 100%" rows="3"></textarea>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-outline-primary" data-dismiss="modal">Cancel</button>
+                            <a href="./management-restaurant-detail/stop/{{$r->id}}" class="btn btn-danger">Delete</a>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
+    @endforeach
 
         <!-- Modal Accept Order -->
         <div class="modal fade" id="acceptOrder" tabindex="-1" role="dialog"
