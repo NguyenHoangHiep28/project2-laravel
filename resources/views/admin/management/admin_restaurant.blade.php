@@ -54,7 +54,7 @@
                                     @endif
                                     <td>
                                         <a href="./management-restaurant-detail/{{$r->id}}" class="btn btn-sm btn-primary">Detail</a>
-                                        <a href="javascript:void(0);" data-toggle="modal" class="btn btn-sm btn-danger" data-target="#deleteModal" >Delete</a>
+                                        <a href="javascript:void(0);" data-toggle="modal" class="btn btn-sm btn-danger" data-target="#deleteModal{{$r->id}}" >Delete</a>
                                     </td>
                                 </tr>
                             @endforeach
@@ -67,7 +67,8 @@
         </div>
 
         <!--                Modal Delete Restaurant-->
-        <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog"
+        @foreach($restaurants as $r)
+        <div class="modal fade" id="deleteModal{{$r->id}}" tabindex="-1" role="dialog"
              aria-labelledby="exampleModalLabelDeleteRestaurant"
              aria-hidden="true">
             <div class="modal-dialog" role="document">
@@ -83,9 +84,10 @@
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-outline-primary" data-dismiss="modal">Cancel</button>
-                        <a href="#" class="btn btn-danger">Delete</a>
+                        <a href="./management-restaurant-detail/stop/{{$r->id}}" class="btn btn-danger">Delete</a>
                     </div>
                 </div>
             </div>
         </div>
+    @endforeach
 @endsection

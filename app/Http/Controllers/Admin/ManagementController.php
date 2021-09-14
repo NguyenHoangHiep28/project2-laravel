@@ -17,7 +17,7 @@ class ManagementController extends Controller
     }
 
     public function showRestaurants(){
-        $restaurants = DB::table('restaurants')->orderBy('status')->get();
+        $restaurants = DB::table('restaurants')->where('stop','0')->orderBy('status')->get();
         return View::make('admin.management.admin_restaurant',['restaurants'=>$restaurants]);
     }
 
@@ -31,6 +31,13 @@ class ManagementController extends Controller
             $restaurant_detail->status = ($status + 1 );
             $restaurant_detail->save();
         }
+        return back();
+    }
+
+    public function stopRestaurant($id){
+        $restaurant_detail = Restaurant::find($id);
+            $restaurant_detail->stop = 1;
+            $restaurant_detail->save();
         return back();
     }
 }

@@ -419,9 +419,7 @@
                                                                             <label>District <sup style="color: red;color: red; font-size: 20px; position: relative; top: 0px;">*</sup></label>
                                                                             <div id="district_select" class="select-wrp">
                                                                                 <select name ="district" id ="district" required >
-                                                                                    <option value="Test">Test</option>
-                                                                                    <option value="Hello">Hello</option>
-                                                                                    <option value="Test1">Test1</option>
+
                                                                                 </select>
                                                                             </div>
                                                                         </div>
@@ -651,18 +649,26 @@
             document.getElementById("uploadFile").value = this.value;
             $('#uploadFile').attr('type','text');
         };
-        function print_district(district_id){
+        function print_district(district_id) {
             d = document.getElementById("city_restaurant").value;
             // alert(d);
             var option_str = document.getElementById(district_id);
-            option_str.length=0;
-            option_str.options[0] = new Option('Select district','');
+            option_str.length = 0;
+            option_str.options[0] = new Option('Select district', '');
             option_str.selectedIndex = 0;
-            var district_arr = arr[d-1];
+            var district_arr = arr[d - 1];
             // alert(district_arr[0]);
-            for (var i=0; i<district_arr.length; i++) {
-                option_str.options[option_str.length] = new Option(district_arr[i],district_arr[i]);
+            var str = '';
+            var str1 = '';
+            for (var i = 0; i < district_arr.length; i++) {
+                option_str.options[option_str.length] = new Option(district_arr[i], i);
+                str += '<li class="active-result" data-option-array-index="'+ (i) +'" style="">'+ district_arr[i] +'</li>';
             }
+            document.getElementById('district_chosen').innerHTML = '<a class="chosen-single"> <span>' + district_arr[0] + '</span><div><b></b></div></a>' +
+                '<div class="chosen-drop">' +
+                '   <div class="chosen-search"><input class="chosen-search-input" type="text" autocomplete="off"></div>' +
+                '       <ul class="chosen-results">'+ str +
+                '       </ul></div>';
 
         }
     </script>
