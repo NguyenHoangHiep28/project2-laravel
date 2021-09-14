@@ -6,12 +6,12 @@
         <div class="d-sm-flex align-items-center justify-content-between mb-4">
             <h1 class="h3 mb-0 text-gray-800">Restaurant Info</h1>
             <ol class="breadcrumb">
-                <li class="breadcrumb-item"><a class="text-dark" href="./admin-dashboard">Home</a></li>
+                <li class="breadcrumb-item"><a class="text-dark" href="/admin-dashboard/1">Home</a></li>
                 <li class="breadcrumb-item text-dark">Restaurant Management</li>
                 <li class="breadcrumb-item active" aria-current="page" style="color: #EA1B25;">Restaurant Info</li>
             </ol>
         </div>
-        <button type="button" onclick="window.location.href='{{route('showAdmin')}}'" class="btn btn-dark" style="margin-bottom: 20px; margin-top: -15px;"><i
+        <button type="button" onclick="window.location.href='/admin-dashboard/1'" class="btn btn-dark" style="margin-bottom: 20px; margin-top: -15px;"><i
                 class="fa fa-chevron-left fa-sm"></i> Back to dashboard
         </button>
         <div class="row">
@@ -120,43 +120,33 @@
                             </div>
                             <div class="form-group">
                                 <label for="select2Multiple">Category :</label>
-                                <select class="select2-multiple form-control" name="states[]" multiple="multiple"
-                                        id="select2Multiple">
+                                <select class="select2-multiple form-control" name="" multiple="multiple"
+                                        id="select2Multiple" disabled>
+                                    @foreach($categories as $category)
+                                        <option
+                                            @foreach($restaurant->restaurantMenus as $menu)
+                                                @if($menu->cate_id == $category->id)
+                                                selected disabled
+                                                @endif
+                                            @endforeach
+                                             value="{{$category->id}}">{{$category->cate_name}}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="select2Multiple">Add more category :</label>
+                                <select class="select2-multiple form-control" name="menus[]" multiple="multiple"
+                                        id="">
                                     <option value="">Select</option>
-                                    <option value="Aceh" selected>Aceh</option>
-                                    <option value="Sumatra Utara" selected>Sumatra Utara</option>
-                                    <option value="Sumatra Barat">Sumatra Barat</option>
-                                    <option value="Riau">Riau</option>
-                                    <option value="Kepulauan Riau">Kepulauan Riau</option>
-                                    <option value="Jambi">Jambi</option>
-                                    <option value="Bengkulu">Bengkulu</option>
-                                    <option value="Sumatra Selatan">Sumatra Selatan</option>
-                                    <option value="Kepulauan Bangka Belitung">Kepulauan Bangka Belitung</option>
-                                    <option value="Lampung">Lampung</option>
-                                    <option value="Banten">Banten</option>
-                                    <option value="Jawa Barat">Jawa Barat</option>
-                                    <option value="Jakarta">Jakarta</option>
-                                    <option value="Jawa Tengah">Jawa Tengah</option>
-                                    <option value="Yogyakarta">Yogyakarta</option>
-                                    <option value="Jawa TImur">Jawa Timur</option>
-                                    <option value="Bali">Bali</option>
-                                    <option value="Nusa Tenggara Barat">Nusa Tenggara Barat</option>
-                                    <option value="Nusa Tenggara Timur">Nusa Tenggara Timur</option>
-                                    <option value="Kalimantan Barat">Kalimantan Barat</option>
-                                    <option value="Kalimantan Selatan">Kalimantan Selatan</option>
-                                    <option value="Kalimantan Tengah">Kalimantan Tengah</option>
-                                    <option value="Kalimantan Timur">Kalimantan Timur</option>
-                                    <option value="Kalimantan Utara">Kalimantan Utara</option>
-                                    <option value="Gorontalo">Gorontalo</option>
-                                    <option value="Sulawaesi Barat">Sulawesi Barat</option>
-                                    <option value="Sulawesi Selatan">Sulawesi Selatan</option>
-                                    <option value="Sulawesi Tengah">Sulawesi Tengah</option>
-                                    <option value="Sulawesi Tenggara">Sulawesi Tenggara</option>
-                                    <option value="Sulawesi Utara">Sulawesi Utara</option>
-                                    <option value="Maluku">Maluku</option>
-                                    <option value="Maluku Utara">Maluku Utara</option>
-                                    <option value="Papua Barat">Papua Barat</option>
-                                    <option value="Papua">Papua</option>
+                                    @foreach($categories as $category)
+                                        <option
+                                            @foreach($restaurant->restaurantMenus as $menu)
+                                            @if($menu->cate_id == $category->id)
+                                            disabled
+                                            @endif
+                                            @endforeach
+                                            value="{{$category->id}}">{{$category->cate_name}}</option>
+                                    @endforeach
                                 </select>
                             </div>
                             <div class="form-group">

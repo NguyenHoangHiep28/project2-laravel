@@ -1,6 +1,6 @@
 
 <div class="col-md-3 col-sm-12 col-lg-3">
-    <form action="/shop" method="post">
+    <form action="/shop/{{request()->segment(2) ?? ''}}" method="post">
         @csrf
     <div class="sidebar left">
         <div class="widget style2 Search_filters">

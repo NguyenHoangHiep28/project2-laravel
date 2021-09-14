@@ -5,7 +5,7 @@
         <div class="d-sm-flex align-items-center justify-content-between mb-4">
             <h1 class="h3 mb-0 text-gray-800">Order Detail</h1>
             <ol class="breadcrumb">
-                <li class="breadcrumb-item"><a href="./admin-dashboard">Home</a></li>
+                <li class="breadcrumb-item"><a href="./admin-dashboard/1">Home</a></li>
                 <li class="breadcrumb-item">Orders</li>
                 <li class="breadcrumb-item active" aria-current="page">Order Detail</li>
             </ol>
@@ -46,7 +46,9 @@
                                                 @elseif($order->status == 'rejected')
                                                     <span class="badge badge-danger">Rejected</span>
                                                 @elseif($order->status == 'processing')
-                                                    <span class="badge badge-primary">Processing</span>
+                                                    <span class="badge badge-success">Processing</span>
+                                                @elseif($order->status == 'canceled')
+                                                    <span class="badge badge-light">Canceled</span>
                                                 @else
                                                     <span class="badge badge-dark">Delivered</span>
                                                 @endif
@@ -63,7 +65,7 @@
                                                     <a href="" class="btn btn-sm btn-success" data-toggle="modal"
                                                        data-target="#showConfirm"><i
                                                             class="fa fa-check fa-sm"></i> Mark as delivered</a>
-                                                @elseif($order->status == 'rejected')
+                                                @elseif($order->status == 'rejected' || $order->status == 'canceled')
                                                     <a href="" data-toggle="modal" data-target="#rejectOrder"
                                                        class="btn btn-sm btn-danger"><i class="fa fa-eye fa-sm"></i> See
                                                         reason</a>
@@ -100,7 +102,9 @@
                                         @elseif($order->status == 'rejected')
                                             <span class="badge badge-danger">Rejected</span>
                                         @elseif($order->status == 'processing')
-                                            <span class="badge badge-teal">Processing</span>
+                                            <span class="badge badge-success">Processing</span>
+                                        @elseif($order->status == 'canceled')
+                                            <span class="badge badge-light">Canceled</span>
                                         @else
                                             <span class="badge badge-dark">Delivered</span>
                                         @endif
@@ -117,7 +121,7 @@
                                             <a href="" class="btn btn-sm btn-success" data-toggle="modal"
                                                data-target="#showConfirm"><i
                                                     class="fa fa-check fa-sm"></i> Mark as delivered</a>
-                                        @elseif($order->status == 'rejected')
+                                        @elseif($order->status == 'rejected' || $order->status == 'canceled')
                                             <a href="" data-toggle="modal" data-target="#rejectOrder"
                                                class="btn btn-sm btn-danger"><i class="fa fa-eye fa-sm"></i> See reason</a>
                                         @elseif($order->status == 'processing')
@@ -152,8 +156,8 @@
                                 <td>{{date('H:i - M d, Y', strtotime($order->created_at))}}</td>
                             </tr>
                             <tr>
-                                <td>Estimated processing and delivery amount:</td>
-                                <td>{{$order->delivery_amount ?? 'Not yet'}} (minutes)</td>
+                                <td>Estimated delivery time: </td>
+                                <td>{{date('H:i - M d, Y', strtotime($order->delivery_amount)) ?? 'Not yet'}}</td>
                             </tr>
                             <tr>
                                 <td>Delivered time:</td>
@@ -187,11 +191,29 @@
                     <form method="post" action="/admin-order/accept">
                         @csrf
                         <div class="modal-body">
-                            <div class="form-group">
-                                <label for="time">Estimated time for food processing and delivery :</label>
-                                <input type="number" class="form-control" id="time" name="estimated-amount"
-                                       placeholder="Enter amount ( minutes )">
+{{--                            <div class="form-group">--}}
+{{--                                <label for="time">Estimated time for food processing and delivery :</label>--}}
+{{--                                <input type="datetime" class="form-control" id="time" name="estimated-amount"--}}
+{{--                                       placeholder="Enter amount ( minutes )">--}}
+{{--                                --}}
                                 <input type="hidden" name="order-id" value="{{$order->id}}">
+{{--                            </div>--}}
+                            <div class="form-group" id="simple-date1">
+                                <label for="simpleDataInput">Estimated delivered date & time</label>
+                                <div class="input-group date">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text"><i class="fas fa-calendar"></i></span>
+                                    </div>
+                                    <input type="date" name="delivery-date" class="form-control" id="simpleDataInput">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="input-group clockpicker" id="clockPicker2">
+                                    <input type="text" name="delivery-time" class="form-control" value="12:30">
+                                    <div class="input-group-append">
+                                        <span class="input-group-text"><i class="fas fa-clock"></i></span>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                         <div class="modal-footer">
@@ -206,7 +228,7 @@
         <div class="modal fade" id="rejectOrder" tabindex="-1" role="dialog"
              aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered" role="document">
-                @if($order->status == 'rejected')
+                @if($order->status == 'rejected' || $order->status == 'canceled')
                     <div class="modal-content">
                         <div class="modal-header">
                             <h5 class="modal-title" id="exampleModalCenterTitle">Order rejected</h5>
@@ -217,7 +239,7 @@
                         <form action="">
                             <div class="modal-body">
                                 <div class="form-group">
-                                    <label for="reason">Reason of rejection: </label>
+                                    <label for="reason">Reason of {{$order->status == 'rejected' ? 'rejection' : 'canceled'}}: </label>
                                     <textarea class="form-control" id="reason" rows="4"
                                               disabled>{{$order->extra_info}}</textarea>
                                 </div>

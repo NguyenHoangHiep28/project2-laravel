@@ -3,8 +3,8 @@
     <div class="bread-crumbs-wrapper">
         <div class="container">
             <ol class="breadcrumb">
-                <li class="breadcrumb-item"><a href="#" title="" itemprop="url">Home</a></li>
-                <li class="breadcrumb-item"><a href="#" title="" itemprop="url">Orders</a></li>
+                <li class="breadcrumb-item"><a href="/" title="" itemprop="url">Home</a></li>
+                <li class="breadcrumb-item"><a href="/dashboard/orders" title="" itemprop="url">Orders</a></li>
                 <li class="breadcrumb-item active">Order Details</li>
             </ol>
         </div>
@@ -126,12 +126,7 @@
                                                                 <tr>
                                                                     <th>Estimated processing & delivery amount:</th>
                                                                     <td>
-                                                                        @if(\App\Models\Order::find($orderDetails[0]->order_id)->delivery_amount != null)
-                                                                            {{\App\Models\Order::find($orderDetails[0]->order_id)->delivery_amount}}
-                                                                            minutes
-                                                                        @else
-                                                                            'Not yet'
-                                                                        @endif
+                                                                        {{date('H:i - M d, Y', strtotime(\App\Models\Order::find($orderDetails[0]->order_id)->delivery_estimated)) ?? 'Not Yet'}}
                                                                     </td>
                                                                 </tr>
                                                                 <tr>
@@ -150,7 +145,7 @@
                                                         @if(\App\Models\Order::find($orderDetails[0]->order_id)->status === 'pending')
                                                             <div class="order-action" style="margin-top: 50px;">
                                                                 <button class="btn primary-btn" id="back-to-order"
-                                                                        onclick="window.location.href = 'dashboard.html'">
+                                                                        onclick="window.location.href = '/dashboard/orders'">
                                                                     <i class="fa fa-chevron-left"></i> Back to orders
                                                                 </button>
                                                                 <button class="btn primary-btn red-bg"
@@ -179,7 +174,7 @@
                                                                 </form>
                                                             </div>
                                                         @endif
-                                                        @if(\App\Models\Order::find($orderDetails[0]->order_id)->status === 'rejected')
+                                                        @if(\App\Models\Order::find($orderDetails[0]->order_id)->status === 'rejected' || \App\Models\Order::find($orderDetails[0]->order_id)->status === 'canceled')
                                                             <div class="cancel-order" style="display: block">
                                                                 <form action="#">
                                                                     <div class="form-group">

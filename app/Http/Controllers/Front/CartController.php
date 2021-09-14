@@ -15,35 +15,12 @@ use Illuminate\Support\Facades\View;
 
 class CartController extends Controller
 {
-    //
-    function group_by($key, $data)
-    {
-        $result = array();
-
-        foreach ($data as &$val) {
-            $val = get_object_vars($val);
-            if (array_key_exists($key, $val)) {
-                $result[$val[$key]][] = $val;
-            } else {
-                $result[""][] = $val;
-            }
-        }
-
-        return $result;
-    }
 
     public function show()
     {
-
-        $productInCarts = DB::table('user_carts')->where('user_id', '=', Auth::id())
-            ->orderBy('created_at')
-            ->get();
-        //check products restaurant
-        $data = $this->group_by("restaurant_id", $productInCarts);
-        $orderTotals = DB::table('orders')->where('user_id', '=', Auth::id())
-            ->where('status', '=', 'in cart')
-            ->orderBy('created_at')->get();
-        return View::make('front.dashboard.cart', ['data' => $data, 'orderTotals' => $orderTotals]);
+        $cartGroups = Order::where('user_id', '=', Auth::id())->where('status', 'in cart')->orderBy('created_at')->paginate(1);
+        $emptyCart = Order::where('user_id', '=', Auth::id())->where('status', 'in cart')->orderBy('created_at')->count();
+        return View::make('front.dashboard.cart', compact('cartGroups', 'emptyCart'));
     }
 
     public function add($userId, $productId)
@@ -73,7 +50,7 @@ class CartController extends Controller
             $newProductInCart->qty = 1;
             $newProductInCart->order_id = $orderId;
             $newProductInCart->restaurant_id = $product->restaurant_id;
-            $newProductInCart->total = $product->price;
+            $newProductInCart->total = $product->discount ?? $product->price;
             $newProductInCart->save();
         } else {
             DB::table('user_carts')->where('user_id', '=', $userId)
@@ -81,19 +58,68 @@ class CartController extends Controller
                 ->increment('qty', 1);
             DB::table('user_carts')->where('user_id', '=', $userId)
                 ->where('product_id', '=', $productId)
-                ->increment('total', $product->price);
+                ->increment('total', $product->discount ?? $product->price);
         }
         $total = Order::find($orderId)->total;
-        $total += $product->price;
+        $total += $product->discount ?? $product->price;
         Order::find($orderId)->update(['total' => $total]);
-        return redirect()->back();
+        return back()->with('message', 'added!');
+    }
+
+    public function addIndex(Request $request)
+    {
+        if ($request->ajax()) {
+            $productId = $request->productId;
+            $userId = $request->userId;
+            $product = Product::find($productId);
+            $order = Order::where('user_id', $userId)->where('restaurant_id', $product->restaurant_id)->where('status', 'in cart')->get();
+            if ($order->count() > 0) {
+                $orderId = $order[0]->id;
+            } else {
+                $order = Order::create([
+                    'full_name' => 'undefined',
+                    'email' => 'undefined',
+                    'phone' => 'undefined',
+                    'address' => 'undefined',
+                    'status' => 'in cart',
+                    'user_id' => $userId,
+                    'restaurant_id' => $product->restaurant_id,
+                    'total' => 0,
+                ]);
+                $orderId = $order->id;
+            }
+            $productInCart = UserCart::where('user_id', $userId)->where('product_id', $productId)->count();
+            if ($productInCart == 0) {
+                $newProductInCart = new UserCart();
+                $newProductInCart->user_id = $userId;
+                $newProductInCart->product_id = $productId;
+                $newProductInCart->qty = 1;
+                $newProductInCart->order_id = $orderId;
+                $newProductInCart->restaurant_id = $product->restaurant_id;
+                $newProductInCart->total = $product->discount ?? $product->price;
+                $newProductInCart->save();
+            } else {
+                DB::table('user_carts')->where('user_id', '=', $userId)
+                    ->where('product_id', '=', $productId)
+                    ->increment('qty', 1);
+                DB::table('user_carts')->where('user_id', '=', $userId)
+                    ->where('product_id', '=', $productId)
+                    ->increment('total', $product->discount ?? $product->price);
+            }
+            $total = Order::find($orderId)->total;
+            $total += $product->discount ?? $product->price;
+            Order::find($orderId)->update(['total' => $total]);
+        }
     }
 
     public function delete($userId, $productId)
     {
-        $productInCart = UserCart::where('user_id', $userId)->where('product_id', $productId)->count();
+        $query = UserCart::where('user_id', $userId)->where('product_id', $productId);
+        $productInCart = $query->count();
         $product = Product::find($productId);
         if ($productInCart > 0) {
+            Order::where('user_id', $userId)->where('restaurant_id', $product->restaurant_id)
+                ->where('status', 'in cart')->decrement('total',$query->first()->total);
             DB::table('user_carts')->where('user_id', '=', $userId)
                 ->where('product_id', '=', $productId)
                 ->delete();
@@ -120,8 +146,9 @@ class CartController extends Controller
     }
 
     public function addFromDetail(Request $request){
-        if ($request->ajax()) {
-            $product = Product::find($request->itemId);
+            $itemId = $_GET['itemId'];
+            $qty = $_GET['qty'];
+            $product = Product::find($itemId);
             $order = Order::where('user_id', Auth::id())->where('restaurant_id', $product->restaurant_id)->where('status', 'in cart')->get();
             if ($order->count() > 0) {
                 $orderId = $order[0]->id;
@@ -138,7 +165,8 @@ class CartController extends Controller
                 ]);
                 $orderId = $order->id;
             }
-            $productInCart = UserCart::where('user_id', Auth::id())->where('product_id', $request->itemId)->count();
+            $productPrice = $product->discount ?? $product->price;
+            $productInCart = UserCart::where('user_id', Auth::id())->where('product_id', $itemId)->count();
             if ($productInCart == 0) {
                 $newProductInCart = new UserCart();
                 $newProductInCart->user_id = Auth::id();
@@ -146,32 +174,23 @@ class CartController extends Controller
                 $newProductInCart->qty = $request->qty;
                 $newProductInCart->order_id = $orderId;
                 $newProductInCart->restaurant_id = $product->restaurant_id;
-                $newProductInCart->total = $product->price * $request->qty;;
+                $newProductInCart->total = $productPrice * $qty;
                 $newProductInCart->save();
+                $total = $productPrice * $qty;
             } else {
-                $productInCart = UserCart::where('user_id', Auth::id())->where('product_id', $request->itemId)->first();
-                if ($request->qty > $productInCart->qty) {
-                    $changeAmount = $request->qty - $productInCart->qty;
+                $total = Order::find($orderId)->total;
+                $productInCart = UserCart::where('user_id', Auth::id())->where('product_id', $itemId)->first();
+                    $changeAmount = $qty;
                     DB::table('user_carts')->where('user_id', '=', Auth::id())
                         ->where('product_id', '=', $request->itemId)
                         ->increment('qty', $changeAmount);
                     DB::table('user_carts')->where('user_id', '=', Auth::id())
                         ->where('product_id', '=', $request->itemId)
-                        ->increment('total', $product->price * $changeAmount);
-                }else{
-                    $changeAmount = $productInCart->qty - $request->qty;
-                    DB::table('user_carts')->where('user_id', '=', Auth::id())
-                        ->where('product_id', '=', $changeAmount)
-                        ->decrement('qty', $changeAmount);
-                    DB::table('user_carts')->where('user_id', '=', Auth::id())
-                        ->where('product_id', '=', $request->itemId)
-                        ->decrement('total', $product->price * $changeAmount);
-                }
+                        ->increment('total', $productPrice * $changeAmount);
+                    $total += $productPrice * $changeAmount;
             }
-            $total = Order::find($orderId)->total;
-            $total += $product->price;
             Order::find($orderId)->update(['total' => $total]);
-        }
+
         return redirect('/dashboard/cart');
     }
 

@@ -35,7 +35,8 @@ Route::group(['middleware' => ['user.or.guest']], function () {
     Route::get('/product-detail/{productId}', [Front\ProductController::class, 'showDetail']);
     Route::post('/product-review', [Front\ProductController::class, 'review'])->middleware('auth');
     Route::post('/shop', [Front\HomeController::class, 'filterProducts']);
-    Route::get('/shop/{cateId}', [Front\HomeController::class, 'category']);
+    Route::get('/shop/{cateId}', [Front\HomeController::class, 'showCategory']);
+    Route::post('/shop/{cateId}', [Front\HomeController::class, 'filterCategory']);
     Route::get('/shop-featured', [Front\HomeController::class, 'showFeature']);
 // restaurant routes
     Route::get('/restaurant-detail/{id}', [Front\RestaurantDetailController::class, 'restaurantDetail']);
@@ -51,6 +52,9 @@ Route::group(['middleware' => ['user.or.guest']], function () {
     });
 //  login & register routes
     Route::get('/login', function () {
+        if (Auth::check()){
+            return back();
+        }
         return view('front.auth.login');
     })->name('login');
     Route::get('/register', function () {
@@ -73,11 +77,12 @@ Route::group(['middleware' => ['user.or.guest']], function () {
     Route::prefix('/cart')->group(function () {
         Route::group(['middleware' => ['auth']], function () {
             Route::get('/add/{userId}/{productId}', [Front\CartController::class, 'add']);
+            Route::get('/add', [Front\CartController::class, 'addIndex']);
             Route::get('/delete/{userId}/{productId}', [Front\CartController::class, 'delete']);
             Route::get('/destroy/{userId}/{restaurantId}', [Front\CartController::class, 'destroy']);
             Route::get('/update', [Front\CartController::class, 'update']);
             Route::get('/updateNum', [Front\CartController::class, 'updateNum']);
-            Route::get('/add-from-detail', [Front\CartController::class,'addFromDetail']);
+            Route::get('/add-from-detail', [Front\CartController::class,'addFromDetail'])->middleware('auth');
         });
     });
 // Order routes
@@ -93,14 +98,15 @@ Route::group(['middleware' => ['user.or.guest']], function () {
 });
 //logout
 Route::get('/logout', [Front\HomeController::class, 'logout']);
-
-
 /*
  * ADMIN ROUTES
  * */
 Route::group(['middleware' => ['admin']], function () {
 // index route
-    Route::get('/admin-dashboard', [Admin\HomeController::class, 'show'])->name('showAdmin');
+    Route::get('/admin-dashboard/{type}', [Admin\HomeController::class, 'show']);
+    Route::get('/admin-earning', [Admin\HomeController::class, 'showEarning']);
+    Route::get('/admin-earning/filter-by-date', [Admin\HomeController::class, 'earningFilter']);
+
 
 //Order routes
     Route::get('/admin-order', [Admin\OrderController::class, 'showOrders']);
@@ -128,6 +134,10 @@ Route::group(['middleware' => ['admin']], function () {
     Route::post('/admin-restaurant/edit-avatar', [Admin\RestaurantController::class, 'editAvatar']);
     Route::post('/admin-restaurant/edit-images', [Admin\RestaurantController::class, 'editImages']);
     Route::post('/admin-restaurant/edit-info', [Admin\RestaurantController::class, 'editInfo']);
+
+//Mail routes
+    Route::get('/mail', [Admin\RestaurantController::class, 'showMail']);
+
 
 });
 /*

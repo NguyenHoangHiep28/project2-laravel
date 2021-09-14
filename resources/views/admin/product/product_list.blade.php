@@ -6,7 +6,7 @@
         <div class="d-sm-flex align-items-center justify-content-between mb-4">
             <h1 class="h3 mb-0 text-gray-800">Product List</h1>
             <ol class="breadcrumb">
-                <li class="breadcrumb-item"><a class="text-dark" href="./admin-dashboard">Home</a></li>
+                <li class="breadcrumb-item"><a class="text-dark" href="./admin-dashboard/1">Home</a></li>
                 <li class="breadcrumb-item text-dark">Product Management</li>
                 <li class="breadcrumb-item active" aria-current="page" style="color: #EA1B25;">Product List</li>
             </ol>
