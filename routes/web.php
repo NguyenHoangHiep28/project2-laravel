@@ -1,10 +1,10 @@
 <?php
 
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Front;
 use App\Http\Controllers\Admin;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -40,7 +40,9 @@ Route::group(['middleware' => ['user.or.guest']], function () {
     Route::get('/shop-featured', [Front\HomeController::class, 'showFeature']);
 // restaurant routes
     Route::get('/restaurant-detail/{id}', [Front\RestaurantDetailController::class, 'restaurantDetail']);
+    Route::post('/restaurant-review', [Front\RestaurantDetailController::class, 'review'])->middleware('auth');
     Route::get('/restaurants', [Front\RestaurantController::class, 'show']);
+    Route::get('/restaurants/{categoryId}', [Front\RestaurantController::class, 'showCategory']);
     Route::post('/restaurant-search', [Front\RestaurantController::class, 'searchRestaurant']);
     Route::get('/restaurant-not-found', [Front\RestaurantController::class, 'showNotFound']);
     Route::get('/restaurants/{cateId}', [Front\RestaurantController::class, 'category']);

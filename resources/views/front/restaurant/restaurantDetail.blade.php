@@ -5,7 +5,7 @@
         <div class="container">
             <ol class="breadcrumb">
                 <li class="breadcrumb-item"><a href="#" title="" itemprop="url">Home</a></li>
-                <li class="breadcrumb-item"><a href="#" title="" itemprop="url">Restaurant</a></li>
+                <li class="breadcrumb-item"><a href="/restaurants" title="" itemprop="url">Restaurant</a></li>
                 <li class="breadcrumb-item active">Restaurant Details</li>
             </ol>
         </div>
@@ -24,269 +24,291 @@
                                             <div class="restaurant-detail-info">
                                                 <div class="restaurant-detail-thumb">
                                                     <ul class="restaurant-detail-img-carousel">
-                                                        @foreach($restaurant_images as $images)
-                                                        <li><img class="brd-rd3" src="images/resource/{{$images->path}}" alt="{{$images->path}}" itemprop="image"></li>
+                                                        @foreach($restaurant->restaurantImages as $image)
+                                                            <li><img class="brd-rd3"
+                                                                     src="images/resource/{{$image->path}}"
+                                                                     alt="{{$image->path}}" itemprop="image" width="743px" height="473px"></li>
                                                         @endforeach
                                                     </ul>
                                                     <ul class="restaurant-detail-thumb-carousel">
-                                                        @foreach($restaurant_images as $images)
-                                                        <li><img class="brd-rd3" src="images/resource/{{$images->path}}" alt="{{$images->path}}" itemprop="image"></li>
+                                                        @foreach($restaurant->restaurantImages as $image)
+                                                            <li><img class="brd-rd3"
+                                                                     src="images/resource/{{$image->path}}"
+                                                                     alt="{{$image->path}}" itemprop="image" width="89px" height="56px"></li>
                                                         @endforeach
                                                     </ul>
                                                 </div>
                                                 <div class="restaurant-detail-title">
-                                                    <h1 itemprop="headline">{{$restaurant_detail->restaurant_name}}</h1>
+                                                    <h1 itemprop="headline"
+                                                        style="font-size: 26px">{{$restaurant->restaurant_name}}</h1>
                                                     <div class="info-meta">
-                                                        <span>{{$restaurant_detail->owner_name}}</span>
+                                                        <span>{{$restaurant->owner_name}}</span>
                                                         <span>
-                                                            @foreach($restaurant_menu as $menu)
-                                                                @if(count($restaurant_menu) == 1 )
-                                                                    <a href="#" title="" itemprop="url">{{$menu->cate_name}}</a>
+                                                            @foreach($restaurant->restaurantMenus as $menu)
+                                                                @if(count($restaurant->restaurantMenus) == 1)
+                                                                    <a href="#" title=""
+                                                                       itemprop="url">{{$menu->category->cate_name}}</a>
                                                                 @else
-                                                                    <a href="#" title="" itemprop="url">{{$menu->cate_name}}</a>,
+                                                                    @if($loop->index == count($restaurant->restaurantMenus) -1)
+                                                                        <a href="#" title="" itemprop="url">{{$menu->category->cate_name}}.</a>
+                                                                    @else
+                                                                        <a href="#" title="" itemprop="url">{{$menu->category->cate_name}} | </a>
+                                                                    @endif
                                                                 @endif
                                                             @endforeach
                                                         </span>
                                                     </div>
                                                     <div class="rating-wrapper">
-                                                        <a class="gradient-brd brd-rd2" href="#" title="" itemprop="url"><i class="fa fa-star"></i> Rate <i>4.0</i></a>
-                                                        <div class="rate-share brd-rd5">
-                                                            <div class="rating-box-wrapper">
-                                                                <span>Rate</span>
-                                                                <div class="rating-box">
-                                                                    <span class="brd-rd2 clr1 on"></span>
-                                                                    <span class="brd-rd2 clr2 on"></span>
-                                                                    <span class="brd-rd2 clr3 on"></span>
-                                                                    <span class="brd-rd2 clr4 on"></span>
-                                                                    <span class="brd-rd2 clr5 on"></span>
-                                                                    <span class="brd-rd2 clr6 on"></span>
-                                                                    <span class="brd-rd2 clr7 off"></span>
-                                                                    <span class="brd-rd2 clr8 off"></span>
-                                                                    <i>4.0</i>
-                                                                </div>
-                                                            </div>
-                                                            <div class="share-wrapper">
-                                                                <div class="fb-share">
-                                                                    <label class="switch">
-                                                                        <input type="checkbox">
-                                                                        <span class="switch-slider brd-rd30"></span>
-                                                                    </label>
-                                                                    <a class="facebook brd-rd2" href="#" title="" itemprop="url"><i class="fa fa-facebook-square"></i> Share on Facebook</a>
-                                                                </div>
-                                                                <div class="fb-share">
-                                                                    <label class="switch">
-                                                                        <input type="checkbox">
-                                                                        <span class="switch-slider brd-rd30"></span>
-                                                                    </label>
-                                                                    <a class="twitter brd-rd2" href="#" title="" itemprop="url"><i class="fa fa-twitter"></i> Share on Twitter</a>
-                                                                </div>
-                                                            </div>
-                                                        </div>
+                                                        <a class="gradient-brd brd-rd2" title=""
+                                                           itemprop="url"><i class="fa fa-star"></i> Rate <i>{{number_format($restaurant->rating, 1)}}</i></a>
                                                     </div>
                                                 </div>
                                                 <div class="restaurant-detail-tabs">
                                                     <ul class="nav nav-tabs">
-                                                        <li class="active"><a href="#tab1-1" data-toggle="tab"><i class="fa fa-cutlery"></i> Menu</a></li>
-                                                        <li><a href="#tab1-2" data-toggle="tab"><i class="fa fa-picture-o"></i> Gallery</a></li>
-                                                        <li><a href="#tab1-3" data-toggle="tab"><i class="fa fa-star"></i> Reviews</a></li>
-                                                        <li><a href="#tab1-5" data-toggle="tab"><i class="fa fa-info"></i> Restaurant Info</a></li>
+                                                        <li class="active"><a href="#tab1-1" data-toggle="tab"><i
+                                                                    class="fa fa-cutlery"></i> Menu</a></li>
+                                                        <li><a href="#tab1-2" data-toggle="tab"><i
+                                                                    class="fa fa-picture-o"></i> Gallery</a></li>
+                                                        <li><a href="#tab1-3" data-toggle="tab"><i
+                                                                    class="fa fa-star"></i> Reviews</a></li>
+                                                        <li><a href="#tab1-5" data-toggle="tab"><i
+                                                                    class="fa fa-info"></i> Restaurant Info</a></li>
                                                     </ul>
                                                     <div class="tab-content">
                                                         <div class="tab-pane fade in active" id="tab1-1">
-                                                            <form class="search-dish">
-                                                                <input type="text" placeholder="Search here">
-                                                                <button type="submit"><i class="fa fa-search"></i></button>
-                                                            </form>
-                                                            @foreach($restaurant_menu as $menu)
-                                                            <div class="dishes-list-wrapper">
-                                                                <h4 class="title3" itemprop="headline"><span class="sudo-bottom sudo-bg-red">{{$menu->cate_name}}</span></h4>
-                                                                <span class="post-rate red-bg brd-rd2"><i class="fa fa-star-o"></i> 4.25</span>
-                                                                <ul class="dishes-list">
-                                                                            <li class="wow fadeInUp" data-wow-delay="0.1s">
-                                                                                <div class="featured-restaurant-box">
-                                                                                    <div class="featured-restaurant-thumb">
-                                                                                        <a href="#" title="" itemprop="url"><img src="images/resource/dish-img1-1.jpg" alt="dish-img1-1.jpg" itemprop="image"></a>
+
+                                                            @foreach($products as $product)
+                                                                <div class="dishes-list-wrapper">
+                                                                    <h4 class="title3" itemprop="headline"><span
+                                                                            class="sudo-bottom sudo-bg-red">{{\App\Models\Category::find($product[0]["cate_id"])->cate_name}}</span>
+                                                                    </h4>
+                                                                    @if(count($product) > 1)
+                                                                        @foreach($product as $item)
+                                                                            <ul class="dishes-list">
+                                                                                <li class="wow fadeInUp"
+                                                                                    data-wow-delay="0.1s">
+                                                                                    <div class="featured-restaurant-box"
+                                                                                         style="margin-bottom: 20px">
+                                                                                        <div
+                                                                                            class="featured-restaurant-thumb">
+                                                                                            <a href="/product-detail/{{$item["id"]}}" title=""
+                                                                                               itemprop="url"><img
+                                                                                                    src="images/resource/{{\App\Models\Product::find($item["id"])->productImages[0]->path}}"
+                                                                                                    alt="dish-img1-1.jpg"
+                                                                                                    itemprop="image"
+                                                                                                    width="111px"
+                                                                                                    height="92px"></a>
+                                                                                        </div>
+                                                                                        <div
+                                                                                            class="featured-restaurant-info">
+                                                                                            <h4 itemprop="headline"
+                                                                                                style=" float: left;display: -webkit-box;max-width: 75%;-webkit-line-clamp: 1;-webkit-box-orient: vertical;overflow: hidden; height: 22px">
+                                                                                                <a href="/product-detail/{{$item["id"]}}"
+                                                                                                   title="{{\App\Models\Product::find($item["id"])->name}}"
+                                                                                                   itemprop="url">{{\App\Models\Product::find($item["id"])->name}}</a>
+                                                                                            </h4>
+                                                                                            <span class="price">${{\App\Models\Product::find($item["id"])->discount ?? \App\Models\Product::find($item["id"])->price}}.00</span>
+                                                                                            <p itemprop="description"
+                                                                                               style=" float: left;display: -webkit-box;max-width: 100%;-webkit-line-clamp: 1;-webkit-box-orient: vertical;overflow: hidden;">{{\App\Models\Product::find($item["id"])->description}}</p>
+                                                                                        </div>
+                                                                                        <div class="ord-btn">
+                                                                                            <a class="brd-rd2"
+                                                                                               title="Add to cart"
+                                                                                               itemprop="url" style="padding: 0">
+                                                                                                <form action="cart/add-from-detail" method="get" class="detail-to-cart">
+                                                                                                    <input type="hidden" name="itemId" value="{{$item["id"]}}">
+                                                                                                    <input name="qty" type="hidden" value="1">
+                                                                                                    <button type="submit" style="width: 100%; height: 100%; padding: 9px 26px; background-color: transparent">
+                                                                                                    ADD TO CART
+                                                                                                    </button>
+                                                                                                </form>
+                                                                                            </a>
+
+                                                                                        </div>
                                                                                     </div>
-                                                                                    <div class="featured-restaurant-info">
-                                                                                        <h4 itemprop="headline"><a href="#" title="" itemprop="url">Pizza Takeaway</a></h4>
-                                                                                        <span class="price">$85.00</span>
-                                                                                        <p itemprop="description">Lorem Ipsum is simply dummy text of the printing industry</p>
-                                                                                        <ul class="post-meta">
-                                                                                            <li><i class="fa fa-check-circle-o"></i> Min order $50</li>
-                                                                                            <li><i class="flaticon-transport"></i> 30min</li>
-                                                                                        </ul>
+                                                                                </li>
+                                                                            </ul>
+                                                                        @endforeach
+                                                                    @else
+                                                                        <ul class="dishes-list">
+                                                                            <li class="wow fadeInUp"
+                                                                                data-wow-delay="0.1s">
+                                                                                <div class="featured-restaurant-box"
+                                                                                     style="margin-bottom: 20px">
+                                                                                    <div
+                                                                                        class="featured-restaurant-thumb">
+                                                                                        <a href="/product-detail/{{$product[0]["id"]}}" title=""
+                                                                                           itemprop="url"><img
+                                                                                                src="images/resource/{{\App\Models\Product::find($product[0]["id"])->productImages[0]->path}}"
+                                                                                                alt="dish-img1-1.jpg"
+                                                                                                itemprop="image"
+                                                                                                width="111px"
+                                                                                                height="92px"></a>
+                                                                                    </div>
+                                                                                    <div
+                                                                                        class="featured-restaurant-info">
+                                                                                        <h4 itemprop="headline"
+                                                                                            style=" float: left;display: -webkit-box;max-width: 75%;-webkit-line-clamp: 1;-webkit-box-orient: vertical;overflow: hidden;height: 22px">
+                                                                                            <a href="/product-detail/{{$product[0]["id"]}}"
+                                                                                               title="{{\App\Models\Product::find($product[0]["id"])->name}}"
+                                                                                               itemprop="url">{{\App\Models\Product::find($product[0]["id"])->name}}</a>
+                                                                                        </h4>
+                                                                                        <span class="price">${{\App\Models\Product::find($product[0]["id"])->discount ?? \App\Models\Product::find($product[0]["id"])->price}}.00</span>
+                                                                                        <p itemprop="description"
+                                                                                           style=" float: left;display: -webkit-box;max-width: 100%;-webkit-line-clamp: 1;-webkit-box-orient: vertical;overflow: hidden;">{{\App\Models\Product::find($product[0]["id"])->description}}</p>
                                                                                     </div>
                                                                                     <div class="ord-btn">
-                                                                                        <a class="brd-rd2" href="#" title="Order Now" itemprop="url">ADD TO CART</a>
+                                                                                        <a class="brd-rd2"
+                                                                                           title="Add to cart"
+                                                                                           itemprop="url" style="padding: 0">
+                                                                                            <form action="cart/add-from-detail" method="get" class="detail-to-cart">
+                                                                                                <input type="hidden" name="itemId" value="{{$product[0]["id"]}}">
+                                                                                                <input name="qty" type="hidden" value="1">
+                                                                                                <button type="submit" style="width: 100%; height: 100%; padding: 9px 26px; background-color: transparent">
+                                                                                            ADD TO CART
+                                                                                                </button>
+                                                                                            </form>
+                                                                                        </a>
                                                                                     </div>
                                                                                 </div>
                                                                             </li>
-                                                                </ul>
-                                                            </div>
+                                                                        </ul>
+                                                                    @endif
+                                                                </div>
                                                             @endforeach
                                                         </div>
                                                         <div class="tab-pane fade" id="tab1-2">
                                                             <div class="restaurant-gallery">
-                                                                <h4 class="title3" itemprop="headline"><span class="sudo-bottom sudo-bg-red">Nik B</span>aker's Gallery</h4>
+                                                                <h4 class="title3" itemprop="headline"><span
+                                                                        class="sudo-bottom sudo-bg-red">{{$restaurant->restaurant_name}}</span>
+                                                                </h4>
                                                                 <div class="remove-ext">
                                                                     <div class="row">
+                                                                        @foreach($restaurant->restaurantImages as $image)
                                                                         <div class="col-md-6 col-sm-6 col-lg-6">
-                                                                            <div class="restaurant-gallery-img"><a href="images/resource/restaurant-gallery-img1.jpg" data-fancybox="gallery" title="" itemprop="url"><img src="images/resource/restaurant-gallery-img1.jpg" alt="restaurant-gallery-img1.jpg" itemprop="image"></a></div>
+                                                                            <div class="restaurant-gallery-img"><a
+                                                                                    href="images/resource/{{$image->path}}"
+                                                                                    data-fancybox="gallery" title=""
+                                                                                    itemprop="url"><img
+                                                                                        src="images/resource/{{$image->path}}"
+                                                                                        alt="{{$image->path}}"
+                                                                                        itemprop="image"></a></div>
                                                                         </div>
-                                                                        <div class="col-md-6 col-sm-6 col-lg-6">
-                                                                            <div class="restaurant-gallery-img"><a href="images/resource/restaurant-gallery-img2.jpg" data-fancybox="gallery" title="" itemprop="url"><img src="images/resource/restaurant-gallery-img2.jpg" alt="restaurant-gallery-img2.jpg" itemprop="image"></a></div>
-                                                                        </div>
-                                                                        <div class="col-md-12 col-sm-12 col-lg-12">
-                                                                            <div class="restaurant-gallery-img"><a href="images/resource/restaurant-gallery-img3.jpg" data-fancybox="gallery" title="" itemprop="url"><img src="images/resource/restaurant-gallery-img3.jpg" alt="restaurant-gallery-img3.jpg" itemprop="image"></a></div>
-                                                                        </div>
-                                                                        <div class="col-md-6 col-sm-6 col-lg-6">
-                                                                            <div class="restaurant-gallery-img"><a href="images/resource/restaurant-gallery-img4.jpg" data-fancybox="gallery" title="" itemprop="url"><img src="images/resource/restaurant-gallery-img4.jpg" alt="restaurant-gallery-img4.jpg" itemprop="image"></a></div>
-                                                                        </div>
-                                                                        <div class="col-md-6 col-sm-6 col-lg-6">
-                                                                            <div class="restaurant-gallery-img"><a href="images/resource/restaurant-gallery-img5.jpg" data-fancybox="gallery" title="" itemprop="url"><img src="images/resource/restaurant-gallery-img5.jpg" alt="restaurant-gallery-img5.jpg" itemprop="image"></a></div>
-                                                                        </div>
+                                                                        @endforeach
                                                                     </div>
                                                                 </div>
                                                             </div>
                                                         </div>
                                                         <div class="tab-pane fade" id="tab1-3">
                                                             <div class="customer-review-wrapper">
-                                                                <h4 class="title3" itemprop="headline"><span class="sudo-bottom sudo-bg-red">Custo</span>mer Reviews</h4>
+                                                                <h4 class="title3" itemprop="headline"><span
+                                                                        class="sudo-bottom sudo-bg-red">Custo</span>mer
+                                                                    Reviews</h4>
                                                                 <ul class="comments-thread customer-reviews">
-                                                                    <li>
-                                                                        <div class="comment">
-                                                                            <img class="brd-rd50" src="images/resource/review-img1.jpg" alt="review-img1.jpg" itemprop="image">
-                                                                            <div class="comment-info">
-                                                                                <h4 itemprop="headline"><a href="#" title="" itemprop="url">John Mathur</a></h4>
-                                                                                <p itemprop="description">Lorem ipsum dolor sit amet, pri nusquam petentium at. In mutat omnes homero mea, pro delenit accusam eu</p>
-                                                                                <span class="customer-rating">
-                                                                                        <i class="fa fa-star-o"></i>
-                                                                                        <i class="fa fa-star-o"></i>
-                                                                                        <i class="fa fa-star-o"></i>
-                                                                                        <i class="fa fa-star-o"></i>
-                                                                                        <i class="fa fa-star"></i>
-                                                                                        <span>(4)</span>
+                                                                    @if($comments != null)
+                                                                        @foreach($comments as $comment)
+                                                                            <li>
+                                                                                <div class="comment">
+                                                                                    <img class="brd-rd50" style="width: 110px; height: 110px"
+                                                                                         src="images/user/{{$comment->user->avatar ?? 'default-user-avt.png'}}"
+                                                                                         alt="review-img1.jpg"
+                                                                                         itemprop="image">
+                                                                                    <div class="comment-info">
+                                                                                        <h4 itemprop="headline"><a
+                                                                                                href="#"
+                                                                                                title=""
+                                                                                                itemprop="url">{{$comment->user->name}}</a></h4>
+                                                                                        <p itemprop="description">{{$comment->messages}}</p>
+                                                                                        <span class="customer-rating">
+                                                                                            @if($comment->rating < 5)
+                                                                                                @for($i = 1; $i <=$comment->rate; $i++)
+                                                                                                    <i class="fa fa-star on"></i>
+                                                                                                @endfor
+                                                                                                @for($j = 1; $j <= 5 - $comment->rate; $j++)
+                                                                                                    <i class="fa fa-star-o"></i>
+                                                                                                @endfor
+                                                                                            @else
+                                                                                                <i class="fa fa-star on"></i>
+                                                                                                <i class="fa fa-star on"></i>
+                                                                                                <i class="fa fa-star on"></i>
+                                                                                                <i class="fa fa-star on"></i>
+                                                                                                <i class="fa fa-star-on"></i>
+                                                                                            @endif
+                                                                                        <span>({{$comment->rate}})</span>
                                                                                     </span>
-                                                                            </div>
-                                                                        </div>
-                                                                    </li>
-                                                                    <li>
-                                                                        <div class="comment">
-                                                                            <img class="brd-rd50" src="images/resource/review-img2.jpg" alt="review-img2.jpg" itemprop="image">
-                                                                            <div class="comment-info">
-                                                                                <h4 itemprop="headline"><a href="#" title="" itemprop="url">John Mathur</a></h4>
-                                                                                <p itemprop="description">Lorem ipsum dolor sit amet, pri nusquam petentium at. In mutat omnes homero mea, pro delenit accusam eu</p>
-                                                                                <span class="customer-rating">
-                                                                                        <i class="fa fa-star-o"></i>
-                                                                                        <i class="fa fa-star-o"></i>
-                                                                                        <i class="fa fa-star-o"></i>
-                                                                                        <i class="fa fa-star-o"></i>
-                                                                                        <i class="fa fa-star"></i>
-                                                                                        <span>(4)</span>
-                                                                                    </span>
-                                                                            </div>
-                                                                        </div>
-                                                                    </li>
-                                                                    <li>
-                                                                        <div class="comment">
-                                                                            <img class="brd-rd50" src="images/resource/review-img3.jpg" alt="review-img3.jpg" itemprop="image">
-                                                                            <div class="comment-info">
-                                                                                <h4 itemprop="headline"><a href="#" title="" itemprop="url">John Mathur</a></h4>
-                                                                                <p itemprop="description">Lorem ipsum dolor sit amet, pri nusquam petentium at. In mutat omnes homero mea, pro delenit accusam eu</p>
-                                                                                <span class="customer-rating">
-                                                                                        <i class="fa fa-star-o"></i>
-                                                                                        <i class="fa fa-star-o"></i>
-                                                                                        <i class="fa fa-star-o"></i>
-                                                                                        <i class="fa fa-star-o"></i>
-                                                                                        <i class="fa fa-star"></i>
-                                                                                        <span>(4)</span>
-                                                                                    </span>
-                                                                            </div>
-                                                                        </div>
-                                                                    </li>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </li>
+                                                                        @endforeach
+                                                                    @endif
+                                                                    @if(count($comments) == 0)
+                                                                        <div style="width: 100%; height: 200px"><h4 style="color: #5c5c5c">There is no comment about this restaurant now.</h4></div>
+                                                                    @endif
                                                                 </ul>
                                                                 <div class="your-review">
-                                                                    <h4 class="title3" itemprop="headline"><span class="sudo-bottom sudo-bg-red">Write</span> Review Here</h4>
-                                                                    <form class="review-form">
-                                                                        <textarea class="brd-rd5">Lorem ipsum dolor sit amet, pri nusquam petentium at. In mutatomnes homero mea, pro delenit accusam eu</textarea>
-                                                                        <button class="brd-rd2 red-bg" type="submit">POST REVIEW</button>
+                                                                    <h4 class="title3" itemprop="headline"><span
+                                                                            class="sudo-bottom sudo-bg-red">Write</span>
+                                                                        Review Here</h4>
+                                                                    <form class="review-form" method="post"
+                                                                          action="/restaurant-review">
+                                                                        @csrf
+                                                                        <input type="hidden" name="restaurant-id"
+                                                                               value="{{$restaurant->id}}">
+                                                                        <textarea class="brd-rd30" name="message"
+                                                                                  placeholder="Your review"></textarea>
+                                                                        <button class="brd-rd2 red-bg"
+                                                                                type="submit">
+                                                                            POST REVIEW
+                                                                        </button>
                                                                         <div class="rate-box">
                                                                             <span>RATE US</span>
-                                                                            <div class="rating-box">
-                                                                                <span class="brd-rd2 clr1 on"></span>
-                                                                                <span class="brd-rd2 clr2 on"></span>
-                                                                                <span class="brd-rd2 clr3 on"></span>
-                                                                                <span class="brd-rd2 clr4 on"></span>
-                                                                                <span class="brd-rd2 clr5 on"></span>
-                                                                                <span class="brd-rd2 clr6 on"></span>
-                                                                                <span class="brd-rd2 clr7 off"></span>
-                                                                                <span class="brd-rd2 clr8 off"></span>
-                                                                                <i>4.0</i>
+                                                                            <div class="rate">
+                                                                                <input type="radio" id="star5"
+                                                                                       name="rate" value="5"/>
+                                                                                <label for="star5">5
+                                                                                    stars</label>
+                                                                                <input type="radio" id="star4"
+                                                                                       name="rate" value="4"/>
+                                                                                <label for="star4">4
+                                                                                    stars</label>
+                                                                                <input type="radio" id="star3"
+                                                                                       name="rate" value="3"/>
+                                                                                <label for="star3">3
+                                                                                    stars</label>
+                                                                                <input type="radio" id="star2"
+                                                                                       name="rate" value="2"/>
+                                                                                <label for="star2">2
+                                                                                    stars</label>
+                                                                                <input type="radio" id="star1"
+                                                                                       name="rate" value="1"/>
+                                                                                <label for="star1">1
+                                                                                    star</label>
                                                                             </div>
                                                                         </div>
                                                                     </form>
                                                                 </div>
                                                             </div>
                                                         </div>
-                                                        <div class="tab-pane fade" id="tab1-4">
-                                                            <div class="book-table">
-                                                                <h4 class="title3" itemprop="headline"><span class="sudo-bottom sudo-bg-red">Book</span> This Restaurant Table</h4>
-                                                                <form>
-                                                                    <div class="row">
-                                                                        <div class="col-md-6 col-sm-6 col-lg-6">
-                                                                            <div class="input-field brd-rd2"><i class="fa fa-user"></i> <input type="text" placeholder="NAME"></div>
-                                                                        </div>
-                                                                        <div class="col-md-6 col-sm-6 col-lg-6">
-                                                                            <div class="input-field brd-rd2"><i class="fa fa-phone"></i> <input type="text" placeholder="PHONE"></div>
-                                                                        </div>
-                                                                        <div class="col-md-6 col-sm-6 col-lg-6">
-                                                                            <div class="select-wrp2">
-                                                                                <select>
-                                                                                    <option>Questions</option>
-                                                                                    <option>Questions No 1</option>
-                                                                                    <option>Questions No 2</option>
-                                                                                    <option>Questions No 3</option>
-                                                                                </select>
-                                                                            </div>
-                                                                        </div>
-                                                                        <div class="col-md-6 col-sm-6 col-lg-6">
-                                                                            <div class="input-field brd-rd2"><i class="fa fa-envelope"></i> <input type="email" placeholder="EMAIL"></div>
-                                                                        </div>
-                                                                        <div class="col-md-6 col-sm-6 col-lg-6">
-                                                                            <div class="input-field brd-rd2"><i class="fa fa-calendar"></i> <input class="datepicker" type="text" placeholder="SELECT DATE"></div>
-                                                                        </div>
-                                                                        <div class="col-md-6 col-sm-6 col-lg-6">
-                                                                            <div class="input-field brd-rd2"><i class="fa fa-clock-o"></i> <input class="timepicker" type="text" placeholder="SELECT Time"></div>
-                                                                        </div>
-                                                                        <div class="col-md-12 col-sm-12 col-lg-12">
-                                                                            <div class="textarea-field brd-rd2"><i class="fa fa-pencil"></i> <textarea placeholder="Your Instruction"></textarea></div>
-                                                                        </div>
-                                                                        <div class="col-md-12 col-sm-12 col-lg-12">
-                                                                            <button class="brd-rd2 red-bg" type="submit">POST PREVIEW</button>
-                                                                        </div>
-                                                                    </div>
-                                                                </form>
-                                                            </div>
-                                                        </div>
                                                         <div class="tab-pane fade" id="tab1-5">
                                                             <div class="restaurant-info-wrapper">
-                                                                <h3 class="title3" itemprop="headline"><span class="sudo-bottom sudo-bg-red">Book</span> This Restaurant Table</h3>
+                                                                <h3 class="title3" itemprop="headline"><span
+                                                                        class="sudo-bottom sudo-bg-red">Res</span>taurant Information</h3>
 
                                                                 <ul class="restaurant-info-list">
                                                                     <li>
                                                                         <i class="fa fa-map-marker red-clr"></i>
                                                                         <strong>Address :</strong>
-                                                                        <span>2nd Street, East-West Mansion Flat A2 231 Newyork NY 10003</span>
+                                                                        <span>{{$restaurant->address}}</span>
                                                                     </li>
                                                                     <li>
                                                                         <i class="fa fa-phone red-clr"></i>
                                                                         <strong>Call us & Hire us</strong>
-                                                                        <span>+32 (0) 598 65 8968</span>
+                                                                        <span>{{$restaurant->telephone}}</span>
                                                                     </li>
                                                                     <li>
                                                                         <i class="fa fa-envelope-o red-clr"></i>
                                                                         <strong>Have any questions?</strong>
-                                                                        <span>Support@webinane.com</span>
+                                                                        <span>{{$restaurant->email}}</span>
                                                                     </li>
                                                                     <li>
                                                                         <i class="fa fa-fax red-clr"></i>
@@ -303,114 +325,19 @@
                                     </div>
                                     <div style="padding-left: 70px;" class="col-md-4 col-sm-12 col-lg-4">
                                         <div class="sidebar right">
-                                            <div class="widget style2 Search_filters wow fadeIn" data-wow-delay="0.2s" style="visibility: visible; animation-delay: 0.2s; animation-name: fadeIn;">
-                                                <h4 class="widget-title2 sudo-bg-red" itemprop="headline">Search Filters</h4>
+                                            <div class="widget style2 Search_filters wow fadeIn" data-wow-delay="0.2s"
+                                                 style="visibility: visible; animation-delay: 0.2s; animation-name: fadeIn;">
+                                                <h4 class="widget-title2 sudo-bg-red" itemprop="headline">Search
+                                                    Filters</h4>
                                                 <div class="widget-data">
                                                     <ul>
-                                                        <li><a href="#" title="" itemprop="url">Fast Food</a> <span>30</span></li>
-                                                        <li><a href="#" title="" itemprop="url">North Indian</a> <span>28</span></li>
-                                                        <li><a href="#" title="" itemprop="url">Chinese</a> <span>25</span></li>
-                                                        <li><a href="#" title="" itemprop="url">Bakery</a> <span>11</span></li>
-                                                        <li><a href="#" title="" itemprop="url">Mughlai</a> <span>7</span></li>
-                                                        <li><a href="#" title="" itemprop="url">Pizza</a> <span>6</span></li>
-                                                        <li><a href="#" title="" itemprop="url">Ice Cream</a> <span>6</span></li>
-                                                        <li><a href="#" title="" itemprop="url">Rolls</a> <span>6</span></li>
-                                                        <li><a href="#" title="" itemprop="url">Cafe</a> <span>5</span></li>
-                                                        <li><a href="#" title="" itemprop="url">Italian</a> <span>5</span></li>
+                                                        @foreach($categories as $category)
+                                                            <li><a href="restaurants/{{$category->id}}" title=""
+                                                                   itemprop="url"
+                                                                   style="text-transform: capitalize">{{$category->cate_name}}</a>
+                                                            </li>
+                                                        @endforeach
                                                     </ul>
-                                                </div>
-                                            </div>
-                                            <div class="widget style2 quick_filters wow fadeIn" data-wow-delay="0.2s" style="visibility: visible; animation-delay: 0.2s; animation-name: fadeIn;">
-                                                <h4 class="widget-title2 sudo-bg-red" itemprop="headline">Quick Filters</h4>
-                                                <div class="widget-data">
-                                                    <ul>
-                                                        <li><span class="radio-box"><input type="radio" name="filter" id="filt1-1"><label for="filt1-1">Promotions</label></span></li>
-                                                        <li><span class="radio-box"><input type="radio" name="filter" id="filt1-2"><label for="filt1-2">Bookmarked</label></span></li>
-                                                        <li><span class="radio-box"><input type="radio" name="filter" id="filt1-3"><label for="filt1-3">Pure veg</label></span></li>
-                                                        <li><span class="radio-box"><input type="radio" name="filter" id="filt1-4"><label for="filt1-4">Free Delivery</label></span></li>
-                                                        <li><span class="radio-box"><input type="radio" name="filter" id="filt1-5"><label for="filt1-5">Online Payments</label></span></li>
-                                                    </ul>
-                                                </div>
-                                            </div>
-                                            <div class="widget style2 quick_filters wow fadeIn" data-wow-delay="0.2s" style="visibility: visible; animation-delay: 0.2s; animation-name: fadeIn;">
-                                                <h4 class="widget-title2 sudo-bg-red" itemprop="headline">Quick Filters</h4>
-                                                <div class="widget-data">
-                                                    <ul>
-                                                        <li><span class="radio-box"><input type="radio" name="filter2" id="filt2-1"><label for="filt2-1">No minimum order 6</label></span></li>
-                                                        <li><span class="radio-box"><input type="radio" name="filter2" id="filt2-2"><label for="filt2-2">Up to ₹150 69</label></span></li>
-                                                        <li><span class="radio-box"><input type="radio" name="filter2" id="filt2-3"><label for="filt2-3">Up to ₹250 72</label></span></li>
-                                                        <li><span class="radio-box"><input type="radio" name="filter2" id="filt2-4"><label for="filt2-4">Up to ₹500</label></span></li>
-                                                    </ul>
-                                                </div>
-                                            </div>
-                                            <div class="widget style2 popular_posts wow fadeIn" data-wow-delay="0.2s" style="visibility: visible; animation-delay: 0.2s; animation-name: fadeIn;">
-                                                <h4 class="widget-title2 sudo-bg-red" itemprop="headline">Popular Posts</h4>
-                                                <div class="widget-data">
-                                                    <div class="mini-posts-list">
-                                                        <div class="mini-post-item">
-                                                            <a href="blog-detail-right-sidebar.html" title="" itemprop="url"><img class="brd-rd2" src="images/resource/popular-post-img1.jpg" alt="popular-post-img1.jpg" itemprop="image"></a>
-                                                            <div class="mini-post-info">
-                                                                <h5 itemprop="headline"><a href="blog-detail-right-sidebar.html" title="" itemprop="url">Food Tech</a></h5>
-                                                                <span class="mini-post-data"><i class="fa fa-clock-o"></i> August 10, 2017</span>
-                                                            </div>
-                                                        </div>
-                                                        <div class="mini-post-item">
-                                                            <a href="blog-detail-left-sidebar.html" title="" itemprop="url"><img class="brd-rd2" src="images/resource/popular-post-img2.jpg" alt="popular-post-img2.jpg" itemprop="image"></a>
-                                                            <div class="mini-post-info">
-                                                                <h5 itemprop="headline"><a href="blog-detail-left-sidebar.html" title="" itemprop="url">Food Tech</a></h5>
-                                                                <span class="mini-post-data"><i class="fa fa-clock-o"></i> November 12, 2017</span>
-                                                            </div>
-                                                        </div>
-                                                        <div class="mini-post-item">
-                                                            <a href="blog-detail.html" title="" itemprop="url"><img class="brd-rd2" src="images/resource/popular-post-img3.jpg" alt="popular-post-img3.jpg" itemprop="image"></a>
-                                                            <div class="mini-post-info">
-                                                                <h5 itemprop="headline"><a href="blog-detail.html" title="" itemprop="url">Food Tech</a></h5>
-                                                                <span class="mini-post-data"><i class="fa fa-clock-o"></i> May 15, 2017</span>
-                                                            </div>
-                                                        </div>
-                                                        <div class="mini-post-item">
-                                                            <a href="blog-detail-right-sidebar.html" title="" itemprop="url"><img class="brd-rd2" src="images/resource/popular-post-img4.jpg" alt="popular-post-img4.jpg" itemprop="image"></a>
-                                                            <div class="mini-post-info">
-                                                                <h5 itemprop="headline"><a href="blog-detail-right-sidebar.html" title="" itemprop="url">Food Tech</a></h5>
-                                                                <span class="mini-post-data"><i class="fa fa-clock-o"></i> March 20, 2017</span>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="widget style2 category_posts wow fadeIn" data-wow-delay="0.2s" style="visibility: visible; animation-delay: 0.2s; animation-name: fadeIn;">
-                                                <h4 class="widget-title2 sudo-bg-red" itemprop="headline">Categories</h4>
-                                                <div class="widget-data">
-                                                    <div class="mini-posts-list">
-                                                        <div class="mini-post-item">
-                                                            <a href="blog-detail-right-sidebar.html" title="" itemprop="url"><img class="brd-rd2" src="images/resource/popular-post-img2-1.jpg" alt="popular-post-img2-1.jpg" itemprop="image"></a>
-                                                            <div class="mini-post-info">
-                                                                <h5 itemprop="headline"><a href="blog-detail-right-sidebar.html" title="" itemprop="url">Food Tech</a></h5>
-                                                                <span class="mini-post-data"><i class="fa fa-clock-o"></i> August 10, 2017</span>
-                                                            </div>
-                                                        </div>
-                                                        <div class="mini-post-item">
-                                                            <a href="blog-detail-left-sidebar.html" title="" itemprop="url"><img class="brd-rd2" src="images/resource/popular-post-img2-2.jpg" alt="popular-post-img2-2.jpg" itemprop="image"></a>
-                                                            <div class="mini-post-info">
-                                                                <h5 itemprop="headline"><a href="blog-detail-left-sidebar.html" title="" itemprop="url">Food Tech</a></h5>
-                                                                <span class="mini-post-data"><i class="fa fa-clock-o"></i> November 12, 2017</span>
-                                                            </div>
-                                                        </div>
-                                                        <div class="mini-post-item">
-                                                            <a href="blog-detail.html" title="" itemprop="url"><img class="brd-rd2" src="images/resource/popular-post-img2-3.jpg" alt="popular-post-img2-3.jpg" itemprop="image"></a>
-                                                            <div class="mini-post-info">
-                                                                <h5 itemprop="headline"><a href="blog-detail.html" title="" itemprop="url">Food Tech</a></h5>
-                                                                <span class="mini-post-data"><i class="fa fa-clock-o"></i> May 15, 2017</span>
-                                                            </div>
-                                                        </div>
-                                                        <div class="mini-post-item">
-                                                            <a href="blog-detail-right-sidebar.html" title="" itemprop="url"><img class="brd-rd2" src="images/resource/popular-post-img2-4.jpg" alt="popular-post-img2-4.jpg" itemprop="image"></a>
-                                                            <div class="mini-post-info">
-                                                                <h5 itemprop="headline"><a href="blog-detail-right-sidebar.html" title="" itemprop="url">Food Tech</a></h5>
-                                                                <span class="mini-post-data"><i class="fa fa-clock-o"></i> March 20, 2017</span>
-                                                            </div>
-                                                        </div>
-                                                    </div>
                                                 </div>
                                             </div>
                                         </div><!--Sidebar -->

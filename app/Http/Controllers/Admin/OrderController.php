@@ -22,7 +22,7 @@ class OrderController extends Controller
 
     public function statusFilter()
     {
-        $orders = Order::where('email', '<>', 'undefined')->where('restaurant_id', Auth::id());
+        $orders = Order::where('email', '<>', 'undefined')->where('restaurant_id', Auth::user()->restaurant_id);
         $start = $_GET['start-time'];
         $end = $_GET['end-time'];
         if ($start!=null && $end != null) {
@@ -32,6 +32,7 @@ class OrderController extends Controller
         }elseif($start == null && $end != null){
             $orders = $orders->where('created_at', '<=', $end);
         }
+
         $status = $_GET['status'];
         if ($status != 'all') {
             $orders = $orders->where('status', $status)

@@ -14,7 +14,7 @@
         <div class="row">
             <div class="col-lg-12 mb-4">
                 <form action="order/filter-by-status" method="get" style="margin-top: -30px">
-                    <div class="form-group" id="simple-date4" style="width: 28%; display: inline-block; position: relative; left: 57%;">
+                    <div class="form-group" id="simple-date4" style="width: 30%; display: inline-block; position: relative; left: 55%;">
                         <div class="input-daterange input-group">
                             <input type="date" class="input-sm form-control" name="start-time" onchange="this.form.submit()" value="{{request('start-time')}}" />
                             <div class="input-group-prepend">
@@ -23,7 +23,7 @@
                             <input type="date" class="input-sm form-control" name="end-time" onchange="this.form.submit()" value="{{request('end-time')}}" />
                         </div>
                     </div>
-                    <div class="form-group" style="width: 12%;display: inline-block;position: relative;left:59%">
+                    <div class="form-group" style="width: 12%;display: inline-block;position: relative;left:57%">
                         <select class="form-control" name="status" id="exampleFormControlSelect1" onchange="this.form.submit()">
                             <option {{request('status') == 'all' ? 'selected' : ''}} value="all">All status</option>
                             <option {{request('status') == 'pending' ? 'selected' : ''}} value="pending">Pending</option>
