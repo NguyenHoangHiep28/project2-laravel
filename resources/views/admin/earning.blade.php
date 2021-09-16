@@ -14,7 +14,7 @@
         <div class="row">
             <div class="col-lg-12 mb-4">
                 <form action="/admin-earning/filter-by-date" method="get" style="margin-top: -30px">
-                    <div class="form-group" id="simple-date4" style="width: 28%; display: inline-block; position: relative; left:72%;">
+                    <div class="form-group" id="simple-date4" style="width: 30%; display: inline-block; position: relative; left:70%;">
                         <div class="input-daterange input-group">
                             <input type="date" class="input-sm form-control" name="start-time" onchange="this.form.submit()" value="{{request('start-time')}}" />
                             <div class="input-group-prepend">

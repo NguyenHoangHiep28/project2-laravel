@@ -21,11 +21,14 @@
                                     <div class="col-md-9 col-sm-12 col-lg-9">
                                         @isset($keyWord)
                                             <div class="search-found" style="margin: 0;">
-                                                <h4 itemprop="headline" style="margin-bottom: 10px; font-size: 20px">Search Result Found <span class="red-clr">"{{Session::get('keyWord') ?? ''}}{{$keyWord ?? ''}}"</span>
+                                                <h4 itemprop="headline" style="margin-bottom: 10px; font-size: 20px">
+                                                    Search Result Found <span
+                                                        class="red-clr">"{{Session::get('keyWord') ?? ''}}{{$keyWord ?? ''}}"</span>
                                                 </h4>
                                             </div>
                                         @endisset
-                                        <form class="search-frm" method="post" action="/restaurant-search" style="margin-bottom: 30px; margin-top: 5px">
+                                        <form class="search-frm" method="post" action="/restaurant-search"
+                                              style="margin-bottom: 30px; margin-top: 5px">
                                             @csrf
                                             <input type="text" name="key-word" placeholder="Enter restaurant name "
                                                    style="border: 1px solid #cccccc;height: 50px; font-size: 14px">
@@ -40,7 +43,7 @@
                                                             class="featured-restaurant-box with-bg style2 brd-rd12 wow fadeIn"
                                                             data-wow-delay="0.1s">
                                                             <div class="featured-restaurant-thumb">
-                                                                <a href="restaurant-detail.html" title=""
+                                                                <a href="restaurant-detail/{{$restaurant->id}}" title=""
                                                                    itemprop="url"><img
                                                                         src="images/resource/{{$restaurant->avatar}}"
                                                                         alt="" style="width: 44px; height: 44px"
@@ -48,19 +51,29 @@
                                                             </div>
                                                             <div class="featured-restaurant-info">
                                                                 <span class="red-clr">{{$restaurant->address}}</span>
-                                                                <h4 itemprop="headline"><a href="restaurant-detail.html"
-                                                                                           title="" itemprop="url">{{$restaurant->restaurant_name}}</a></h4>
-                                                                <span class="food-types">Type of food: <a href="#"
-                                                                                                          title=""
-                                                                                                          itemprop="url">Apple Juice</a>, <a
-                                                                        href="#" title="" itemprop="url">BB.Q</a></span>
+                                                                <h4 itemprop="headline"><a
+                                                                        href="restaurant-detail/{{$restaurant->id}}"
+                                                                        title=""
+                                                                        itemprop="url">{{$restaurant->restaurant_name}}</a>
+                                                                </h4>
+                                                                <span class="food-types" style="width: 100%; height: 40px">Type of food:
+                                                                    @foreach($restaurant->restaurantMenus as $menu)
+                                                                        @if($loop->index == count($restaurant->restaurantMenus) -1)
+                                                                            <a title="" itemprop="url">{{\App\Models\Category::find($menu->cate_id)->cate_name}}</a>
+                                                                        @else
+                                                                            <a  title="" itemprop="url">{{\App\Models\Category::find($menu->cate_id)->cate_name}}</a>,
+                                                                        @endif
+                                                                    @endforeach
+                                                                    </span>
                                                                 <ul class="post-meta">
                                                                     <li><i class="flaticon-money"></i> Accepts cash
                                                                     </li>
                                                                 </ul>
-                                                                <a class="brd-rd30" href="restaurant-detail.html"
+                                                                <a class="brd-rd30"
+                                                                   href="restaurant-detail/{{$restaurant->id}}"
                                                                    title="View restaurant detail"><i
-                                                                        class="fa fa-angle-double-right"></i>Discover now</a>
+                                                                        class="fa fa-angle-double-right"></i>Discover
+                                                                    now</a>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -73,21 +86,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="col-md-3 col-sm-12 col-lg-3">
-                                    <div class="sidebar left">
-                                        <div class="widget style2 Search_filters">
-                                            <h4 class="widget-title2 sudo-bg-red" itemprop="headline">Search
-                                                Filters</h4>
-                                            <div class="widget-data">
-                                                <ul>
-                                                    @foreach($categories as $category)
-                                                        <li><a href="restaurants/{{$category->id}}" title="" itemprop="url" style="text-transform: capitalize">{{$category->cate_name}}</a></li>
-                                                    @endforeach
-                                                </ul>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    </div>
+                                    @include('front.components.restaurantSideBar')
                                 </div>
                             </div>
                         </div>

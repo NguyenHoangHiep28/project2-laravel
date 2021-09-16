@@ -209,21 +209,24 @@ class HomeController
         //status
         $status= $request->input('filter-status');
             if ($status == 'featured'){
-                $products = Product::where('featured', '=', 1);
+                $products = $products->where('featured', '=', 1);
             }elseif ($status == 'promotion'){
-                $products = Product::where('discount', '<>', null);
+                $products = $products->where('discount', '<>', null);
             }
+
         //price
         $price = $request->input('filter-price');
         if ($price != null){
             if ($price == 'lt50'){
-                $products = $products->where('discount', '<', 50)->orWhere('price', '<', 50);
+
+                $products = $products->where('price', '<', 50);
             }elseif ($price == 'bt50n100'){
                 $products = $products->whereBetween('price', [50, 100]);
             }elseif($price == 'gt100'){
                 $products = $products->where('price', '>', 100);
             }
         }
+
         return $products;
     }
 }

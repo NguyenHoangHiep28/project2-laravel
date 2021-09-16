@@ -7581,16 +7581,16 @@ a.thanks-close:focus {color: #333;}
 .modal button:focus{
   outline: none;
 }
-.shop.nav {
-    width: 100%;
-    position: relative;
+.shop nav {
+    width: 100%!important;
+    max-width: 100% !important;
 }
 .shop .page-link{
     padding-left: 14px !important;
 }
 .shop .pagination {
-    position: relative;
-    left: 50%;
+    float: right;
+    margin: auto;
     padding-top: 20px;
 }
 .pagination-wrapper nav{

@@ -44,7 +44,7 @@
                                                                 class="fa fa-star-o"></i> {{number_format($product->rating, 1)}}</span>
                                                     </div>
                                                     <div class="popular-dish-info" style="padding: 10px">
-                                                        <h4 itemprop="headline" style="font-size: 16px"><a
+                                                        <h4 itemprop="headline" style="font-size: 16px;height: 40px;display: -webkit-box;max-width: 100%;-webkit-line-clamp: 2;-webkit-box-orient: vertical;overflow: hidden;"><a
                                                                 href="/product-detail/{{$product->id}}" title="" itemprop="url">{{$product->name}}</a>
                                                         </h4>
                                                         <span><a href="/shop/{{$product->category->id}}}" title=""
