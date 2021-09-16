@@ -6,9 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Order;
 use App\Models\Product;
 use App\Models\UserCart;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
-use Gloudemans\Shoppingcart\Facades\Cart;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\View;
@@ -166,26 +164,26 @@ class CartController extends Controller
                 $orderId = $order->id;
             }
             $productPrice = $product->discount ?? $product->price;
+            $total = Order::find($orderId)->total;
             $productInCart = UserCart::where('user_id', Auth::id())->where('product_id', $itemId)->count();
             if ($productInCart == 0) {
                 $newProductInCart = new UserCart();
                 $newProductInCart->user_id = Auth::id();
-                $newProductInCart->product_id = $request->itemId;
-                $newProductInCart->qty = $request->qty;
+                $newProductInCart->product_id = $itemId;
+                $newProductInCart->qty = $qty;
                 $newProductInCart->order_id = $orderId;
                 $newProductInCart->restaurant_id = $product->restaurant_id;
                 $newProductInCart->total = $productPrice * $qty;
                 $newProductInCart->save();
-                $total = $productPrice * $qty;
+                $total += $productPrice * $qty;
             } else {
-                $total = Order::find($orderId)->total;
                 $productInCart = UserCart::where('user_id', Auth::id())->where('product_id', $itemId)->first();
                     $changeAmount = $qty;
                     DB::table('user_carts')->where('user_id', '=', Auth::id())
-                        ->where('product_id', '=', $request->itemId)
+                        ->where('product_id', '=', $itemId)
                         ->increment('qty', $changeAmount);
                     DB::table('user_carts')->where('user_id', '=', Auth::id())
-                        ->where('product_id', '=', $request->itemId)
+                        ->where('product_id', '=', $qty)
                         ->increment('total', $productPrice * $changeAmount);
                     $total += $productPrice * $changeAmount;
             }

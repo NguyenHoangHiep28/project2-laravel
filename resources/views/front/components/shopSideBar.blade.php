@@ -8,6 +8,7 @@
                 Filters</h4>
             <div class="widget-data">
                 <ul>
+                    <li><a href="shop/" title="" itemprop="url" style="text-transform: capitalize">All</a></li>
                     @foreach($categories as $category)
                     <li><a href="shop/{{$category->id}}" title="" itemprop="url" style="text-transform: capitalize">{{$category->cate_name}}</a></li>
                     @endforeach

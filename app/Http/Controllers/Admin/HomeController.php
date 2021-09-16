@@ -20,9 +20,9 @@ class HomeController extends Controller
         foreach ($orders as $order) {
             $monthlyEarning += $order->total;
         }
-        $customers = Order::where('restaurant_id', Auth::user()->restaurant_id)->whereMonth('created_at', '=', date('m'))->where('status','<>','delivered')->distinct('user_id')->count();
+        $customers = Order::where('restaurant_id', Auth::user()->restaurant_id)->whereMonth('created_at', '=', date('m'))->where('status','<>','in cart')->distinct('user_id')->count();
         $orderNumber = Order::where('restaurant_id', Auth::user()->restaurant_id)->whereMonth('created_at', '=', date('m'))->where('status','<>','in cart')->count();
-        $todayOrderNumber = Order::where('restaurant_id', Auth::user()->restaurant_id)->where('status','<>','in cart')->whereDay('created_at', '=', date('d'))->count();
+        $todayOrderNumber = Order::where('restaurant_id', Auth::user()->restaurant_id)->where('status','<>','in cart')->whereDate('created_at', '=', date('Y-m-d'))->count();
         $data = array();
         $months = date('m');
         for ($i = 1; $i <= $months; $i++) {
@@ -90,7 +90,7 @@ class HomeController extends Controller
 
     public function earningFilter()
     {
-        $orders = Order::where('email', '<>', 'undefined')->where('restaurant_id', Auth::id())->where('status', 'delivered');
+        $orders = Order::where('email', '<>', 'undefined')->where('restaurant_id', Auth::user()->restaurant_id)->where('status', 'delivered');
         $start = $_GET['start-time'];
         $end = $_GET['end-time'];
         if ($start!=null && $end != null) {

@@ -169,8 +169,8 @@
                                                                         </form>
                                                                     </div>
 {{--                                                                @else--}}
-                                                                    <h4 style="color: #5c5c5c">You need login to review
-                                                                        food !</h4>
+{{--                                                                    <h4 style="color: #5c5c5c">You need login to review--}}
+{{--                                                                        food !</h4>--}}
 {{--                                                                @endif--}}
                                                             </div>
                                                         </div>

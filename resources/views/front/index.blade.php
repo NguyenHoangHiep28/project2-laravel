@@ -77,7 +77,7 @@
                             <ul class="restaurants-wrapper style2">
                                 @foreach($restaurants as $restaurant)
                                     <li class="wow bounceIn" data-wow-delay="0.2s">
-                                    <div class="top-restaurant"><a class="brd-rd50" href="#" title=""
+                                    <div class="top-restaurant"><a class="brd-rd50" href="/restaurant-detail/{{$restaurant->id}}" title=""
                                                                    itemprop="url"><img
                                                 src="images/resource/{{$restaurant->avatar}}" alt="top-restaurant1.png"
                                                 itemprop="image" style="width: 113px;height: 113px"></a></div>
@@ -136,14 +136,14 @@
                                         @else
                                             <a class="brd-rd2" data-toggle="modal" data-target="#registerrestaurant"
                                                {{--                                           href="/cart/add/{{\Illuminate\Support\Facades\Auth::id() ?? 0}}/{{$product->id}}" --}}
-                                               title="Order Now" itemprop="url">Add
+                                               title="Order Now" itemprop="url" style="cursor: pointer">Add
                                                 to cart</a>
                                         @endif
                                         <div class="restaurant-info">
                                             <img src="images/resource/{{$product->restaurant->avatar}}"
                                                  alt="{{$product->restaurant->avatar}}" itemprop="image" style="width: 66px;height: 66px">
                                             <div class="restaurant-info-inner">
-                                                <h6 itemprop="headline"><a href="restaurant-detail.html" title=""
+                                                <h6 itemprop="headline"><a href="/restaurant-detail/{{$product->restaurant->id}}" title=""
                                                                            itemprop="url">{{$product->restaurant->restaurant_name}}</a>
                                                 </h6>
                                                 <span class="red-clr">{{$product->restaurant->address}}</span>
@@ -216,9 +216,9 @@
                                             @else
                                                 <span style="color: #1a1a1a">${{$popular->price}}.00</span>
                                             @endif
-                                            <h4 style="font-size: 14px"><a href="/product-detail/{{$product->id}}" title="">{{$popular->name}}</a></h4>
-                                                <span><a href="/shop/{{$product->category->id}}}" title=""
-                                                         itemprop="url" style="display: block;text-transform: capitalize; color: #ea1b25; margin-bottom: 5px">{{$product->category->cate_name}}</a></span>
+                                            <h4 style="font-size: 14px"><a href="/product-detail/{{$popular->id}}" title="">{{$popular->name}}</a></h4>
+                                                <span><a href="/shop/{{$popular->category->id}}}" title=""
+                                                         itemprop="url" style="display: block;text-transform: capitalize; color: #ea1b25; margin-bottom: 5px">{{$popular->category->cate_name}}</a></span>
                                         </div>
                                     </div>
                                     <div class="item-meta">
