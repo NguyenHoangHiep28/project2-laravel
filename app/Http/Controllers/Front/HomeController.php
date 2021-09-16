@@ -58,7 +58,7 @@ class HomeController
                     $request->session()->regenerate();
                     return redirect()->intended('/');
                 }elseif (Auth::user()->role == 2){
-                    return redirect('/admin-dashboard/1');
+                    return redirect('/');
                 }else{
                     return redirect('/management-dashboard');
                 }
