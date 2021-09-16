@@ -51,6 +51,7 @@ Route::group(['middleware' => ['user.or.guest']], function () {
     Route::group(['middleware' => ['auth']], function () {
         Route::post('/register-reservation/add', [Front\RegisterReservationController::class, 'add']);
         Route::get('/register-reservation/{userId}', [Front\RegisterReservationController::class, 'registerReservation']);
+        Route::post('/register-reservation/package', [Front\RegisterReservationController::class, 'package']);
     });
 //  login & register routes
     Route::get('/login', function () {
@@ -148,11 +149,10 @@ Route::group(['middleware' => ['admin']], function () {
 
 Route::group(['middleware' => ['root']], function () {
     Route::get('/management-dashboard', [Admin\ManagementController::class, 'showDashboard'])->name('showManagement');
+    Route::get('/management-restaurants', [Admin\ManagementController::class, 'showRestaurants']);
     Route::get('/management-restaurant-detail/{id}', [Admin\ManagementController::class, 'showDetail']);
     Route::get('/management-restaurant-detail/status/{id}/{status}', [Admin\ManagementController::class,'updateStatus']);
+    Route::get('/management-restaurant-detail/stop/{id}', [Admin\ManagementController::class,'stopRestaurant']);
+
 });
-Route::get('/management-restaurants', [Admin\ManagementController::class, 'showRestaurants']);
-Route::get('/management-restaurant-detail/{id}', [Admin\ManagementController::class, 'showDetail']);
-Route::get('/management-restaurant-detail/status/{id}/{status}', [Admin\ManagementController::class,'updateStatus']);
-Route::get('/management-restaurant-detail/stop/{id}', [Admin\ManagementController::class,'stopRestaurant']);
 
