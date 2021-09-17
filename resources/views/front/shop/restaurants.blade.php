@@ -30,7 +30,7 @@
                                         <form class="search-frm" method="post" action="/restaurant-search"
                                               style="margin-bottom: 30px; margin-top: 5px">
                                             @csrf
-                                            <input type="text" name="key-word" placeholder="Enter restaurant name "
+                                            <input type="text" name="key-word" placeholder="Enter address "
                                                    style="border: 1px solid #cccccc;height: 50px; font-size: 14px">
                                             <button class="red-bg" type="submit"><i class="fa fa-search"></i></button>
                                         </form>

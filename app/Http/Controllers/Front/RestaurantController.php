@@ -26,9 +26,9 @@ class RestaurantController extends Controller
     public function searchRestaurant(Request $request){
         $categories = Category::all();
         $restaurantName = $request->input('key-word');
-        $restaurants = Restaurant::where('status', 3)->where('stop', 0)->where('restaurant_name', 'like', "%$restaurantName%")->orderBy('created_at')->get();
+        $restaurants = Restaurant::where('status', 3)->where('stop', 0)->where('address', 'like', "%$restaurantName%")->orderBy('created_at')->get();
         if (count($restaurants) > 0){
-            $restaurants = Restaurant::where('status', 3)->where('stop', 0)->where('restaurant_name', 'like', "%$restaurantName%")->orderBy('created_at')->paginate(9);
+            $restaurants = Restaurant::where('status', 3)->where('stop', 0)->where('address', 'like', "%$restaurantName%")->orderBy('created_at')->paginate(9);
             $search = 'Search Restaurant';
             return view('front.shop.restaurants', compact('restaurants', 'search', 'categories'))->with(['keyWord' => $restaurantName]);
         }else{

@@ -101,6 +101,9 @@ Route::group(['middleware' => ['user.or.guest']], function () {
 });
 //logout
 Route::get('/logout', [Front\HomeController::class, 'logout']);
+Route::get('/registerRestaurantMail', function (){
+   return view('front.components.activeRestaurantMail');
+});
 /*
  * ADMIN ROUTES
  * */
@@ -148,8 +151,8 @@ Route::group(['middleware' => ['admin']], function () {
  * */
 
 Route::group(['middleware' => ['root']], function () {
-    Route::get('/management-dashboard', [Admin\ManagementController::class, 'showDashboard'])->name('showManagement');
-    Route::get('/management-restaurants', [Admin\ManagementController::class, 'showRestaurants']);
+    Route::get('/management-dashboard', [Admin\ManagementController::class, 'showRestaurants'])->name('showManagement');
+//    Route::get('/management-restaurants', [Admin\ManagementController::class, 'showRestaurants']);
     Route::get('/management-restaurant-detail/{id}', [Admin\ManagementController::class, 'showDetail']);
     Route::get('/management-restaurant-detail/download/{file}/{id}', [Admin\ManagementController::class, 'download']);
     Route::get('/management-restaurant-detail/delete/{id}', [Admin\ManagementController::class, 'delete']);
