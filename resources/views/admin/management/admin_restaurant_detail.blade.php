@@ -41,7 +41,7 @@
                                         <td><span class="badge badge-info">Pending</span></td>
                                         <td>
                                             <a href="./management-restaurant-detail/status/{{$r->id}}/{{$r->status}}" class="btn btn-sm btn-success">Accept </a>
-                                            <a href="javascript:void(0);" data-toggle="modal" class="btn btn-sm btn-danger" data-target="#deleteModal{{$r->id}}" >Refuse</a>
+                                            <a href="javascript:void(0);" data-toggle="modal" class="btn btn-sm btn-danger" data-target="#deleteModalDelete" >Refuse</a>
                                         </td>
                                     @endif
                                     @if($r->status == 2)
@@ -84,7 +84,7 @@
                             @foreach($restaurant_detail as $r)
                             <tr>
                                 <td>Avatar Restaurant:</td>
-                                <td><img style="max-width: 300px; max-height: 200px" src="admin/img/logo/{{$r->avatar}}"></td>
+                                <td><img style="max-width: 300px; max-height: 200px" src="./images/resource/{{$r->avatar}}"></td>
                             </tr>
                             <tr>
                                 <td>Telephone of manager:</td>
@@ -92,7 +92,21 @@
                             </tr>
                             <tr>
                                 <td>Business License:</td>
-                                <td><a href="#">{{$r->business_license}}</a></td>
+                                <td>
+                                    <?php
+
+                                            $str = explode(',', $r->business_license);
+                                    ?>
+                                @if( count($str) > 1 )
+                                        @for($i = 0; $i < count($str); $i++)
+                                          <a href="./management-restaurant-detail/download/{{$str[$i]}}/{{$r->id}}">{{$str[$i]}}</a>
+                                        @endfor
+                                    @else
+                                        <a href="./management-restaurant-detail/download/{{$r->business_license}}/{{$r->id}}">{{$r->business_license}}</a>
+                                    @endif
+                                </td>
+
+
                             </tr>
                             @if($r->package == 0)
                                 <tr>
@@ -131,6 +145,28 @@
             </div>
         </div>
         <!--                Modal Delete Restaurant-->
+        <div class="modal fade" id="deleteModalDelete" tabindex="-1" role="dialog"
+             aria-labelledby="exampleModalLabelDeleteRestaurant"
+             aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabelDeleteRestaurant">What is your reason?</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <textarea style="width: 100%" rows="3"></textarea>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-outline-primary" data-dismiss="modal">No</button>
+                        <a href="./management-restaurant-detail/delete/{{$r->id}}" class="btn btn-danger">Yes</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+{{--modal stauts restaurant--}}
         @foreach($restaurant_detail as $r)
             <div class="modal fade" id="deleteModal{{$r->id}}" tabindex="-1" role="dialog"
                  aria-labelledby="exampleModalLabelDeleteRestaurant"
@@ -147,8 +183,8 @@
                             <textarea style="width: 100%" rows="3"></textarea>
                         </div>
                         <div class="modal-footer">
-                            <button type="button" class="btn btn-outline-primary" data-dismiss="modal">Cancel</button>
-                            <a href="./management-restaurant-detail/stop/{{$r->id}}" class="btn btn-danger">Delete</a>
+                            <button type="button" class="btn btn-outline-primary" data-dismiss="modal">No</button>
+                            <a href="./management-restaurant-detail/stop/{{$r->id}}" class="btn btn-danger">Yes</a>
                         </div>
                     </div>
                 </div>

@@ -44,18 +44,29 @@ class RegisterReservationController
             $newRestaurant->tel_owner = $request->phone_manager;
             $newRestaurant->user_id = $request->user_id;
             if ($request->hasFile('file_restaurant')){
-                $newRestaurant->business_license = '';
-                for ($j = 0; $j < count($request->file_restaurant) ; $j++){
-                    $file = $request->file_restaurant[$j];
-                    $newRestaurant->business_license .= $file->getClientOriginalName().', ';
+//                dd($request->file_restaurant);
+                if (count($request->file_restaurant) == 1){
+                    $file = $request->file_restaurant[0];
+                    $newRestaurant->business_license = $file->getClientOriginalName();
                     $file->move('./fileUpload', $file->getClientOriginalName());
+                }else{
+                    $newRestaurant->business_license = '';
+                    for ($j = 0; $j < count($request->file_restaurant) ; $j++){
+                        $file = $request->file_restaurant[$j];
+                        if ($j == (count($request->file_restaurant) - 1)){
+                            $newRestaurant->business_license .= $file->getClientOriginalName();
+                        }else{
+                            $newRestaurant->business_license .= $file->getClientOriginalName().',';
+                        }
+                        $file->move('./fileUpload', $file->getClientOriginalName());
+                    }
                 }
             }
 
             if ($request->hasFile('avatar_restaurant')){
                 $avatar = $request->avatar_restaurant;
                 $newRestaurant->avatar = $avatar->getClientOriginalName();
-                $avatar->move('./images', $avatar->getClientOriginalName());
+                $avatar->move('./images/resource', $avatar->getClientOriginalName());
             }
 
             $newRestaurant->save();
@@ -78,12 +89,19 @@ class RegisterReservationController
 //        $restaurant = DB::table('restaurants')->where('id',$request->restaurant_id)->first();
         $restaurant = Restaurant::find($request->input('restaurant_id'));
 //        dd($restaurant);
-        $today = date('Y-m-d');
-        $month = strtotime(date("Y-m-d",strtotime($today)). " +".$request->package." month");
-        $month = strftime("%Y-%m-%d", $month);
-        $restaurant->package = $request->package;
-        $restaurant->start_date = $today;
-        $restaurant->end_date = $month;
+        if ($restaurant->package == 0){
+            $today = date('Y-m-d');
+            $month = strtotime(date("Y-m-d",strtotime($today)). " +".$request->package." month");
+            $month = strftime("%Y-%m-%d", $month);
+            $restaurant->package = $request->package;
+            $restaurant->start_date = $today;
+            $restaurant->end_date = $month;
+        }else{
+            $month = strtotime(date("Y-m-d",strtotime($restaurant->end_date)). " +".$request->package." month");
+            $month = strftime("%Y-%m-%d", $month);
+            $restaurant->package = $restaurant->package + $request->package;
+            $restaurant->end_date = $month;
+        }
         $restaurant->save();
 
         return redirect()->back();

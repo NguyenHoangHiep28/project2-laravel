@@ -628,7 +628,7 @@
                                                                                         </div>
                                                                                     </div>
                                                                                 </div>
-                                                                               @if($restaurant_id != 0)
+                                                                               @if($restaurant_id != 0 && 2 <= $restaurant_status && $restaurant_status < 5 )
                                                                                     <div id="next_step" class="step-buttons">
                                                                                         {{--                                                                                    <a class="brd-rd3" href="#reservation-tab1"  data-toggle="tab" title="" itemprop="url">Back Step</a>--}}
                                                                                         <div><span class="error" id="package_error"></span></div>

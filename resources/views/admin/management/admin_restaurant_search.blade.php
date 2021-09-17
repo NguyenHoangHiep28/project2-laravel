@@ -16,9 +16,9 @@
                     @csrf
                     <div class="input-group">
                         <input type="text" class="form-control bg-light border-1 small"
-                               placeholder="Enter product name"
+                               placeholder="Enter restaurant name"
                                aria-label="Search" aria-describedby="basic-addon2"
-                               style="border-color: #999999;" name="restaurant-name">
+                               style="border-color: #999999;" name="product-name">
                         <div class="input-group-append">
                             <button class="btn btn-danger" type="submit">
                                 <i class="fas fa-search fa-sm"></i>
