@@ -124,10 +124,13 @@
                                             <li id="cart-menu" class="{{$active ?? ''}}"><a href="/dashboard/cart"><i
                                                         class="fa fa-shopping-basket"></i> MY CART</a></li>
                                             <li><a href="/dashboard/orders"><i class="fa fa-file-text"></i>MY ORDERS</a></li>
-                                            <li><a href="/dashboard/setting"><i class="fa fa-cog"></i> ACCOUNT SETTINGS</a>
+                                            <li><a href="/dashboard/setting"><i class="fa fa-cog"></i>ACCOUNT SETTINGS</a>
                                             </li>
+                                            @if(\Illuminate\Support\Facades\Auth::user()->role == 2)
+                                            <li><a href="/admin-dashboard/1"><i class="fa fa-window-maximize"></i>MY RESTAURANT</a></li>
+                                            @endif
                                             <li><a class="brd-rd3 sign-out-btn yellow-bg" href="#" title=""
-                                                   itemprop="url" data-toggle="modal" data-target="#signout"><i class="fa fa-sign-out"></i> SIGN OUT</a></li>
+                                                   itemprop="url" data-toggle="modal" data-target="#signout"><i class="fa fa-sign-out"></i>SIGN OUT</a></li>
                                         </ul>
                                     </div>
                                 </div>

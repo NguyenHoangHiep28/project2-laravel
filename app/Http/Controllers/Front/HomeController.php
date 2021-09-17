@@ -21,7 +21,7 @@ class HomeController
         $products = Product::orderByDesc('created_at')->limit(6)->get();
         $populars = Product::where('is_deleted',0)->where('featured', 1)->orderByDesc('created_at')->limit(4)->get();
         $promotions = Product::where('is_deleted', 0)->where('discount', '<>', null)->limit(3)->get();
-        $restaurants = Restaurant::orderByDesc('id')->limit(5)->get();
+        $restaurants = Restaurant::where('status', 3)->where('stop', 0)->orderByDesc('created_at')->limit(5)->get();
         $visibleClass = '';
         return view('front.index', compact('products', 'populars', 'restaurants', 'visibleClass', 'promotions'));
     }
@@ -36,7 +36,7 @@ class HomeController
 
     public function showAboutUs(){
         $faqs = Faq::all();
-        $restaurants = Restaurant::where('status', 1)->orderByDesc('created_at')->limit(8)->get();
+        $restaurants = Restaurant::where('status', 3)->orderByDesc('created_at')->limit(8)->get();
         return view('front.about-us', compact('restaurants', 'faqs'));
     }
 
@@ -58,7 +58,7 @@ class HomeController
                     $request->session()->regenerate();
                     return redirect()->intended('/');
                 }elseif (Auth::user()->role == 2){
-                    return redirect('/admin-dashboard/1');
+                    return redirect('/');
                 }else{
                     return redirect('/management-dashboard');
                 }
