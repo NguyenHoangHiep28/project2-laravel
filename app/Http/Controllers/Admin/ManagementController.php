@@ -8,15 +8,13 @@ use Illuminate\Http\Request;
 //use Illuminate\View\View;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\View;
 
 class ManagementController extends Controller
 {
     //
-    public function showDashboard(){
-        return view('admin.management.admin_dashboard');
-    }
 
     public function showRestaurants(){
         $restaurants = DB::table('restaurants')->where('stop','0')->orderBy('status')->get();
@@ -37,7 +35,6 @@ class ManagementController extends Controller
                 $oldName = $name;
             }
         }
-        dd($restaurants);
         return view('admin.management.admin_restaurant_search', compact('restaurants', 'restaurants'),compact('oldName','oldName'));
     }
 
@@ -49,14 +46,39 @@ class ManagementController extends Controller
         $restaurant_detail = Restaurant::find($id);
         $user_id = User::find($restaurant_detail->user_id);
         if ($status == 1){
+            $this->sendAcceptedEmail($restaurant_detail);
+        }
+        if ($status == 2){
+            //set restaurant_id for user
+            $user = User::where('email', $restaurant_detail->email)->first();
+            $user->restaurant_id = $id;
+            $user->save();
             $user_id->role = 2;
             $user_id->save();
+            $this->sendActiveEmail($restaurant_detail);
         }
         if (isset($restaurant_detail)){
             $restaurant_detail->status = ($status + 1 );
             $restaurant_detail->save();
         }
         return back();
+    }
+
+    private function sendAcceptedEmail($restaurant){
+        $email_to = $restaurant->email;
+        Mail::send('front.components.acceptRegisterRestaurantMail', compact('restaurant'), function($message) use ($email_to){
+            $message->from('foodMate@gmail.com', 'FoodMate');
+            $message->to($email_to, $email_to);
+            $message->subject('Registration Notification');
+        });
+    }
+    private function sendActiveEmail($restaurant){
+        $email_to = $restaurant->email;
+        Mail::send('front.components.activeRestaurantMail', compact('restaurant'), function($message) use ($email_to){
+            $message->from('foodMate@gmail.com', 'FoodMate');
+            $message->to($email_to, $email_to);
+            $message->subject('Active restaurant Notification');
+        });
     }
 
     public function stopRestaurant($id){
