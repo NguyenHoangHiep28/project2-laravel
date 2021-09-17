@@ -25,12 +25,12 @@ class CreateRestaurantsTable extends Migration
             $table->string('tel_owner');
             $table->string('avatar')->nullable();
             $table->integer('user_id');
-            $table->integer('package');
-            $table->integer('status');
+            $table->integer('package')->default(0);
+            $table->integer('status')->default(1);
             $table->double('rating')->default(0);
             $table->integer('stop')->default(0);
-            $table->date('start_date');
-            $table->date('end_date');
+            $table->date('start_date')->nullable();
+            $table->date('end_date')->nullable();
 
             $table->timestamps();
         });

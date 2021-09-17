@@ -27,8 +27,8 @@ class OrderController extends Controller
 
     public function statusFilter(){
         $orders = Order::where('email', '<>', 'undefined')->where('user_id', Auth::id());
-        $start = $_GET['start-time'];
-        $end = $_GET['end-time'];
+        $start = $_GET['start-time'] ?? null;
+        $end = $_GET['end-time'] ?? null;
         if ($start!=null && $end != null) {
             $orders = $orders->whereBetween('created_at', [$start, $end]);
         }elseif ($start!=null && $end == null){

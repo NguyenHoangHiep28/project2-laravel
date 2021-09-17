@@ -100,14 +100,14 @@
                                                             <tr>
                                                                 <td>
                                                                     <input type="radio" id="checkout-later"
-                                                                           name="checkout-method" value="later" required>
+                                                                           name="checkout-method" value="later" checked required>
                                                                     <label for="checkout-later">Check out on
                                                                         delivery</label>
                                                                 </td>
                                                                 <td>
                                                                     <input type="radio" id="online-checkout"
-                                                                           name="checkout-method" value="online">
-                                                                    <label for="online-checkout">Online check
+                                                                           name="checkout-method" value="online" disabled title="We will support online payment in future!">
+                                                                    <label for="online-checkout" title="We will support online payment in future!">Online check
                                                                         out</label>
                                                                 </td>
                                                             </tr>

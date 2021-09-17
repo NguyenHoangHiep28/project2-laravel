@@ -144,6 +144,18 @@
                         <table class="table align-items-center table-bordered">
                             <tbody>
                             <tr>
+                                <td>Phone:</td>
+                                <td>{{$order->phone}}</td>
+                            </tr>
+                            <tr>
+                                <td>Email:</td>
+                                <td>{{$order->email}}</td>
+                            </tr>
+                            <tr>
+                                <td>Address:</td>
+                                <td>{{$order->address}}</td>
+                            </tr>
+                            <tr>
                                 <td>Subtotal:</td>
                                 <td>${{$order->total}}.00</td>
                             </tr>
