@@ -151,8 +151,11 @@ Route::group(['middleware' => ['root']], function () {
     Route::get('/management-dashboard', [Admin\ManagementController::class, 'showDashboard'])->name('showManagement');
     Route::get('/management-restaurants', [Admin\ManagementController::class, 'showRestaurants']);
     Route::get('/management-restaurant-detail/{id}', [Admin\ManagementController::class, 'showDetail']);
+    Route::get('/management-restaurant-detail/download/{file}/{id}', [Admin\ManagementController::class, 'download']);
+    Route::get('/management-restaurant-detail/delete/{id}', [Admin\ManagementController::class, 'delete']);
     Route::get('/management-restaurant-detail/status/{id}/{status}', [Admin\ManagementController::class,'updateStatus']);
     Route::get('/management-restaurant-detail/stop/{id}', [Admin\ManagementController::class,'stopRestaurant']);
+    Route::post('/management-restaurant-search', [Admin\ManagementController::class,'searchRestaurantResult']);
 
 });
 
