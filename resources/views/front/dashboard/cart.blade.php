@@ -29,6 +29,9 @@
                                                                 class="fa fa-file-text"></i>MY ORDERS</a></li>
                                                     <li><a href="/dashboard/setting"><i
                                                                 class="fa fa-cog"></i> ACCOUNT SETTINGS</a></li>
+                                                    @if(\Illuminate\Support\Facades\Auth::user()->role == 2)
+                                                        <li><a href="/admin-dashboard/1"><i class="fa fa-window-maximize"></i>MY RESTAURANT</a></li>
+                                                    @endif
                                                 </ul>
 
                                             </div>

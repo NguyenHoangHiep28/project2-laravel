@@ -29,6 +29,9 @@
                                                                 class="fa fa-file-text"></i>MY ORDERS</a></li>
                                                     <li><a href="/dashboard/setting"><i
                                                                 class="fa fa-cog"></i> ACCOUNT SETTINGS</a></li>
+                                                    @if(\Illuminate\Support\Facades\Auth::user()->role == 2)
+                                                        <li><a href="/admin-dashboard/1"><i class="fa fa-window-maximize"></i>MY RESTAURANT</a></li>
+                                                    @endif
                                                 </ul>
                                             </div>
                                         </div>
@@ -119,6 +122,18 @@
                                                         <div id="time-container">
 
                                                             <table id="order-time-table" class="table-bordered">
+                                                                <tr>
+                                                                    <td>Phone:</td>
+                                                                    <td>{{\App\Models\Order::find($orderDetails[0]->order_id)->phone}}</td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td>Email:</td>
+                                                                    <td>{{\App\Models\Order::find($orderDetails[0]->order_id)->email}}</td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td>Address:</td>
+                                                                    <td>{{\App\Models\Order::find($orderDetails[0]->order_id)->address}}</td>
+                                                                </tr>
                                                                 <tr>
                                                                     <th>Order time:</th>
                                                                     <td>{{date('H:i - M d, Y', strtotime(\App\Models\Order::find($orderDetails[0]->order_id)->created_at))}}</td>

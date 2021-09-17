@@ -17,8 +17,10 @@ class UserAndGuest
      */
     public function handle(Request $request, Closure $next)
     {
-        if (Auth::user() == null ||  Auth::user()) {
+        if (Auth::user() == null ||  Auth::user()->role == 1 || Auth::user()->role == 2) {
             return $next($request);
         }
+
+        return abort('403','You do not have permission to access this.');
     }
 }

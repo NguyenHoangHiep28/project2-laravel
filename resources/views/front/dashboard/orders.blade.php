@@ -29,6 +29,9 @@
                                                                 class="fa fa-file-text"></i>MY ORDERS</a></li>
                                                     <li><a href="/dashboard/setting"><i
                                                                 class="fa fa-cog"></i> ACCOUNT SETTINGS</a></li>
+                                                    @if(\Illuminate\Support\Facades\Auth::user()->role == 2)
+                                                        <li><a href="/admin-dashboard/1"><i class="fa fa-window-maximize"></i>MY RESTAURANT</a></li>
+                                                    @endif
                                                 </ul>
 
                                             </div>
@@ -53,14 +56,14 @@
                                                             </div>
                                                         </div>
                                                         <div class="select-wrp2" style="float:right; width: 30%">
-                                                                <select onchange="this.form.submit()" name="status">
-                                                                    <option value="all" {{request("status") == 'all' ? 'selected' : '' }}>All</option>
-                                                                    <option value="pending" {{request("status") == 'pending' ? 'selected' : '' }}>Pending</option>
-                                                                    <option value="canceled" {{request("status") == 'canceled' ? 'selected' : '' }}>Canceled</option>
-                                                                    <option value="processing" {{request("status") == 'processing' ? 'selected' : '' }}>Processing</option>
-                                                                    <option value="on-delivery" {{request("status") == 'on-delivery' ? 'selected' : '' }}>On delivery</option>
-                                                                    <option value="delivered" {{request("status") == 'delivered' ? 'selected' : '' }}>Delivered</option>
-                                                                    <option value="rejected" {{request("status") == 'rejected' ? 'selected' : '' }}>Rejected</option>
+                                                                <select onchange="this.form.submit()" name="status" style="width: 90%;float: right;color: #a2a2a2;padding: 12px 30px; text-align: center">
+                                                                    <option style="text-align: left" value="all" {{request("status") == 'all' ? 'selected' : '' }}>All</option>
+                                                                    <option style="text-align: left" value="pending" {{request("status") == 'pending' ? 'selected' : '' }}>Pending</option>
+                                                                    <option style="text-align: left" value="canceled" {{request("status") == 'canceled' ? 'selected' : '' }}>Canceled</option>
+                                                                    <option style="text-align: left" value="processing" {{request("status") == 'processing' ? 'selected' : '' }}>Processing</option>
+                                                                    <option style="text-align: left" value="on-delivery" {{request("status") == 'on-delivery' ? 'selected' : '' }}>On delivery</option>
+                                                                    <option style="text-align: left" value="delivered" {{request("status") == 'delivered' ? 'selected' : '' }}>Delivered</option>
+                                                                    <option style="text-align: left" value="rejected" {{request("status") == 'rejected' ? 'selected' : '' }}>Rejected</option>
                                                                 </select>
                                                         </div>
                                                     </div>
