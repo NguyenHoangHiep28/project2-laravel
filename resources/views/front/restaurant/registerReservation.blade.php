@@ -24,40 +24,51 @@
                                             <ul class="nav nav-tabs brd-rd5">
                                                 @if($restaurant_status == 1)
                                                     <li id="tab1" >
-                                                        <a >
+                                                        <a style="cursor: pointer">
                                                             <span class="brd-rd50">1</span> Register information</a>
                                                     </li>
-                                                @else
-                                                    <li id="tab1" class="active">
-                                                        <a href="#reservation-tab1" data-toggle="tab">
-                                                            <span class="brd-rd50">1</span> Register information</a>
-                                                    </li>
-                                                @endif
-                                                @if($restaurant_status == 1)
                                                     <li id="tab2" class="active">
                                                         <a href="#reservation-tab2" data-toggle="tab">
                                                             <span class="brd-rd50">2</span> Pending
                                                         </a>
                                                     </li>
-                                                @else
+                                                    <li id="tab3"><a href="#reservation-tab3" data-toggle="tab"><span class="brd-rd50">3</span>  Select Package</a></li>
+                                                    <li id="tab4"><a style="cursor: pointer"  ><span class="brd-rd50">4</span> Activation</a></li>
+                                                @elseif($restaurant_status >= 2 && $restaurant_status < 5)
+                                                    <li id="tab1">
+                                                        <a style="cursor: pointer" >
+                                                            <span class="brd-rd50">1</span> Register information</a>
+                                                    </li>
                                                     <li id="tab2">
-                                                        <a>
+                                                        <a style="cursor: pointer">
                                                             <span class="brd-rd50">2</span> Pending
                                                         </a>
                                                     </li>
+                                                    <li id="tab3" class="active"><a href="#reservation-tab3" data-toggle="tab"><span class="brd-rd50">3</span>  Select Package</a></li>
+                                                    <li id="tab4"><a style="cursor: pointer"  ><span class="brd-rd50">4</span> Activation</a></li>
+                                                @else
+                                                    <li id="tab1" class="active">
+                                                        <a href="#reservation-tab1" data-toggle="tab">
+                                                            <span class="brd-rd50">1</span> Register information</a>
+                                                    </li>
+                                                    <li id="tab2">
+                                                        <a style="cursor: pointer">
+                                                            <span class="brd-rd50">2</span> Pending
+                                                        </a>
+                                                    </li>
+                                                    <li id="tab3"><a href="#reservation-tab3" data-toggle="tab"><span class="brd-rd50">3</span>  Select Package</a></li>
+                                                    <li id="tab4"><a style="cursor: pointer"  ><span class="brd-rd50">4</span> Activation</a></li>
                                                 @endif
-                                                <li id="tab3"><a href="#reservation-tab3" data-toggle="tab"><span class="brd-rd50">3</span>  Select Package</a></li>
-                                                <li id="tab4"><a  ><span class="brd-rd50">4</span> Activation</a></li>
                                             </ul>
                                         </div>
                                     </div>
                                     <div class="col-md-9 col-sm-12 col-lg-9">
                                         <div class="reservation-tab-content">
                                             <div class="tab-content">
-                                                @if($restaurant_status == 1)
-                                                    <div class="tab-pane fade " id="reservation-tab1">
+                                                @if($restaurant_status == 0 || $restaurant_status >= 5 )
+                                                    <div class="tab-pane fade active in" id="reservation-tab1">
                                                         @else
-                                                            <div class="tab-pane fade active in" id="reservation-tab1">
+                                                            <div class="tab-pane fade" id="reservation-tab1">
                                                                 @endif
                                                                 <div class="">
                                                                     <form class="restaurant-form-new " action="./register-reservation/add" enctype="multipart/form-data" method="post" >
@@ -440,11 +451,14 @@
                                                                                 <div class="form-style-2-heading" style="padding-top: 15px">CATEGORY</div>
                                                                             </div>
                                                                             <div class="col-md-12 col-sm-12 col-lg-12">
-                                                                                <label for="field10"><span>Category <span class="required">*</span></span>
+
                                                                                         @foreach($category as $cate)
-                                                                                            <div style="float: left;margin-right: 20px"><input type="checkbox" name="category[]" value="{{$cate->id}}">{{$cate->cate_name}}</div>
+                                                                                            <label class="container-checkbox" style="float: left;margin-right: 20px">{{$cate->cate_name}}
+                                                                                                <input type="checkbox" name="category[]" value="{{$cate->id}}">
+                                                                                                <span class="checkmark"></span>
+                                                                                            </label>
                                                                                         @endforeach
-                                                                                </label>
+
                                                                             </div>
                                                                             <div class="col-md-12 col-sm-12 col-lg-12">
                                                                                 <div class="form-style-2-heading" style="padding-top: 15px">UPLOAD AVATAR AND FILE BUSINESS LICENSE</div>
@@ -568,7 +582,11 @@
                                                                                 </div>
                                                                             @endif
                                                                         </div>
-                                                                        <div class="tab-pane fade" id="reservation-tab3">
+                                                                        @if($restaurant_status >= 2 && $restaurant_status < 5)
+                                                                        <div class="tab-pane fade active in" id="reservation-tab3">
+                                                                            @else
+                                                                                <div class="tab-pane fade" id="reservation-tab3">
+                                                                            @endif
                                                                             <div class="select-package-wrapper">
                                                                                 <h4 itemprop="headline">BUY MEMBERSHIP</h4>
                                                                                 <div class="remove-ext3">

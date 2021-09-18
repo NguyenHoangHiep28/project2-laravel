@@ -278,7 +278,7 @@
                                     <div class="widget about_widget wow fadeIn" data-wow-delay="0.1s">
                                         <div class="logo"><h1 itemprop="headline"><a href="/" title="Home"
                                                                                      itemprop="url"><img
-                                                        src="images/logo_ok.png" alt="logo.png" itemprop="image"></a></h1>
+                                                        src="images/logo_footer_ok.png" alt="logo.png" itemprop="image"></a></h1>
                                         </div>
                                         <p itemprop="description">Satisfy your cravings by getting the food you love
                                             from your favourite restaurants delivered to you fast.</p>
