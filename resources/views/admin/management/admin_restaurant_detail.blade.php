@@ -62,17 +62,16 @@
                                         <td><span class="badge badge-danger">Expired </span></td>
                                         <td>
                                             <a href="./management-restaurant-detail/status/{{$r->id}}/2" class="btn btn-sm btn-success">Active </a>
-                                            <a href="./management-restaurant-detail/status/{{$r->id}}/{{$r->status}}" class="btn btn-sm btn-dark">Stop Working</a>
                                             <a href="javascript:void(0);" data-toggle="modal" class="btn btn-sm btn-danger" data-target="#deleteModal{{$r->id}}" >Delete</a>
                                         </td>
                                     @endif
-                                    @if($r->status == 5)
-                                        <td><span class="badge badge-dark">Stop Working</span></td>
-                                        <td>
-                                            <a href="./management-restaurant-detail/status/{{$r->id}}/1" class="btn btn-sm btn-success">Accept </a>
-                                            <a href="javascript:void(0);" data-toggle="modal" class="btn btn-sm btn-danger" data-target="#deleteModal{{$r->id}}" >Delete</a>
-                                        </td>
-                                    @endif
+{{--                                    @if($r->status == 5)--}}
+{{--                                        <td><span class="badge badge-dark">Stop Working</span></td>--}}
+{{--                                        <td>--}}
+{{--                                            <a href="./management-restaurant-detail/status/{{$r->id}}/1" class="btn btn-sm btn-success">Accept </a>--}}
+{{--                                            <a href="javascript:void(0);" data-toggle="modal" class="btn btn-sm btn-danger" data-target="#deleteModal{{$r->id}}" >Delete</a>--}}
+{{--                                        </td>--}}
+{{--                                    @endif--}}
                                 </tr>
                             @endforeach
                             </tbody>

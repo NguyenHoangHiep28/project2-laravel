@@ -488,10 +488,14 @@
                                                                                     <br> <b>2. </b> Increase the trust of new customers through extremely honest and vivid reviews of existing customers.
                                                                                     <br><b>3. </b> Penalties for breach of contract include: fines for late delivery, fines for unsuitable delivery in terms of quantity and quality, fines for unsuitable delivery, fines for late payment, fines in case of contract cancellation, etc.
                                                                                     <br><b>4. </b> We hereby commit that the above registered information is completely true and fully responsible before the law.
+                                                                                    <br><b>5. </b> If a restaurant package is expired for more than 12 months, we will delete the restaurant from our website and the owner of that restaurant must register  new restaurant if he want to sell food online.
                                                                                 </div>
                                                                                 <div class="" style="padding-top: 15px">
-                                                                                    <input  type="checkbox" id="agrement"><b>Accept Terms and conditions</b>
-                                                                                   <div> <span class="error" id="agrement_error"></span></div>
+                                                                                    <label class="container-checkbox" style="float: left;margin-right: 20px;width: 100% ">Accept Terms and conditions
+                                                                                        <input  type="checkbox" id="agrement">
+                                                                                        <span class="checkmark"></span>
+                                                                                        <div> <span class="error" id="agrement_error"></span></div>
+                                                                                    </label>
                                                                                 </div>
                                                                             </div>
                                                                             <div class="col-md-12 col-sm-12 col-lg-12">
@@ -567,6 +571,7 @@
                                                                                                 <br> <b>2. </b> Increase the trust of new customers through extremely honest and vivid reviews of existing customers.
                                                                                                 <br><b>3. </b> Penalties for breach of contract include: fines for late delivery, fines for unsuitable delivery in terms of quantity and quality, fines for unsuitable delivery, fines for late payment, fines in case of contract cancellation, etc.
                                                                                                 <br><b>4. </b> We hereby commit that the above registered information is completely true and fully responsible before the law.
+                                                                                                <br><b>5. </b> If a restaurant package is expired for more than 12 months, we will delete the restaurant from our website and the owner of that restaurant must register  new restaurant if he want to sell food online.
                                                                                             </div>
                                                                                         </div>
                                                                                         <div class="col-md-12 col-sm-12 col-lg-12">
@@ -670,12 +675,8 @@
                                                                                         <input type="hidden" name="restaurant_id" value="{{$restaurant_id}}">
                                                                                     </ul>
                                                                                     <div class="pay-mnt">
-                                                                                    <span class="radio-box">
-                                                                                        <input type="checkbox" name="pay-mthd" id="mthd1">
-                                                                                        <label for="mthd1">Direct Bank Transfer: 999999999</label>
-                                                                                    </span>
                                                                                         <span class="radio-box">
-                                                                                        <input type="checkbox" name="pay-mthd" id="mthd3">
+                                                                                        <input type="radio" name="pay-mthd" id="mthd3" checked>
                                                                                         <label for="mthd3">Cash on delivery</label>
                                                                                     </span>
                                                                                     </div>
@@ -701,12 +702,8 @@
                                                                                        <input type="hidden" name="restaurant_id" value="{{$restaurant_id}}">
                                                                                    </ul>
                                                                                    <div class="pay-mnt">
-                                                                                    <span class="radio-box">
-                                                                                        <input type="checkbox" name="pay-mthd" id="mthd1">
-                                                                                        <label for="mthd1">Direct Bank Transfer: 999999999</label>
-                                                                                    </span>
                                                                                        <span class="radio-box">
-                                                                                        <input type="checkbox" name="pay-mthd" id="mthd3">
+                                                                                        <input type="radio" name="pay-mthd" id="mthd3" checked>
                                                                                         <label for="mthd3">Cash on delivery</label>
                                                                                     </span>
                                                                                    </div>
@@ -732,12 +729,8 @@
                                                                                         <input type="hidden" name="restaurant_id" value="{{$restaurant_id}}">
                                                                                     </ul>
                                                                                     <div class="pay-mnt">
-                                                                                    <span class="radio-box">
-                                                                                        <input type="checkbox" name="pay-mthd" id="mthd1">
-                                                                                        <label for="mthd1">Direct Bank Transfer: 999999999</label>
-                                                                                    </span>
                                                                                         <span class="radio-box">
-                                                                                        <input type="checkbox" name="pay-mthd" id="mthd3">
+                                                                                        <input type="radio" name="pay-mthd" id="mthd3" checked>
                                                                                         <label for="mthd3">Cash on delivery</label>
                                                                                     </span>
                                                                                     </div>
