@@ -12,13 +12,13 @@
 
         <div class="row">
             <div style="margin: 30px auto; width: 50%">
-                <form class="navbar-search" method="post" action="./admin-restaurant-search">
-                    @csrf
+                <form class="navbar-search" method="post" action="./management-restaurant-search">
+                    {{csrf_field()}}
                     <div class="input-group">
-                        <input type="text" class="form-control bg-light border-1 small"
-                               placeholder="Enter product name"
+                        <input type="search" class="form-control bg-light border-1 small"
+                               placeholder="Enter restaurant name"
                                aria-label="Search" aria-describedby="basic-addon2"
-                               style="border-color: #999999;" name="restaurant-name">
+                               style="border-color: #999999;" name="restaurant_name" value="{{isset($name_search) ? $name_search : ""}}">
                         <div class="input-group-append">
                             <button class="btn btn-danger" type="submit">
                                 <i class="fas fa-search fa-sm"></i>
@@ -45,34 +45,66 @@
                             </tr>
                             </thead>
                             <tbody>
-                            @foreach($restaurants as $r)
-                                <tr>
-                                    <td>{{$r->id}}</td>
-                                    <td><a href="./management-restaurant-detail/{{$r->id}}">{{$r->restaurant_name}}</a></td>
-                                    <td>{{$r->owner_name}}</td>
-                                    <td>{{$r->telephone}}</td>
-                                    <td>{{$r->email}}</td>
-                                    <td>{{$r->address}}</td>
-                                    @if($r->status == 1)
-                                        <td><span class="badge badge-info">Pending</span></td>
-                                    @endif
-                                    @if($r->status == 2)
-                                        <td><span class="badge badge-warning">Wait for pay</span></td>
-                                    @endif
-                                    @if($r->status == 3)
-                                        <td><span class="badge badge-success">Active</span></td>
-                                    @endif
-                                    @if($r->status == 4)
-                                        <td><span class="badge badge-danger">Expired </span></td>
-                                    @endif
-                                    @if($r->status == 5)
-                                        <td><span class="badge badge-dark">Stop Working</span></td>
-                                    @endif
-                                    <td>
-                                        <a href="./management-restaurant-detail/{{$r->id}}" class="btn btn-sm btn-primary">Detail</a>
-                                    </td>
-                                </tr>
-                            @endforeach
+                            @if(isset($search_restaurant) && $search == 1)
+                                @foreach($search_restaurant as $r)
+                                    <tr>
+                                        <td>{{$r->id}}</td>
+                                        <td><a href="./management-restaurant-detail/{{$r->id}}">{{$r->restaurant_name}}</a></td>
+                                        <td>{{$r->owner_name}}</td>
+                                        <td>{{$r->telephone}}</td>
+                                        <td>{{$r->email}}</td>
+                                        <td>{{$r->address}}</td>
+                                        @if($r->status == 1)
+                                            <td><span class="badge badge-info">Pending</span></td>
+                                        @endif
+                                        @if($r->status == 2)
+                                            <td><span class="badge badge-warning">Wait for pay</span></td>
+                                        @endif
+                                        @if($r->status == 3)
+                                            <td><span class="badge badge-success">Active</span></td>
+                                        @endif
+                                        @if($r->status == 4)
+                                            <td><span class="badge badge-danger">Expired </span></td>
+                                        @endif
+                                        <td>
+                                            <a href="./management-restaurant-detail/{{$r->id}}" class="btn btn-sm btn-primary">Detail</a>
+                                        </td>
+                                    </tr>
+                                @endforeach
+                            @elseif (isset($search) && $search == 0 && $search_restaurant == 1)
+                                <div class="jumbotron text-center" style="background-color: white">
+                                    <h1 class="display-3">Restaurant not found</h1>
+                                    <p class="lead">There are no restaurant with name " {{$name_search}} "</p>
+                                    <hr>
+                                    <br>
+                                </div>
+                            @else
+                                @foreach($restaurants as $r)
+                                    <tr>
+                                        <td>{{$r->id}}</td>
+                                        <td><a href="./management-restaurant-detail/{{$r->id}}">{{$r->restaurant_name}}</a></td>
+                                        <td>{{$r->owner_name}}</td>
+                                        <td>{{$r->telephone}}</td>
+                                        <td>{{$r->email}}</td>
+                                        <td>{{$r->address}}</td>
+                                        @if($r->status == 1)
+                                            <td><span class="badge badge-info">Pending</span></td>
+                                        @endif
+                                        @if($r->status == 2)
+                                            <td><span class="badge badge-warning">Wait for pay</span></td>
+                                        @endif
+                                        @if($r->status == 3)
+                                            <td><span class="badge badge-success">Active</span></td>
+                                        @endif
+                                        @if($r->status == 4)
+                                            <td><span class="badge badge-danger">Expired </span></td>
+                                        @endif
+                                        <td>
+                                            <a href="./management-restaurant-detail/{{$r->id}}" class="btn btn-sm btn-primary">Detail</a>
+                                        </td>
+                                    </tr>
+                                @endforeach
+                            @endif
                             </tbody>
                         </table>
                     </div>

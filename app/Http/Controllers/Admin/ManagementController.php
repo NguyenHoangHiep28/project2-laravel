@@ -23,19 +23,22 @@ class ManagementController extends Controller
 
     public function searchRestaurantResult(Request $request)
     {
-        $oldName = '';
-        if ($request->input('restaurant-name') !== null) {
-            $name = $request->input('restaurant-name');
-            $restaurants = DB::table('restaurants')
-                ->where('stop', 0)
-                ->where('restaurant_name', 'like', "%$name%")
+        $restaurants = DB::table('restaurants')->where('stop','0')->orderBy('status')->get();
+        $search_restaurant = DB::table('restaurants')->where('restaurant_name', 'like',"%$request->restaurant_name%")
                 ->get();
-            if (count($restaurants) == 0) {
-                $restaurants = null;
-                $oldName = $name;
-            }
+        if (count($search_restaurant) == 0){
+            $search = 0;
+            $search_restaurant = 1;
+        }else{
+            $search = 1;
         }
-        return view('admin.management.admin_restaurant_search', compact('restaurants', 'restaurants'),compact('oldName','oldName'));
+//                dd($search_restaurant);
+
+//        dd($search);
+        return View::make('admin.management.admin_restaurant')->with('search_restaurant',$search_restaurant)
+            ->with('name_search',$request->restaurant_name)
+            ->with('restaurants',$restaurants)
+            ->with('search',$search);
     }
 
     public function showDetail($id){
