@@ -49,10 +49,8 @@ class ManagementController extends Controller
             $this->sendAcceptedEmail($restaurant_detail);
         }
         if ($status == 2){
-            //set restaurant_id for user
-            $user = User::where('email', $restaurant_detail->email)->first();
-            $user->restaurant_id = $id;
-            $user->save();
+            //set restaurant_id and change role for user
+            $user_id->restaurant_id = $id;
             $user_id->role = 2;
             $user_id->save();
             $this->sendActiveEmail($restaurant_detail);
